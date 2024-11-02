@@ -1,0 +1,13 @@
+1. Récupération des premiers coups différents :
+
+
+~~~SQL
+SELECT DISTINCT substr(moves, 1, instr(moves || ' ', ' ') - 1) AS premier_mot FROM GAMES;
+~~~
+
+En effet la commande substr(MOVES, X ,Y ) permet de récupérer dans la tables moves  à partir
+du X ème caractères d'une longueur Y.
+
+À la place de Y on  positionne la commande INSTR (moves || ' ',' ') -1·
+
+La commande INSTR cherche la première occurence

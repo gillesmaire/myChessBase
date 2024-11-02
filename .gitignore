@@ -1,0 +1,4 @@
+*.o
+*.pgn
+chess-library
+

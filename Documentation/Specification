@@ -1,0 +1,6 @@
+# Specifications
+
+## Data base informations
+
+Data base used in the actual release is sqlite3.
+It allows to store 2 147 483 647 differents games.
