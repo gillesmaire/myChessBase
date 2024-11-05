@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT       += core gui sql concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,9 +11,12 @@ CONFIG += c++17
 DEFINES += CHESS_NO_EXCEPTIONS
 
 SOURCES += \
+    chessboard.cpp \
+    colorbutton.cpp \
     dialogabout.cpp \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
+    dialogconfiguration.cpp \
     formmainwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,9 +24,12 @@ SOURCES += \
     utils.cpp
 
 HEADERS += \
+    chessboard.h \
+    colorbutton.h \
     dialogabout.h \
     dialoginfo.h \
     dialogprogressbarimport.h \
+    dialogconfiguration.h \
     formmainwidget.h \
     mainwindow.h \
     myvisitor.h \
@@ -33,6 +39,7 @@ FORMS += \
     dialogabout.ui \
     dialoginfo.ui \
     dialogprogressbarimport.ui \
+    dialogconfiguration.ui \
     formmainwidget.ui \
     mainwindow.ui
 

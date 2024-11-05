@@ -1,6 +1,5 @@
 #include "myvisitor.h"
 #include <QDebug>
-#include <iostream>
 #include <QSqlRecord>
 #include <QList>
 #include <QVariant>
@@ -99,13 +98,15 @@ void MyVisitor::endPgn()
     QString rec=recs.join(',');
     QString val=vals.join(',');
     QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
-    QSqlQuery query(req);
+    qDebug()<<req;
+    QSqlQuery query(req,*mConnection);
     IncrementCounter();
 }
 
 void MyVisitor::IncrementCounter()
 {
     mProgressBarImport->CountIncrement();
+    
 }
 
 ///
@@ -140,8 +141,8 @@ void MyVisitor::setProgressBar( DialogProgressBarImport *progressbar)
     mProgressBarImport =progressbar;
 }
 
-void MyVisitor::StopChrono()
-{
-mProgressBarImport->ClockStop();
-}
+// void MyVisitor::StopChrono()
+// {
+// mProgressBarImport->ClockStop();
+// }
 

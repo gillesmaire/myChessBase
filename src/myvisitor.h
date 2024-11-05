@@ -79,7 +79,7 @@ public:
    void setConnection(QSqlDatabase *newConnection);
    void InitPtrMainWindow( MainWindow *ptr);
    void setProgressBar(DialogProgressBarImport *progressbar);
-   void StopChrono();
+//   void StopChrono();
 };
 
 #endif // MYVISITOR_H

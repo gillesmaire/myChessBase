@@ -7,16 +7,19 @@ DialogProgressBarImport::DialogProgressBarImport(QWidget *parent) :
     ui(new Ui::DialogProgressBarImport)
 {
     ui->setupUi(this);
+   this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     mTimer = new QTimer(this);
     
     connect(mTimer, &QTimer::timeout, this, &DialogProgressBarImport::ClockIncrement);
+    connect (ui->pushButtonClose,&QPushButton::clicked,this, &DialogProgressBarImport::Close);
     mTimer->start(1000);
-    ui->lcdChrono->display(QString("%1:%2:%3").arg("00").arg("00").arg("00"));
+    ui->lcdChrono->display(QString("00:00:00"));
 }
 
 DialogProgressBarImport::~DialogProgressBarImport()
 {
     delete ui;
+    delete mTimer;
 }
 
 void DialogProgressBarImport::CountIncrement()
@@ -34,7 +37,6 @@ void DialogProgressBarImport::ClockIncrement()
    r=mTime/60;
    m=r%60;
    h=r/60;
-   qDebug()<<h<<m<<s;
    QString H,M,S;
    H=QString("%1").arg(h);
    M=QString("%1").arg(m);
@@ -42,13 +44,25 @@ void DialogProgressBarImport::ClockIncrement()
    if (h<10) H="0"+H;
    if (m<10) M="0"+M;
    if (s<10) S="0"+S;
-   ui->lcdChrono->display(QString("%1:%2:%3").arg(H).arg(M).arg(S));
+   QString t(QString("%1:%2:%3").arg(H,M,S));
+   ui->lcdChrono->display(t);
+   qDebug()<<t;
    
 }
 
 void DialogProgressBarImport::ClockStop()
 {
-    mTimer->disconnect();
-    mTimer->stop();
-    delete(mTimer);
+   mTimer->stop();
+   ui->pushButtonClose->repaint();
+}
+
+void DialogProgressBarImport::ClockRaz()
+{
+    mTime=0;
+    ui->lcdChrono->display(QString("00:00:00"));
+}
+
+void DialogProgressBarImport::Close()
+{
+   close();
 }

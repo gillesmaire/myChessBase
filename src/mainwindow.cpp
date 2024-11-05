@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QFileDialog>
 #include <QDir>
 #include <QSettings>
@@ -9,21 +10,24 @@
 #include <QFileInfo>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QtConcurrent>
+#include <QSqlError>
+#include <QFontDatabase>
 
 #include "chess.hpp"
-#include <string>
+
 #include <memory>
 #include <fstream>
-#include <QFontDatabase>
 
 #include "myvisitor.h"
 #include "dialoginfo.h"
 #include "dialogabout.h"
-
 #include <formcounterpage.h>
 #include <formboardpage.h>  
 #include <formmainwidget.h>
 #include "dialogprogressbarimport.h"
+#include "dialogconfiguration.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -36,8 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::RemoveDatabase);   // Flush the database's tables
-    
-   
+    connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
+ 
 }
 
 
@@ -82,30 +86,61 @@ void MainWindow::RemoveDatabase()
 
 void MainWindow::LoadPGNFile()
 {
-    QSettings s;
-    QString dir=s.value("DataBaseDir",QDir::homePath()).toString();
-    QString filename=QFileDialog::getOpenFileName(this,tr("Select a PGN file to include in Database"),dir,tr("PGN file (*.pgn)"));
-
-
-    QFileInfo fi(filename);
-    s.setValue("DataBaseDir",fi.dir().absolutePath());
-    s.sync();
+     QSettings s;
+     QString dir=s.value("DataBaseDir",QDir::homePath()).toString();
+     QString filename=QFileDialog::getOpenFileName(this,tr("Select a PGN file to include in Database"),dir,tr("PGN file (*.pgn)"));
+     QFileInfo fi(filename);
+     s.setValue("DataBaseDir",fi.dir().absolutePath());
+     s.sync();   
+    
+    if  (filename.isEmpty() ) return;
     mProgressBar=new DialogProgressBarImport(this);
-    mProgressBar->show();
+    qDebug()<<mProgressBar;
+    QSqlDatabase *db=mConnection;
+    DialogProgressBarImport *pb=mProgressBar;
+    db->transaction();
+    QObject::connect(&mWatcher, &QFutureWatcher<void>::finished, this, [db,pb]() {
+    qDebug()<<"commit start ";
+       if  (! db->commit())
+         {
+        qDebug() << "Failed to commit";
+        qDebug()<<db->lastError();
+     //   db->rollback();
+        } 
+        else 
+       {
+        qDebug()<<"commit end";
+        pb->ClockStop(); 
+       }
+    });
+    QFuture<void> future=QtConcurrent::run(LoadPGNFileConcurrent,filename,mConnection,mProgressBar);
+    mWatcher.setFuture(future);
+    mProgressBar->exec();
+    delete(mProgressBar);
+    mWatcher.disconnect();
+    
+}
+
+
+void MainWindow::LoadPGNFileConcurrent(QString filename, QSqlDatabase *connection ,DialogProgressBarImport *progressbar)
+{
+   
+    qDebug()<<"LaunchConcurrent";
     auto file_stream=std::ifstream(filename.toLatin1());
     auto vis =std::make_unique<MyVisitor>();
-    vis->setConnection(mConnection);
-    vis->setProgressBar(mProgressBar);
-    if ( !mConnection->transaction()) qDebug("Connection problem !");
+    vis->setConnection(connection);
+    vis->setProgressBar(progressbar);
+    //if ( !connection->transaction()) qDebug("Connection problem !");
     pgn::StreamParser parser(file_stream);
     parser.readGames(*vis);
-    if  (! mConnection->commit())
-    {
-        qDebug() << "Failed to commit";
-        mConnection->rollback();
-    }
-    vis->StopChrono();
   
+}
+
+
+void MainWindow::Configuration()
+{
+  DialogConfiguration c(this);
+  c.exec();
 }
 
 /// show informations as : number of games in the database, version of this sotware, size of database

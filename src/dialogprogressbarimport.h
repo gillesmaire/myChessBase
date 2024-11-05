@@ -17,13 +17,16 @@ public:
     ~DialogProgressBarImport();
     void CountIncrement();
     void ClockStop();
+    void ClockRaz();
     
 private:
     Ui::DialogProgressBarImport *ui;
     QTimer *mTimer;
     void ClockIncrement();
-
     int mTime=0;
+    void Close();
 };
+
+
 
 #endif // DIALOGPROGRESSBARIMPORT_H
