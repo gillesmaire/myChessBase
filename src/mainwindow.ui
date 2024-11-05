@@ -78,7 +78,6 @@
      <string>Maintenance</string>
     </property>
     <addaction name="actionRemove_Database"/>
-    <addaction name="actionShiftView"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMaintenance"/>

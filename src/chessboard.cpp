@@ -42,6 +42,4 @@ void ChessBoard::paintEvent(QPaintEvent *)
             painter.drawRect(x, y, tileSize, tileSize);
         }
     }
-    
- 
 }

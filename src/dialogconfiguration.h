@@ -17,8 +17,11 @@ public:
     
 private slots:
     void ChangeColor(QString, QColor);
+    void Save();
 private:
     Ui::DialogConfiguration *ui;
+signals:
+    void sendColors( QColor colorwhitesquare, QColor colorblacksquare);
 };
 
 #endif // DIALOGCONFIGURATION_H

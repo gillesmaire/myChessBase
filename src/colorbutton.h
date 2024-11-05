@@ -10,6 +10,7 @@ class ColorButton : public QPushButton
 public:
     ColorButton(QWidget *parent);
     void setName(QString name);
+    QColor getColor(){ return mColor;}
 private:
     QColor mColor;
     QString mButtonName;

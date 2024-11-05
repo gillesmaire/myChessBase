@@ -1,5 +1,6 @@
 #include "dialogconfiguration.h"
 #include "ui_dialogconfiguration.h"
+#include <QSettings>
 
 DialogConfiguration::DialogConfiguration(QWidget *parent)
     : QDialog(parent)
@@ -14,6 +15,8 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     connect (ui->pushButtonBlackSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhitePieceColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhiteSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
+    connect (ui->pushButtonClose,SIGNAL(clicked(bool)),this,SLOT(close()));
+    connect (ui->pushButtonSave,SIGNAL(clicked(bool)),this,SLOT(Save()));
 }
 
 DialogConfiguration::~DialogConfiguration()
@@ -25,4 +28,12 @@ void DialogConfiguration::ChangeColor(QString string,QColor color)
 {
  if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
  else if ( string == "WhiteSquareColor" ) ui->widget->setWhiteSquareColor(color);
+}
+
+void DialogConfiguration::Save()
+{
+    QSettings s;
+    s.setValue("BlackSquareColor",ui->pushButtonBlackSquareColor->getColor());
+    s.setValue("WhiteSquareColor",ui->pushButtonWhiteSquareColor->getColor());
+    emit sendColors(ui->pushButtonWhiteSquareColor->getColor(),ui->pushButtonBlackSquareColor->getColor());
 }

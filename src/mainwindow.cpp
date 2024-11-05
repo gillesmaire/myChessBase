@@ -136,10 +136,17 @@ void MainWindow::LoadPGNFileConcurrent(QString filename, QSqlDatabase *connectio
   
 }
 
+void MainWindow::ModifyColor(QColor whitesquarecolor, QColor blacksquarecolor)
+{
+    ui->chessBoard->setBlackSquareColor(blacksquarecolor);
+    ui->chessBoard->setWhiteSquareColor(whitesquarecolor);
+    ui->chessBoard->update();
+}
 
 void MainWindow::Configuration()
 {
   DialogConfiguration c(this);
+  connect ( &c, SIGNAL(SendColors(QColor,QColor)),this,SLOT(ModifyColor(QColor,QColor)));
   c.exec();
 }
 
