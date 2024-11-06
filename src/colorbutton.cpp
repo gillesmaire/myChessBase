@@ -25,11 +25,16 @@ void ColorButton::paintEvent(QPaintEvent *)
 }
 
 void ColorButton::ButtondefineColor()
-{
-    mColor=QColorDialog::getColor(mColor,this);
-    repaint();
-    emit ColorChanged(mButtonName,mColor);
-    
+{       QColorDialog *dialog = new QColorDialog(this);
+        //dialog->setOption(QColorDialog::ShowAlphaChannel);
+        dialog->setOption(QColorDialog::DontUseNativeDialog);
+        dialog->show();
+        connect(dialog,&QColorDialog::accepted,[=](){
+            mColor=dialog->currentColor();
+            qDebug()<<mColor;
+            emit ColorChanged(mButtonName,mColor);
+        }
+        );
 }
 
 

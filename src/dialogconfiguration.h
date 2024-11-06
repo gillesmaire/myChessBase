@@ -18,8 +18,10 @@ public:
 private slots:
     void ChangeColor(QString, QColor);
     void Save();
+    void ChangePiece(QString name );
 private:
     Ui::DialogConfiguration *ui;
+    QFont mCurrentFont;
 signals:
     void sendColors( QColor colorwhitesquare, QColor colorblacksquare);
 };

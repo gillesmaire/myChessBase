@@ -98,7 +98,7 @@ void MyVisitor::endPgn()
     QString rec=recs.join(',');
     QString val=vals.join(',');
     QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
-    qDebug()<<req;
+   // qDebug()<<req;
     QSqlQuery query(req,*mConnection);
     IncrementCounter();
 }

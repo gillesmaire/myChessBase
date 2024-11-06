@@ -1,4 +1,4 @@
-QT       += core gui sql concurrent
+QT       += core gui sql concurrent svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -59,4 +59,4 @@ DISTFILES += \
     Documentation/Specification
 
 RESOURCES += \
-    Ressources.qrc
+    Fonts.qrc

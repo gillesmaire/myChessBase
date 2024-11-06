@@ -10,7 +10,16 @@
 #include <QSqlQuery>
 #include <QMultiMap>
 #include <QFontDatabase>
+#include <QMap>
+
 #include "utils.h"
+
+
+QMap <QString,int> fontList;
+QString InitWhiteSquareColor="#E6E6E6";
+QString InitBlackSquareColor="#33653B";
+QString InitWhitePieceColor="#FFD88B";
+QString InitBlackPieceColor="#04151D";
 
 ///
 ////// \brief main name of the program
@@ -48,13 +57,25 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    
-    // Add a font in application 
-    QFontDatabase::addApplicationFont(":/fonts/resources/Technology-Bold.ttf");
-    
+     
+   // Load Fonts 
+
+   
+     fontList["Magnetic"]=QFontDatabase::addApplicationFont(":/Fonts/MAGNFONT.TTF");
+     fontList["Leipzig"]=QFontDatabase::addApplicationFont(":/Fonts/LEIPFONT.TTF");
+     fontList["Cases"]=QFontDatabase::addApplicationFont(":/Fonts/CASEFONT.TTF");
+     fontList["Maya"]=QFontDatabase::addApplicationFont(":/Fonts/MAYAFONT.TTF");
+     fontList["Chess-7"]=QFontDatabase::addApplicationFont(":/Fonts/Chess-7.TTF");
+     fontList["Marroquin"]=QFontDatabase::addApplicationFont(":/Fonts/MARRFONT.TTF");
+     fontList["Cheq"]=QFontDatabase::addApplicationFont(":/Fonts/CHEQ_TT.TTF");
+     fontList["Alpha"]=QFontDatabase::addApplicationFont(":/Fonts/Alpha.ttf");
+     
+     
     // Data base creation if not exists
     QString databasefile;
+    
     QSqlDatabase db= Utils::PrepareDataBase(databasefile);
+    
     MainWindow w;
     w.setDataBaseConnector(&db);
     w.setDataBaseName(databasefile);

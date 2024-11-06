@@ -11,6 +11,7 @@ public:
     ColorButton(QWidget *parent);
     void setName(QString name);
     QColor getColor(){ return mColor;}
+    void setColor( QColor color) {mColor=color;}
 private:
     QColor mColor;
     QString mButtonName;

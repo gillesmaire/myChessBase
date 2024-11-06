@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Fonts/LEIPFONT.TTF</file>
+        <file>Fonts/MAGNFONT.TTF</file>
+        <file>Fonts/CASEFONT.TTF</file>
+        <file>Fonts/MAYAFONT.TTF</file>
+        <file>Fonts/Chess-7.TTF</file>
+        <file>Fonts/MARRFONT.TTF</file>
+        <file>Fonts/CHEQ_TT.TTF</file>
+        <file>Fonts/Alpha.ttf</file>
+    </qresource>
+</RCC>

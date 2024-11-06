@@ -1,6 +1,5 @@
 <RCC>
-    <qresource prefix="/fonts">
-        <file>resources/Technology-Bold.ttf</file>
-        <file>resources/Technology.ttf</file>
-    </qresource>
+    <qresource prefix="/fonts"/>
+    <qresource prefix="/Pieces"/>
+    <qresource prefix="/"/>
 </RCC>
