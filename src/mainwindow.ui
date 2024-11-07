@@ -128,7 +128,7 @@
   </action>
   <action name="actionFlip">
    <property name="text">
-    <string>Flip</string>
+    <string>Flip Board</string>
    </property>
   </action>
  </widget>

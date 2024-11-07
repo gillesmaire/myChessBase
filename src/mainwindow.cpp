@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::RemoveDatabase);   // Flush the database's tables
     connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
+    connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
  
 }
 
@@ -66,6 +67,11 @@ void MainWindow::IncrementCounter()
     
 }
 
+void MainWindow::FlipBoard()
+{
+    mFlipBoard=!mFlipBoard;
+    ui->chessBoard->flipBoard(mFlipBoard);
+}
 
 void MainWindow::RemoveDatabase()
 {

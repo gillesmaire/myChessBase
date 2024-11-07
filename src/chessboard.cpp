@@ -218,9 +218,19 @@ void ChessBoard::paintEvent(QPaintEvent *)
               painter.setPen(squarecolor);
 
             // Draw rect
-            int x = col * tileSize ;
-            int y = (7-row) * tileSize;
-    
+            int x ;
+            int y ;
+            if (  !mFlip )
+            {
+                 y = (7-row) * tileSize;
+                 x=col*tileSize;
+            }
+            else
+            {    
+            
+                 y =row*tileSize;
+                 x=(7-col)*tileSize;
+            }       
             // draw the square
             painter.drawRect(x, y, tileSize, tileSize);
             
@@ -241,6 +251,7 @@ void ChessBoard::paintEvent(QPaintEvent *)
             painter.setBrush(color);
             painter.setFont(font);
             painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
+       
         }
     }
 }

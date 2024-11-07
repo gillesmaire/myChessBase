@@ -16,9 +16,11 @@ public:
     void setBlackPieceColor( QColor col) {  mBlackPieceColor=col; update(); }
     void setPosition( chess::Board board) { mBoard=board;};
     QStringList listOfTypeOfPieces();
+    void flipBoard( bool flip){ mFlip=flip; update();}
 private: 
     void RecordChessFonts();
     Board mBoard;
+    bool mFlip=false;
     int mSize;
     void paintEvent(QPaintEvent *e) override;
     QColor mWhiteSquareColor;

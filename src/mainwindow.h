@@ -29,11 +29,13 @@ private:
     QSqlDatabase *mConnection;
     QString mDataBaseFile;
     int Converted=0;
+    bool mFlipBoard=false;
     void LoadPGNFile();
     QFutureWatcher<void> mWatcher;
     void ShowInformations();
     void About();
     void RemoveDatabase();
+    void FlipBoard();
     FormCounterPage *mFormCounterPageptr;
     FormBoardPage *mFormBoardPageptr;
     DialogProgressBarImport *mProgressBar;
