@@ -41,8 +41,10 @@ DialogConfiguration::~DialogConfiguration()
 
 void DialogConfiguration::ChangeColor(QString string,QColor color)
 {
+qDebug()<<string;
  if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
- else if ( string == "WhiteSquareColor" ) ui->widget->setWhiteSquareColor(color);
+ else if ( string == "WhiteSquareColor" )
+  ui->widget->setWhiteSquareColor(color);
  else if ( string == "BlackPieceColor" ) ui->widget->setBlackPieceColor(color);
  else if ( string == "WhitePieceColor" ) ui->widget->setWhitePieceColor(color);
  
@@ -53,6 +55,8 @@ void DialogConfiguration::Save()
     QSettings s;
     s.setValue("BlackSquareColor",ui->pushButtonBlackSquareColor->getColor());
     s.setValue("WhiteSquareColor",ui->pushButtonWhiteSquareColor->getColor());
+    s.setValue("BlackPieceColor",ui->pushButtonBlackPieceColor->getColor());
+    s.setValue("WhitePieceColor",ui->pushButtonWhitePieceColor->getColor());
     emit sendColors(ui->pushButtonWhiteSquareColor->getColor(),ui->pushButtonBlackSquareColor->getColor());
 }
 

@@ -26,7 +26,7 @@ void ColorButton::paintEvent(QPaintEvent *)
 
 void ColorButton::ButtondefineColor()
 {       QColorDialog *dialog = new QColorDialog(this);
-        //dialog->setOption(QColorDialog::ShowAlphaChannel);
+        dialog->setCustomColor(0,mColor);
         dialog->setOption(QColorDialog::DontUseNativeDialog);
         dialog->show();
         connect(dialog,&QColorDialog::accepted,[=](){

@@ -19,7 +19,7 @@ k est king le roi
 q est queen la reine
 p est pawn le pion
 
-Les symboles en majuscule correspondent aux pièces blanche 
+Les symboles en majuscule correspondent aux pièces blanches 
 Les cases vides sont représentées par un entier  1 une case vide 2 deux etc...
 
 1.1.2 L'échiquier
@@ -46,9 +46,28 @@ pour savoir si une partie nulle peut être déclenchée
 
 Nombre de coups noirs joués.
 
-1.2 SAN 
+1.2 Les notations de coups
 
-Le SAN pous système algébrique de notation est la notation d'un coup 
+1.2.1 UCI (Universal Chess interface) est le protocole utilisé pour les échanges entre
+les ordinateurs et les interfaces clavier ou dans les parties entre deux personnes 
+via un logiciel de jeu d'échecs à distance. Le coup e2e4 donne l'avancée du pion de e2 en e4
+Le coup Dame E1 x e8 sera noté e1e8
+
+1.2.2 LAN (Long Agebric Notation)
+
+De façon presque identique mais en ajoutant la pièce sauf pour le pion  et en ajoutant un - 
+Cb1-c3 
+e2-e4
+
+1.2.3 SAN (Small Algébric Notation)
+
+On ne note que la case d'arrivée : e4 Cf6. C'est la notation utilisée par les joueurs dans leur feuille
+de partie.
+
+
+
+
+Le SAN pour système algébrique de notation est la notation d'un coup 
 soit sous forme case de départ case d'arrivée par exemple e2 e4 
 La forme SAN abrégée est e4
 

@@ -4,20 +4,21 @@
 #include <QWidget>
 #include "chess.hpp"
 #include <QMap>
+ using namespace chess;
 
 class ChessBoard : public QWidget
 {
 public:
     explicit ChessBoard(QWidget *widget);
     void setWhiteSquareColor( QColor col) { mWhiteSquareColor=col; update();}
-    void setBlackSquareColor( QColor col) { mBlackSquareColor=col; update();}
-    void setWhitePieceColor( QColor col) {  mWhitePieceColor=col; update(); }
+    void setBlackSquareColor( QColor col) {mBlackSquareColor=col; update();}
+    void setWhitePieceColor( QColor col) {  mWhitePieceColor=col; update();}
     void setBlackPieceColor( QColor col) {  mBlackPieceColor=col; update(); }
     void setPosition( chess::Board board) { mBoard=board;};
     QStringList listOfTypeOfPieces();
 private: 
     void RecordChessFonts();
-    chess::Board mBoard;
+    Board mBoard;
     int mSize;
     void paintEvent(QPaintEvent *e) override;
     QColor mWhiteSquareColor;
@@ -29,8 +30,11 @@ private:
     QMap <QString,QString> mFontName;
     QStringList mFontList;
     QString mCurrentFont;
+  //  bool mReversed=false;
 public slots:
     void setCurrentFont( QString font );
+    /* to see the chesseboard from black side set reversed to true by default it is on false*/
+    void setReversed( bool Reversed );
 signals:
 protected:
     void resizeEvent(QResizeEvent *e) override ;

@@ -79,7 +79,14 @@
     </property>
     <addaction name="actionRemove_Database"/>
    </widget>
+   <widget class="QMenu" name="menuChess_Board">
+    <property name="title">
+     <string>Chess Board</string>
+    </property>
+    <addaction name="actionFlip"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuChess_Board"/>
    <addaction name="menuMaintenance"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -117,6 +124,11 @@
   <action name="actionConfiguration">
    <property name="text">
     <string>Configuration</string>
+   </property>
+  </action>
+  <action name="actionFlip">
+   <property name="text">
+    <string>Flip</string>
    </property>
   </action>
  </widget>

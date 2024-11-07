@@ -8,5 +8,6 @@
         <file>Fonts/MARRFONT.TTF</file>
         <file>Fonts/CHEQ_TT.TTF</file>
         <file>Fonts/Alpha.ttf</file>
+        <file>Fonts/OpenChessFont.ttf</file>
     </qresource>
 </RCC>

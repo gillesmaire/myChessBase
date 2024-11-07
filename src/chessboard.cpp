@@ -13,8 +13,14 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
   RecordChessFonts();
   mFontList=mChessFonts.keys();  
-  //TODO
+  
   mCurrentFont="Alpha";
+  mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  auto m1=chess::uci::uciToMove(mBoard,"e2e4");
+  mBoard.makeMove(m1);
+  auto m2=chess::uci::uciToMove(mBoard,"c7c6");
+  mBoard.makeMove(m2);
+  std::cout<<mBoard<<std::endl;
 
 }
 
@@ -153,6 +159,23 @@ void ChessBoard::RecordChessFonts()
     piece["NOPIECE"]=QChar(' ');
     mChessFonts["Cheq"]=piece;
     mFontName["Cheq"]="CHEQ_TT.TTF";
+    piece.clear();
+    piece["WHITEPAWN"]=QChar('P');
+    piece["WHITEKNIGHT"]=QChar('N');
+    piece["WHITEBISHOP"]=QChar('B');
+    piece["WHITEROOK"]=QChar('R');
+    piece["WHITEQUEEN"]=QChar('Q');
+    piece["WHITEKING"]=QChar('K');
+    piece["BLACKPAWN"]=QChar('O');
+    piece["BLACKKNIGHT"]=QChar('M');
+    piece["BLACKBISHOP"]=QChar('V');
+    piece["BLACKROOK"]=QChar('T');
+    piece["BLACKQUEEN"]=QChar('W');
+    piece["BLACKKING"]=QChar('K');
+    piece["NOPIECE"]=QChar(' ');
+    mChessFonts["OpenChessFont"]=piece;
+    mFontName["OpenChessFont"]="OpenChessFont.ttf";
+  
     
   
 
@@ -169,32 +192,35 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    mSize=(event->size().width()>event->size().height())? event->size().height():event->size().width();
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
-   mBlackPieceColor=s.value("WhitePieceColor",InitWhitePieceColor).toString();
-   mWhitePieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
+   mBlackPieceColor=s.value("BlackPieceColor",InitWhitePieceColor).toString();
+   mWhitePieceColor=s.value("WhitePieceColor",InitBlackPieceColor).toString();
 }
 
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
-
     QPainter painter(this);
     int tileSize = mSize/8;
-    QColor ws,bs,wp,bp;
+    QColor squarecolor;
+    squarecolor=mBlackSquareColor;
     for (int row = 0; row < 8; ++row) {
-        for (int col = 0; col < 8; ++col) {
-            // Square color
-            if ((row + col) % 2 == 0) {
-               ws=mWhiteSquareColor;
-               painter.setBrush(ws);
-               painter.setPen(bs);
-               
-            } else {
-                bs=mBlackSquareColor;
-                painter.setBrush(bs); 
-                painter.setPen(bs); 
-            }
+              if (squarecolor==mBlackSquareColor)
+                   squarecolor=mWhiteSquareColor;
+              else 
+                   squarecolor=mBlackSquareColor;
+    
+        for (int col = 0; col < 8; ++col) 
+        {
+              if (squarecolor==mBlackSquareColor)
+                   squarecolor=mWhiteSquareColor;
+              else 
+                   squarecolor=mBlackSquareColor;
+              painter.setBrush(squarecolor);
+              painter.setPen(squarecolor);
+
             // Draw rect
-            int x = col * tileSize;
-            int y = row * tileSize;
+            int x = col * tileSize ;
+            int y = (7-row) * tileSize;
+    
             // draw the square
             painter.drawRect(x, y, tileSize, tileSize);
             
@@ -204,51 +230,47 @@ void ChessBoard::paintEvent(QPaintEvent *)
             QString family = QFontDatabase::applicationFontFamilies(i).at(0);
             QChar car=QChar(mChessFonts[mCurrentFont][getName(row,col)]);
             QColor color;
-            wp=mWhitePieceColor;
-            bp=mBlackPieceColor;
+            qDebug()<<"WHITE:"<<mWhitePieceColor;;
             if ( getName(row,col).startsWith("WHITE") )
-                color=wp;
+                color=mWhitePieceColor;
             else if ( getName(row,col).startsWith("BLACK") )
-                color=bp;
+                color=mBlackPieceColor; 
             QFont font (family);
             font.setPixelSize(tileSize);
             painter.setPen(color);
-            //painter.setBrush(color);
+            painter.setBrush(color);
             painter.setFont(font);
             painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
-                        
-            
-            
-            
         }
     }
 }
 
 QString ChessBoard::getName(int row, int col)
-{
-    if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEPAWN)
+{  
+    std::cout<<mBoard<<std::endl;
+    if (mBoard.at(row*8+col)==chess::Piece::WHITEPAWN)
         return ("WHITEPAWN");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEKNIGHT)
+    else if (mBoard.at(row*8+col)==chess::Piece::WHITEKNIGHT)
         return ("WHITEKNIGHT");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEBISHOP)
+    else if (mBoard.at(row*8+col)==chess::Piece::WHITEBISHOP)
         return ("WHITEBISHOP");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEROOK)
+    else if (mBoard.at(row*8+col)==chess::Piece::WHITEROOK)
         return("WHITEROOK");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEQUEEN)
+    else if (mBoard.at(row*8+col)==chess::Piece::WHITEQUEEN)
         return("WHITEQUEEN");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::WHITEKING)
+    else if (mBoard.at(row*8+col)==chess::Piece::WHITEKING)
         return("WHITEKING");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKPAWN)
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKPAWN)
         return("BLACKPAWN");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKKNIGHT)
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKKNIGHT)
         return("BLACKKNIGHT");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKBISHOP)
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKBISHOP)
         return("BLACKBISHOP");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKROOK)    
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKROOK)    
         return("BLACKROOK");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKQUEEN)
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKQUEEN)
         return("BLACKQUEEN");
-    else if (mBoard.at((7-row)*8+col)==chess::Piece::BLACKKING)
+    else if (mBoard.at(row*8+col)==chess::Piece::BLACKKING)
         return("BLACKKING");
     else return("NOPIECE");
 }

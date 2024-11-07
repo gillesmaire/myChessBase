@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
      fontList["Marroquin"]=QFontDatabase::addApplicationFont(":/Fonts/MARRFONT.TTF");
      fontList["Cheq"]=QFontDatabase::addApplicationFont(":/Fonts/CHEQ_TT.TTF");
      fontList["Alpha"]=QFontDatabase::addApplicationFont(":/Fonts/Alpha.ttf");
+     fontList["OpenChessFont"]=QFontDatabase::addApplicationFont(":/Fonts/OpenChessFont.ttf");
      
      
     // Data base creation if not exists
