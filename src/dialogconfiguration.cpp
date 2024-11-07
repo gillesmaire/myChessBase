@@ -41,7 +41,6 @@ DialogConfiguration::~DialogConfiguration()
 
 void DialogConfiguration::ChangeColor(QString string,QColor color)
 {
-qDebug()<<string;
  if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
  else if ( string == "WhiteSquareColor" )
   ui->widget->setWhiteSquareColor(color);

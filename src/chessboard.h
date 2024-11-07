@@ -17,6 +17,7 @@ public:
     void setPosition( chess::Board board) { mBoard=board;};
     QStringList listOfTypeOfPieces();
     void flipBoard( bool flip){ mFlip=flip; update();}
+    QString getFEN();
 private: 
     void RecordChessFonts();
     Board mBoard;

@@ -31,7 +31,6 @@ void ColorButton::ButtondefineColor()
         dialog->show();
         connect(dialog,&QColorDialog::accepted,[=](){
             mColor=dialog->currentColor();
-            qDebug()<<mColor;
             emit ColorChanged(mButtonName,mColor);
         }
         );

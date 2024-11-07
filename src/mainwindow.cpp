@@ -13,7 +13,7 @@
 #include <QtConcurrent>
 #include <QSqlError>
 #include <QFontDatabase>
-
+#include <QLineEdit>
 #include "chess.hpp"
 
 #include <memory>
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::RemoveDatabase);   // Flush the database's tables
     connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
- 
+    connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
 }
 
 
@@ -101,21 +101,16 @@ void MainWindow::LoadPGNFile()
     
     if  (filename.isEmpty() ) return;
     mProgressBar=new DialogProgressBarImport(this);
-    qDebug()<<mProgressBar;
     QSqlDatabase *db=mConnection;
     DialogProgressBarImport *pb=mProgressBar;
     db->transaction();
     QObject::connect(&mWatcher, &QFutureWatcher<void>::finished, this, [db,pb]() {
-    qDebug()<<"commit start ";
        if  (! db->commit())
          {
-        qDebug() << "Failed to commit";
         qDebug()<<db->lastError();
-     //   db->rollback();
         } 
         else 
        {
-        qDebug()<<"commit end";
         pb->ClockStop(); 
        }
     });
@@ -131,7 +126,6 @@ void MainWindow::LoadPGNFile()
 void MainWindow::LoadPGNFileConcurrent(QString filename, QSqlDatabase *connection ,DialogProgressBarImport *progressbar)
 {
    
-    qDebug()<<"LaunchConcurrent";
     auto file_stream=std::ifstream(filename.toLatin1());
     auto vis =std::make_unique<MyVisitor>();
     vis->setConnection(connection);
@@ -167,4 +161,25 @@ void MainWindow::About()
 {
     DialogAbout da(this);
     da.exec();
+}
+
+
+void MainWindow::ShowFen(bool ok)
+{
+    if ( ok && ! mFENShown )  {
+       mFENShown=true;
+       mFEN=new QLineEdit(getFen());
+       ui->statusbar->addWidget(mFEN);
+     }
+   else if (!ok && mFENShown )
+   { 
+    mFENShown=false;
+    ui->statusbar->removeWidget(mFEN);
+   }
+    
+}
+
+QString MainWindow::getFen()
+{
+    return QString(ui->chessBoard->getFEN());
 }

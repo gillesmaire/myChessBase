@@ -85,8 +85,15 @@
     </property>
     <addaction name="actionFlip"/>
    </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionShow_Fen"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuChess_Board"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuMaintenance"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -129,6 +136,14 @@
   <action name="actionFlip">
    <property name="text">
     <string>Flip Board</string>
+   </property>
+  </action>
+  <action name="actionShow_Fen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Fen</string>
    </property>
   </action>
  </widget>

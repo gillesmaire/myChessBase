@@ -7,6 +7,7 @@
 #include <formcounterpage.h>
 #include <dialogprogressbarimport.h>
 #include <QFutureWatcher>
+#include <QLineEdit>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -40,5 +41,9 @@ private:
     FormBoardPage *mFormBoardPageptr;
     DialogProgressBarImport *mProgressBar;
     void Configuration();
+    void ShowFen(bool);
+    QString getFen();
+    bool mFENShown=false;
+    QLineEdit *mFEN;
 };
 #endif // MAINWINDOW_H

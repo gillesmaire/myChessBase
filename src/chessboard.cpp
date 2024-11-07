@@ -20,13 +20,17 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   mBoard.makeMove(m1);
   auto m2=chess::uci::uciToMove(mBoard,"c7c6");
   mBoard.makeMove(m2);
-  std::cout<<mBoard<<std::endl;
 
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
 {
     return (mFontList);
+}
+
+QString ChessBoard::getFEN()
+{
+    return QString::fromStdString(mBoard.getFen());
 }
 
 void ChessBoard::RecordChessFonts()
@@ -240,7 +244,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
             QString family = QFontDatabase::applicationFontFamilies(i).at(0);
             QChar car=QChar(mChessFonts[mCurrentFont][getName(row,col)]);
             QColor color;
-            qDebug()<<"WHITE:"<<mWhitePieceColor;;
             if ( getName(row,col).startsWith("WHITE") )
                 color=mWhitePieceColor;
             else if ( getName(row,col).startsWith("BLACK") )
@@ -258,7 +261,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
 
 QString ChessBoard::getName(int row, int col)
 {  
-    std::cout<<mBoard<<std::endl;
     if (mBoard.at(row*8+col)==chess::Piece::WHITEPAWN)
         return ("WHITEPAWN");
     else if (mBoard.at(row*8+col)==chess::Piece::WHITEKNIGHT)

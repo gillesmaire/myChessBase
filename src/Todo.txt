@@ -1,5 +1,5 @@
 1. Transmit configuration option to main Window
 2. Save the font 
 4. a1 h8...
-5. FEN
+
 6. menu Chess board Ok
