@@ -17,6 +17,7 @@ SOURCES += \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
     dialogconfiguration.cpp \
+    ecotablegeneration.cpp \
     formmainwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     dialoginfo.h \
     dialogprogressbarimport.h \
     dialogconfiguration.h \
+    ecotablegeneration.h \
     formmainwidget.h \
     mainwindow.h \
     myvisitor.h \

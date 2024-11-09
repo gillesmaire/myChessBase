@@ -44,11 +44,16 @@ QMap <QString,QChar> Utils::ListPGNRecords()
             QString type=(list[key]=='T')?"TEXT":"INTEGER";
             q+=QString("'%1' %2").arg(key,type)+",";
         }
-        QString qs("CREATE TABLE 'Games' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,"
+        
+        QString qs1("CREATE TABLE 'Games' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT"
                     + q + 
                 	"PRIMARY KEY('Id' AUTOINCREMENT))");
-        QSqlQuery qsq(qs);
-        qsq.exec();
+        QSqlQuery qsq1(qs1);
+        qsq1.exec();
+        QString qs2("CREATE TABLE 'ECOPLUS' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT"
+                    + q + 
+                	"PRIMARY KEY('Id' AUTOINCREMENT))");
+        
     }
     else
     {

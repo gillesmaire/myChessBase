@@ -15,11 +15,13 @@
 #include <QFontDatabase>
 #include <QLineEdit>
 #include "chess.hpp"
+#include <QMessageBox>
 
 #include <memory>
 #include <fstream>
 
 #include "myvisitor.h"
+#include "ecotablegeneration.h"
 #include "dialoginfo.h"
 #include "dialogabout.h"
 #include <formcounterpage.h>
@@ -27,7 +29,6 @@
 #include <formmainwidget.h>
 #include "dialogprogressbarimport.h"
 #include "dialogconfiguration.h"
-
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -43,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
+    connect (ui->actionReadEcoPGN,&QAction::triggered, this,&MainWindow::MakeECOTable);
 }
 
 
@@ -132,7 +134,16 @@ void MainWindow::LoadPGNFileConcurrent(QString filename, QSqlDatabase *connectio
     vis->setProgressBar(progressbar);
     //if ( !connection->transaction()) qDebug("Connection problem !");
     pgn::StreamParser parser(file_stream);
-    parser.readGames(*vis);
+    try {
+        parser.readGames(*vis);
+    } 
+    catch (const chess::pgn::StreamParserException& e){
+     std::cerr << "Erreur lors de l'analyse du fichier : " << e.what() << "\n";
+     }
+    catch (...) {
+     std::cerr << "Other error: " << "\n";
+    }
+   
   
 }
 
@@ -183,3 +194,18 @@ QString MainWindow::getFen()
 {
     return QString(ui->chessBoard->getFEN());
 }
+
+
+////
+/// \brief MainWindow::MakeECOTable Generate an ECO Table. It is made by adminsitrator
+///  The Table is generated from David Barnes file
+
+void MainWindow::MakeECOTable()
+{
+  QString EcoFile=QFileDialog::getOpenFileName(this,tr("Open the David Barnes File to generate the ECO table"));
+  auto file_stream=std::ifstream(EcoFile.toLatin1());
+  auto vis =std::make_unique<EcoTableGeneration>();
+  pgn::StreamParser parser(file_stream);
+  parser.readGames(*vis);
+}
+

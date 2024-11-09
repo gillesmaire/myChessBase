@@ -11,3 +11,25 @@ du X ème caractères d'une longueur Y.
 À la place de Y on  positionne la commande INSTR (moves || ' ',' ') -1·
 
 La commande INSTR cherche la première occurence
+
+
+SELECT
+    SUBSTR(MOVES, 1, INSTR(MOVES, ' ')-1) AS FirstMove,
+    COUNT(*) AS NumOccurrences,
+    SUM(CASE WHEN Result = '1-0' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS WinPercentage,
+    SUM(CASE WHEN Result = '0.5-0.5' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS DrawPercentage,
+    SUM(CASE WHEN Result = '0-1' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS LossPercentage
+FROM 
+    Games
+WHERE 
+    MOVES LIKE '% %'  -- Recherche de parties avec au moins un coup
+GROUP BY 
+    FirstMove
+ORDER BY 
+    NumOccurrences DESC
+
+CREATE TABLE IF NOT EXISTS MoveStatistics (
+    ECO TEXT,          -- Code ECO (ouverture)
+    FirstMove TEXT,    -- Premier coup joué
+    NumOccurrences INTEGER, -- Nombre d'occurrences de ce premier coup
+    WinPercenta

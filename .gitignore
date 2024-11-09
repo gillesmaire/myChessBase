@@ -1,4 +1,5 @@
 *.o
 *.pgn
 chess-library
+build/
 

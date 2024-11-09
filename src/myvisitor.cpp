@@ -141,8 +141,3 @@ void MyVisitor::setProgressBar( DialogProgressBarImport *progressbar)
     mProgressBarImport =progressbar;
 }
 
-// void MyVisitor::StopChrono()
-// {
-// mProgressBarImport->ClockStop();
-// }
-

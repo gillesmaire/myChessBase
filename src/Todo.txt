@@ -1,5 +1,6 @@
 1. Transmit configuration option to main Window
 2. Save the font 
 4. a1 h8...
-
 6. menu Chess board Ok
+7. add exception on read  : PGN Bug in library send to Max
+8. Change delete DataBase by moving the actual file and prepare a new database with ECO table

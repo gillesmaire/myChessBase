@@ -45,5 +45,8 @@ private:
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
+    void MakeECOTable();
 };
+
+
 #endif // MAINWINDOW_H

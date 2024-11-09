@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1197</width>
-    <height>672</height>
+    <width>1328</width>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,21 +17,82 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="ChessBoard" name="chessBoard" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>400</width>
-         <height>46</height>
-        </size>
-       </property>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="ChessBoard" name="chessBoard" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>400</width>
+            <height>46</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>&lt;&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="text">
+             <string>&gt;&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -44,8 +105,8 @@
          <widget class="QTableView" name="tableView"/>
         </item>
        </layout>
-      </widget>
-     </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -54,7 +115,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1197</width>
+     <width>1328</width>
      <height>23</height>
     </rect>
    </property>
@@ -78,6 +139,7 @@
      <string>Maintenance</string>
     </property>
     <addaction name="actionRemove_Database"/>
+    <addaction name="actionReadEcoPGN"/>
    </widget>
    <widget class="QMenu" name="menuChess_Board">
     <property name="title">
@@ -144,6 +206,11 @@
    </property>
    <property name="text">
     <string>Show Fen</string>
+   </property>
+  </action>
+  <action name="actionReadEcoPGN">
+   <property name="text">
+    <string>Read ECO PGN</string>
    </property>
   </action>
  </widget>
