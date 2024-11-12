@@ -24,7 +24,7 @@ Les cases vides sont représentées par un entier  1 une case vide 2 deux etc...
 
 1.1.2 L'échiquier
 
-La représation va des noirs au début au blancs
+La représation va des noirs au début aux blancs
 Le symbole / séparer les rangées il y en a donc 7 pour représenter les 
 8 rangées
 

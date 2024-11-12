@@ -12,7 +12,7 @@
 #include <QFontDatabase>
 #include <QMap>
 
-#include "utils.h"
+#include "creationbase.h"
 
 
 QMap <QString,int> fontList;
@@ -73,13 +73,10 @@ int main(int argc, char *argv[])
      
      
     // Data base creation if not exists
-    QString databasefile;
-    
-    QSqlDatabase db= Utils::PrepareDataBase(databasefile);
-    
+    CreationBase *b =  new CreationBase();
     MainWindow w;
-    w.setDataBaseConnector(&db);
-    w.setDataBaseName(databasefile);
+    w.setDataBaseConnector(b->getConnection());
+    w.setDataBaseName(b->getDataBaseFileName());
     w.show();
     return a.exec();
 }

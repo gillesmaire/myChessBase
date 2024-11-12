@@ -4,8 +4,18 @@
 #include <QFileInfo>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QMessageBox>
+#include <QSqlError>
+#include <QDir>
+#include <ecotablegeneration.h>
 
-QMap <QString,QChar> Utils::ListPGNRecords()
+#include <chess.hpp>
+
+
+
+
+
+QMap<QString, QChar> Utils::ListPGNRecords()
 {
     QMap<QString,QChar>  list;
     
@@ -26,39 +36,22 @@ QMap <QString,QChar> Utils::ListPGNRecords()
     return (list);
 }
 
- QSqlDatabase Utils::PrepareDataBase(QString &filename)
+QSqlDatabase Utils::PrepareDataBase(QString &filename)
 {
-    QSettings s;
-    QString configfile= s.fileName();
-    QFileInfo fi(configfile);
-    filename=fi.absolutePath()+"/myChessBase.db";
-    QFileInfo fibase(filename);
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    if ( ! fibase.exists() || fibase.size()==0) {
-        db.setDatabaseName(filename);
-        db.open();
-        QString q;
-        QMap<QString,QChar> list=Utils::ListPGNRecords();
-        for (auto key:  list.keys() ){
-            
-            QString type=(list[key]=='T')?"TEXT":"INTEGER";
-            q+=QString("'%1' %2").arg(key,type)+",";
-        }
-        
-        QString qs1("CREATE TABLE 'Games' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT"
-                    + q + 
-                	"PRIMARY KEY('Id' AUTOINCREMENT))");
-        QSqlQuery qsq1(qs1);
-        qsq1.exec();
-        QString qs2("CREATE TABLE 'ECOPLUS' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT"
-                    + q + 
-                	"PRIMARY KEY('Id' AUTOINCREMENT))");
-        
+    
+}
+
+QString Utils::view2QString(std::string_view vue)
+{
+    return QString::fromUtf8(vue.data(), static_cast<int>(vue.size()));
+}
+
+std::string Utils::toHexString(const std::array<uint8_t, 24> &data) {
+    std::ostringstream oss;
+    oss << "x'";  // Préfixe pour indiquer un BLOB en hexadécimal dans SQLite
+    for (auto byte : data) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
-    else
-    {
-        db.setDatabaseName(filename);
-        db.open();
-    }
-    return (db) ;
+    oss << "'";
+   return oss.str();
 }

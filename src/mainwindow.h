@@ -35,7 +35,8 @@ private:
     QFutureWatcher<void> mWatcher;
     void ShowInformations();
     void About();
-    void RemoveDatabase();
+    void SuppressDataBaseGames();
+    void SuppressDataBase();
     void FlipBoard();
     FormCounterPage *mFormCounterPageptr;
     FormBoardPage *mFormBoardPageptr;
@@ -45,7 +46,6 @@ private:
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
-    void MakeECOTable();
 };
 
 

@@ -13,6 +13,7 @@ DEFINES += CHESS_NO_EXCEPTIONS
 SOURCES += \
     chessboard.cpp \
     colorbutton.cpp \
+    creationbase.cpp \
     dialogabout.cpp \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 HEADERS += \
     chessboard.h \
     colorbutton.h \
+    creationbase.h \
     dialogabout.h \
     dialoginfo.h \
     dialogprogressbarimport.h \
@@ -57,9 +59,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    Documentation/Specification \
-    Todo.txt
-
 RESOURCES += \
+    System.qrc \
     Fonts.qrc

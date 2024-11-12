@@ -14,11 +14,14 @@
 #include <QSqlError>
 #include <QFontDatabase>
 #include <QLineEdit>
-#include "chess.hpp"
 #include <QMessageBox>
+
+#include <QMessageBox>
+#include <QDir>
 
 #include <memory>
 #include <fstream>
+#include "chess.hpp"
 
 #include "myvisitor.h"
 #include "ecotablegeneration.h"
@@ -40,11 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
-    connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::RemoveDatabase);   // Flush the database's tables
+    connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
+    connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
     connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
-    connect (ui->actionReadEcoPGN,&QAction::triggered, this,&MainWindow::MakeECOTable);
 }
 
 
@@ -75,7 +78,7 @@ void MainWindow::FlipBoard()
     ui->chessBoard->flipBoard(mFlipBoard);
 }
 
-void MainWindow::RemoveDatabase()
+void MainWindow::SuppressDataBaseGames()
 {
  
     QMessageBox msgBox;
@@ -91,6 +94,19 @@ void MainWindow::RemoveDatabase()
       query.exec();
     }
 }
+
+void MainWindow::SuppressDataBase()
+{
+   QSettings s;
+   QFileInfo fi(s.fileName());
+   QString filename=fi.absolutePath()+"/myChessBase.db";
+   QFile F(filename);
+   qDebug()<<filename;
+   F.remove();
+   
+   
+}
+
 
 void MainWindow::LoadPGNFile()
 {
@@ -200,12 +216,4 @@ QString MainWindow::getFen()
 /// \brief MainWindow::MakeECOTable Generate an ECO Table. It is made by adminsitrator
 ///  The Table is generated from David Barnes file
 
-void MainWindow::MakeECOTable()
-{
-  QString EcoFile=QFileDialog::getOpenFileName(this,tr("Open the David Barnes File to generate the ECO table"));
-  auto file_stream=std::ifstream(EcoFile.toLatin1());
-  auto vis =std::make_unique<EcoTableGeneration>();
-  pgn::StreamParser parser(file_stream);
-  parser.readGames(*vis);
-}
 
