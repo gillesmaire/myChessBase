@@ -21,11 +21,13 @@ QString InitBlackSquareColor="#33653B";
 QString InitWhitePieceColor="#FFD88B";
 QString InitBlackPieceColor="#04151D";
 
+
 ///
 ////// \brief main name of the program
 ////// \param argc not yet implemented
 ////// \param argv
 ////// \return 
+
 
 int main(int argc, char *argv[])
 {

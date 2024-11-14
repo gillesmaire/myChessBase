@@ -72,6 +72,8 @@ void MainWindow::IncrementCounter()
     
 }
 
+
+
 void MainWindow::FlipBoard()
 {
     mFlipBoard=!mFlipBoard;
@@ -113,26 +115,18 @@ void MainWindow::LoadPGNFile()
      QSettings s;
      QString dir=s.value("DataBaseDir",QDir::homePath()).toString();
      QString filename=QFileDialog::getOpenFileName(this,tr("Select a PGN file to include in Database"),dir,tr("PGN file (*.pgn)"));
-     QFileInfo fi(filename);
+     QFileInfo fi(filename); 
+     QTimer timer;
      s.setValue("DataBaseDir",fi.dir().absolutePath());
      s.sync();   
-    
+
     if  (filename.isEmpty() ) return;
     mProgressBar=new DialogProgressBarImport(this);
-    QSqlDatabase *db=mConnection;
-    DialogProgressBarImport *pb=mProgressBar;
-    db->transaction();
-    QObject::connect(&mWatcher, &QFutureWatcher<void>::finished, this, [db,pb]() {
-       if  (! db->commit())
-         {
-        qDebug()<<db->lastError();
-        } 
-        else 
-       {
-        pb->ClockStop(); 
-       }
-    });
-    QFuture<void> future=QtConcurrent::run(LoadPGNFileConcurrent,filename,mConnection,mProgressBar);
+    mProgressBar->show();
+    QObject::connect(&mWatcher, &QFutureWatcher<void>::finished, mProgressBar, &DialogProgressBarImport::ClockStop);
+    connect(&timer, &QTimer::timeout, mProgressBar, &DialogProgressBarImport::updateCounterDisplay);
+    timer.start(1000);
+    QFuture<void> future=QtConcurrent::run(LoadPGNFileConcurrent,filename);
     mWatcher.setFuture(future);
     mProgressBar->exec();
     delete(mProgressBar);
@@ -140,18 +134,16 @@ void MainWindow::LoadPGNFile()
     
 }
 
-
-void MainWindow::LoadPGNFileConcurrent(QString filename, QSqlDatabase *connection ,DialogProgressBarImport *progressbar)
+void MainWindow::LoadPGNFileConcurrent(QString filename)
 {
-   
     auto file_stream=std::ifstream(filename.toLatin1());
     auto vis =std::make_unique<MyVisitor>();
-    vis->setConnection(connection);
-    vis->setProgressBar(progressbar);
-    //if ( !connection->transaction()) qDebug("Connection problem !");
+    
+    
     pgn::StreamParser parser(file_stream);
     try {
         parser.readGames(*vis);
+        qDebug()<<"end";
     } 
     catch (const chess::pgn::StreamParserException& e){
      std::cerr << "Erreur lors de l'analyse du fichier : " << e.what() << "\n";

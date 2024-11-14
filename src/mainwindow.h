@@ -22,7 +22,7 @@ public:
     void setDataBaseConnector(QSqlDatabase *connection);
     void setDataBaseName(QString file);
     void IncrementCounter();
-static void LoadPGNFileConcurrent(QString filename, QSqlDatabase *con,DialogProgressBarImport *progressbar);
+static void LoadPGNFileConcurrent(QString filename);
 private slots:
     void ModifyColor(QColor whitesquarecolor, QColor blacksquarecolor);
 private:

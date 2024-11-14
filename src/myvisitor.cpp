@@ -5,19 +5,36 @@
 #include <QVariant>
 #include <QString>
 #include <utils.h>
+#include <QSettings>
+#include <QFileInfo>
+#include <QThread>
 
 #include <QSqlQuery>
 #include "dialogprogressbarimport.h"
+#include <QAtomicInt>
+
+
 
 MyVisitor::MyVisitor()
-{
-     mRecords=Utils::ListPGNRecords();
-     
+{ 
+    mRecords=Utils::ListPGNRecords();
+    QString connectionName = QString("ConnectionMyVis-%1").arg(reinterpret_cast<quintptr>(QThread::currentThreadId()));
+    mDb = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+    mDb.setDatabaseName(Utils::getFileNameDataBase());
+   if (!mDb.open()) {
+    qWarning() << "MyChessBase : failed to open database in thread" << QThread::currentThreadId();
+      return;
+    }
+  else mDb.transaction();
+    
 }
+
+
 
 MyVisitor::~MyVisitor()
 {
-    
+     mDb.commit();
+     mDb.close();
 }
 
 
@@ -38,6 +55,7 @@ void MyVisitor::startPgn()
 ///
 void MyVisitor::header(std::string_view key, std::string_view value)
 {
+
     QString k=view2QString(key);
     QString v=view2QString(value);
     int i=0;
@@ -97,22 +115,21 @@ void MyVisitor::endPgn()
     }
     QString rec=recs.join(',');
     QString val=vals.join(',');
+ 
     QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
-   // qDebug()<<req;
-    QSqlQuery query(req,*mConnection);
+    QSqlQuery query(req,mDb);
     IncrementCounter();
+   
 }
 
 void MyVisitor::IncrementCounter()
 {
-    mProgressBarImport->CountIncrement();
-    
 }
 
 ///
 /// \brief MyVisitor::InitValues on each pgn mvalues is reset with ('' or 0) if record is text or integer
 ///
-void MyVisitor::InitValues()
+void MyVisitor::InitValues()    
 {
     mValues.clear();
     QMap<QString,QChar> map=Utils::ListPGNRecords();
@@ -125,7 +142,6 @@ void MyVisitor::InitValues()
         mValues.append(QPair<QString,QVariant>(m,0));
       else 
         mValues.append(QPair<QString,QVariant>(m,0));
-        
     }
     
 }
@@ -133,7 +149,12 @@ void MyVisitor::InitValues()
 
 void MyVisitor::setConnection(QSqlDatabase *newConnection)
 {
-    mConnection = newConnection;
+    // QSettings s;
+    // QString configfile= s.fileName();
+    // QFileInfo fi(configfile);
+    // QString filename=fi.absolutePath()+"/myChessBase.db";
+    // QFileInfo fibase(filename);
+    // QSqlDatabase mDb=QSqlDatabase::addDatabase("QSQLITE");
 }
 
 void MyVisitor::setProgressBar( DialogProgressBarImport *progressbar)

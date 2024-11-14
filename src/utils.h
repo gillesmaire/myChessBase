@@ -10,7 +10,7 @@ class Utils
 {
 public:
     static QMap<QString, QChar> ListPGNRecords();
-    static QSqlDatabase PrepareDataBase( QString &filename);
+    static QString getFileNameDataBase();
     static QString view2QString(std::string_view vue );
     static std::string toHexString(const std::array<std::uint8_t, 24>& data);
 };

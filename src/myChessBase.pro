@@ -26,6 +26,7 @@ SOURCES += \
     utils.cpp
 
 HEADERS += \
+    AtomicCounter.h \
     chessboard.h \
     colorbutton.h \
     creationbase.h \

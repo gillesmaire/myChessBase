@@ -12,11 +12,7 @@
 
 CreationBase::CreationBase() {
 
-
-    QSettings s;
-    QString configfile= s.fileName();
-    QFileInfo fi(configfile);
-    mFilename=fi.absolutePath()+"/myChessBase.db";
+    mFilename=Utils::getFileNameDataBase();
     QFileInfo fibase(mFilename);
     QSqlDatabase mDb=QSqlDatabase::addDatabase("QSQLITE");
     if ( ! fibase.exists() || fibase.size()==0) {
@@ -30,7 +26,7 @@ CreationBase::CreationBase() {
             q+=QString("'%1' %2").arg(key,type)+",";
         }
         
-        QString qs1("CREATE TABLE 'Games' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT"
+        QString qs1("CREATE TABLE 'Games' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,ECOPLUS,VARIANT,"
                     + q + 
                 	"PRIMARY KEY('Id' AUTOINCREMENT))");
         QSqlQuery qsq1(qs1);

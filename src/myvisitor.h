@@ -13,9 +13,10 @@ using namespace chess;
 ///
 /// \brief The MyVisitor class is derivated from pgn::Visitor from C++ Chess Library
 ///
-class MyVisitor : public pgn::Visitor
+class MyVisitor :  public pgn::Visitor 
 {
      friend class DialogCount;
+     
 
 private:
       // contains the key values of records used in database 
@@ -45,8 +46,10 @@ private:
      /// \brief mLastInsertId to get the Id for last insert Query to report in table 
      ///
         
-    QSqlDatabase *mConnection;
     DialogProgressBarImport *mProgressBarImport;
+    QSqlDatabase mDb ;
+    
+    
 public:
     MyVisitor();
     virtual ~MyVisitor();
@@ -80,6 +83,7 @@ public:
    void InitPtrMainWindow( MainWindow *ptr);
    void setProgressBar(DialogProgressBarImport *progressbar);
 //   void StopChrono();
+
 };
 
 #endif // MYVISITOR_H

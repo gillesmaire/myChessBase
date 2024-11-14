@@ -36,9 +36,12 @@ QMap<QString, QChar> Utils::ListPGNRecords()
     return (list);
 }
 
-QSqlDatabase Utils::PrepareDataBase(QString &filename)
+QString Utils::getFileNameDataBase()
 {
-    
+    QSettings s;
+    QString configfile= s.fileName();
+    QFileInfo fi(configfile);
+    return (fi.absolutePath()+"/myChessBase.db");
 }
 
 QString Utils::view2QString(std::string_view vue)

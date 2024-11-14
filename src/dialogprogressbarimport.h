@@ -18,6 +18,7 @@ public:
     void CountIncrement();
     void ClockStop();
     void ClockRaz();
+    void updateCounterDisplay();
     
 private:
     Ui::DialogProgressBarImport *ui;
@@ -25,6 +26,7 @@ private:
     void ClockIncrement();
     int mTime=0;
     void Close();
+    
 };
 
 
