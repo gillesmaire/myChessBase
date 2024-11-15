@@ -49,6 +49,16 @@ private:
     DialogProgressBarImport *mProgressBarImport;
     QSqlDatabase mDb ;
     
+    ///
+    /// \brief CalcEcoEcoPlus this function loops on 20 first moves of a game separated by space 
+    /// and without any number of move
+    /// and check for each first moves if is  the packed board generated is in the 
+    /// global variable PackedBoards contains it .
+    ///  At the end we got for en eco eco plus the last one paked board ie correspondant to bigger
+    ///
+    ///
+    QString  CalcEcoEcoPlus( QStringList Moves, int numberofmoveanlyzed);
+    
     
 public:
     MyVisitor();

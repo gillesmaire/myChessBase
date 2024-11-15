@@ -11,7 +11,7 @@
 
 #include <chess.hpp>
 
-
+extern QMap<QString,chess::PackedBoard> PackedBoards;
 
 
 
@@ -58,3 +58,26 @@ std::string Utils::toHexString(const std::array<uint8_t, 24> &data) {
     oss << "'";
    return oss.str();
 }
+
+QByteArray Utils::PackeBoard2ByteArray(const chess::PackedBoard& arr) {
+    return QByteArray(reinterpret_cast<const char*>(arr.data()), arr.size());
+}
+
+
+chess::PackedBoard Utils::ByteArray2PackedBoard(const QByteArray& blob) {
+    chess::PackedBoard arr{};
+    std::memcpy(arr.data(), blob.data(), std::min(static_cast<size_t>(blob.size()), arr.size()));
+    return arr;
+}
+
+void Utils::InitializePackedBoards()
+{
+    QSqlQuery query("SELECT eco, ecoplus, pb FROM ECO");
+    while ( query.next()){ 
+       QString ecoplus=QString("%1%2").arg(query.value("eco").toString()).arg(query.value("ecoplus").toString());
+       PackedBoards[ecoplus]=Utils::ByteArray2PackedBoard(query.value("pb").toByteArray());
+    }
+      
+}
+
+

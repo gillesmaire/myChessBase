@@ -32,7 +32,7 @@ CreationBase::CreationBase() {
         QSqlQuery qsq1(qs1);
         qsq1.exec();
         
-        QString q2 ("CREATE TABLE 'ECO' ( eco not NULL,opening NOT NULL,variation,ecoplus,pb NOT NULL,moves NOT NULL,nbm INTEGER no NULL) ");
+        QString q2 ("CREATE TABLE 'ECO' ( eco not NULL,opening NOT NULL,variation,ecoplus,FEN NOT NULL, pb BLOB NOT NULL ,moves NOT NULL,nbm INTEGER no NULL) ");
         QSqlQuery query(q2) ;
         query.exec(); 
         QString tmpfile=QDir::temp().absolutePath();

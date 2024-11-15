@@ -21,13 +21,17 @@ void EcoTableGeneration::move(std::string_view move, std::string_view ) {
     mMoves<< Utils::view2QString(move);
 }
 
+
+
+
+
 void EcoTableGeneration::endPgn()
 
 {
    
      QString sqlreq=QString(
-          "INSERT INTO ECO ( eco, opening, variation, ecoplus, pb, moves, nbm) VALUES" 
-                          "(:eco,:opening,:variation,:ecoplus,:pb,:moves,:nbm)");
+          "INSERT INTO ECO ( eco, opening, variation, ecoplus, pb,fen, moves, nbm) VALUES" 
+                          "(:eco,:opening,:variation,:ecoplus,:pb,:fen,:moves,:nbm)");
     QString ecoval=mValues.takeFirst();
     QString opening=mValues.takeFirst();
     //if (mEcoPlusCount.toQString()=="zz") mcountzz=true;
@@ -40,6 +44,8 @@ void EcoTableGeneration::endPgn()
       mLastECO=ecoval;
       mEcoPlusCount.Raz();
     }
+    
+    
     
     QString variation,ecoplus;
     if (mValues.isEmpty()) 
@@ -56,8 +62,9 @@ void EcoTableGeneration::endPgn()
     query.bindValue(":opening",opening); 
     query.bindValue(":variation",variation);
     query.bindValue(":ecoplus",mEcoPlusCount.toQString());
-    query.bindValue(":pb",FEN(mMoves));
-    query.bindValue(":moves",mMoves.join(','));
+    query.bindValue(":fen",FEN(mMoves));
+    query.bindValue(":pb", Utils::PackeBoard2ByteArray(BitBoard(mMoves)));
+    query.bindValue(":moves",mMoves.join(' '));
     query.bindValue(":nbm",mMoves.count()); 
     query.exec();
  //   qDebug()<<query.lastError().text();

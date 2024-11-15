@@ -113,12 +113,16 @@ void MyVisitor::endPgn()
         else val=info.second.toString();
          vals<<val;
     }
+   
+    recs<<"ecoplus";
+    vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
+   
     QString rec=recs.join(',');
     QString val=vals.join(',');
- 
     QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
     QSqlQuery query(req,mDb);
     IncrementCounter();
+    
    
 }
 
@@ -145,6 +149,47 @@ void MyVisitor::InitValues()
     }
     
 }
+
+QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
+{
+  extern  QMap<QString,chess::PackedBoard> PackedBoards; 
+  // BackedBoars contains all openings packed board
+  QStringList results;
+  
+  // results contains the longuest combinaison
+  QString begining;
+  QStringList added;
+  // from the first moves we calculate all the packed
+  // // e2 e5 Cf3 Cf6 Cxe5.....
+  for (auto move : Moves){
+      added<<move;
+      if ( added.count()>numberOfMovesAnalyzed) break;
+    } // e2 e4 Cf3 ... but 20 moves ( number of Analysed moves) 
+  // added contains the first moves of game we can find all the opening 
+  chess::Board board(constants::STARTPOS);
+  // we prepare a board from begining
+  for (auto m : added) {
+      std::string utf8String = m.toUtf8().toStdString();
+      chess::Move move =chess::uci::parseSan(board,std::string_view(utf8String));
+      // we make the move
+      board.makeMove(move);
+      // we calculate the packed
+      auto packed=chess::Board::Compact::encode(board);
+      // is the packed in know as a opening
+      for (auto ecoplus: PackedBoards.keys())
+         { 
+          if ( PackedBoards[ecoplus]==packed )
+            {
+              // we know  an opening candidate we have to get eco ecoplus and nbm (number of move)
+              results<<ecoplus;
+            }
+         }       
+    }
+   // results contains all the candidates we choose the longuest who is the last
+   return (results.last());  
+}
+      
+       
 
 
 void MyVisitor::setConnection(QSqlDatabase *newConnection)

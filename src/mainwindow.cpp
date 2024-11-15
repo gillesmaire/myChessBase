@@ -134,7 +134,7 @@ void MainWindow::LoadPGNFile()
     
 }
 
-void MainWindow::LoadPGNFileConcurrent(QString filename)
+void MainWindow::LoadPGNFileConcurrent(QString filename ) 
 {
     auto file_stream=std::ifstream(filename.toLatin1());
     auto vis =std::make_unique<MyVisitor>();
@@ -143,7 +143,6 @@ void MainWindow::LoadPGNFileConcurrent(QString filename)
     pgn::StreamParser parser(file_stream);
     try {
         parser.readGames(*vis);
-        qDebug()<<"end";
     } 
     catch (const chess::pgn::StreamParserException& e){
      std::cerr << "Erreur lors de l'analyse du fichier : " << e.what() << "\n";
@@ -185,7 +184,7 @@ void MainWindow::About()
 
 void MainWindow::ShowFen(bool ok)
 {
-    if ( ok && ! mFENShown )  {
+   if ( ok && ! mFENShown )  {
        mFENShown=true;
        mFEN=new QLineEdit(getFen());
        ui->statusbar->addWidget(mFEN);

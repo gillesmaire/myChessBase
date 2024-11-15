@@ -11,16 +11,19 @@
 #include <QMultiMap>
 #include <QFontDatabase>
 #include <QMap>
-
+#include <chess.hpp>
 #include "creationbase.h"
-
+#include "utils.h"
+#include <QAtomicInt>
 
 QMap <QString,int> fontList;
 QString InitWhiteSquareColor="#E6E6E6";
 QString InitBlackSquareColor="#33653B";
 QString InitWhitePieceColor="#FFD88B";
 QString InitBlackPieceColor="#04151D";
+QMap<QString,chess::PackedBoard> PackedBoards;
 
+QAtomicInt atct(0);
 
 ///
 ////// \brief main name of the program
@@ -76,6 +79,11 @@ int main(int argc, char *argv[])
      
     // Data base creation if not exists
     CreationBase *b =  new CreationBase();
+    
+    // list of PackedPoint and name of 
+    Utils::InitializePackedBoards();
+    
+    
     MainWindow w;
     w.setDataBaseConnector(b->getConnection());
     w.setDataBaseName(b->getDataBaseFileName());

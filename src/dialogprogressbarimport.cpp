@@ -46,9 +46,7 @@ void DialogProgressBarImport::ClockIncrement()
    if (s<10) S="0"+S;
    QString t(QString("%1:%2:%3").arg(H,M,S));
    ui->lcdChrono->display(t);
-   update();
-   qDebug()<<t;
-   
+   update();  
 }
 
 void DialogProgressBarImport::ClockStop()
