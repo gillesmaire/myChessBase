@@ -190,7 +190,10 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitPieceFont;
    
    QSettings s;
-   mSize=(event->size().width()>event->size().height())? event->size().height():event->size().width();
+   mSizeBoard=(event->size().width()>event->size().height())? event->size().height():event->size().width();
+   
+   
+   
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitWhitePieceColor).toString();
@@ -202,9 +205,15 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QPainter painter(this);
-    int tileSize = mSize/8;
     QColor squarecolor;
+    int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
+    int sizeCase=(mSizeBoard-2*sizeNumberedCase)/8;
+    int size8Case=sizeCase*8; // calculated once
+    int tileSize = sizeCase;
+    int shift =sizeNumberedCase?sizeCase/2:0;
+    int margin= sizeNumberedCase/8;
     squarecolor=mBlackSquareColor;
+    
     for (int row = 0; row < 8; ++row) {
               if (squarecolor==mBlackSquareColor)
                    squarecolor=mWhiteSquareColor;
@@ -225,14 +234,14 @@ void ChessBoard::paintEvent(QPaintEvent *)
             int y ;
             if (  !mFlip )
             {
-                 y = (7-row) * tileSize;
-                 x=col*tileSize;
+                 y = (7-row) * tileSize+shift;
+                 x=col*tileSize+shift;
             }
             else
             {    
             
-                 y =row*tileSize;
-                 x=(7-col)*tileSize;
+                 y =row*tileSize+shift;
+                 x=(7-col)*tileSize+shift;
             }       
             // draw the square
             painter.drawRect(x, y, tileSize, tileSize);
@@ -294,6 +303,49 @@ void ChessBoard::paintEvent(QPaintEvent *)
             }
         }
     }
+    if ( mNumberedCase ){
+        int pas= sizeCase;
+        QFont f("Arial");
+        f.setBold(true);
+        f.setPointSize(tileSize/5);
+        painter.setFont(f); 
+        painter.setPen(mBlackSquareColor);
+        int pixels=QFontInfo(f).pixelSize();
+        painter.drawLine(shift,shift-margin,shift+size8Case,shift-margin);
+        painter.drawLine(shift,size8Case+shift+margin,shift+size8Case,size8Case+shift+margin);
+        int i =1;
+        if ( !mFlip) {
+           for ( char car ='A' ; car <='H' ; car++ ) {
+           painter.drawText(i*pas-2*margin,pixels+margin, QChar(car));
+           painter.drawText(i*pas-2*margin,pixels+margin+size8Case+sizeCase/2, QChar(car));
+           i++;
+         }
+        }
+        else
+          for ( char car ='H' ; car >='A' ; car-- ) {
+          painter.drawText(i*pas-2*margin,pixels+margin, QChar(car));
+          painter.drawText(i*pas-2*margin,pixels+margin+size8Case+sizeCase/2, QChar(car));
+           i++;
+         } 
+        painter.drawLine(shift-margin,shift,shift-margin,size8Case+shift);
+        painter.drawLine(shift+margin+size8Case,shift,shift+margin+size8Case,size8Case+shift);
+        i =0;
+        if (mFlip)
+        {  
+        for ( char car ='1' ; car <='8' ; car++ ) {
+           painter.drawText(pixels-margin,i*pas+pas+margin, QChar(car));
+           painter.drawText(pixels-margin+size8Case+sizeCase/2,i*pas+pas+margin, QChar(car));
+           
+           i++;
+         }
+        }
+        else
+           for ( char car ='8' ; car >='1' ; car-- ) {
+               painter.drawText(pixels-margin,i*pas+pas+margin, QChar(car));
+               painter.drawText(pixels-margin+size8Case+sizeCase/2,i*pas+pas+margin, QChar(car));
+            i++;
+        } 
+    }
 }
 
 QString ChessBoard::getName(int row, int col)
@@ -329,4 +381,10 @@ void ChessBoard::setCurrentFont(QString font)
 {
      mCurrentFont=font;
      repaint();
+}
+
+void ChessBoard::setNumberCase(bool on)
+{
+    mNumberedCase=on;
+    repaint();
 }

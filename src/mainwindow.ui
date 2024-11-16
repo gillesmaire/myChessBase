@@ -25,13 +25,6 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="ColumnNumbers" name="widgetNumbers" native="true">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="ChessBoard" name="chessBoard" native="true">
@@ -40,13 +33,6 @@
                 <width>400</width>
                 <height>46</height>
                </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="LineLetters" name="widgetLetters" native="true">
-              <property name="enabled">
-               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -257,7 +243,10 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Show cases number</string>
+    <string>Show &amp;cases number</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
    </property>
   </action>
   <action name="actionShorcuts">
@@ -271,18 +260,6 @@
    <class>ChessBoard</class>
    <extends>QWidget</extends>
    <header>chessboard.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ColumnNumbers</class>
-   <extends>QWidget</extends>
-   <header>columnnumbers.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>LineLetters</class>
-   <extends>QWidget</extends>
-   <header>lineletters.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

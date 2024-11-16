@@ -23,7 +23,9 @@ private:
     void RecordChessFonts();
     Board mBoard;
     bool mFlip=false;
-    int mSize;
+    bool mNumberedCase=false;
+    int mSizeBoard; // size of board
+    bool mA2H=false;   // numbered text is A B ... H and  1 2 ... 8 if mA2H is true else H ... A ans 8 to 1
     void paintEvent(QPaintEvent *e) override;
     QColor mWhiteSquareColor;
     QColor mBlackSquareColor;
@@ -35,10 +37,11 @@ private:
     QStringList mFontList;
     QString mCurrentFont;
     bool mShowLetters;
-  //  bool mReversed=false;
+    //bool mReversed=false;
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
+    void setNumberCase (bool on);
 signals:
     void LenghtAndColor( int , QColor);
 protected:

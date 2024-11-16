@@ -24,7 +24,6 @@
 #include "chess.hpp"
 
 #include "myvisitor.h"
-#include "ecotablegeneration.h"
 #include "dialoginfo.h"
 #include "dialogabout.h"
 #include <formcounterpage.h>
@@ -42,11 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mDialogConfiguration = new DialogConfiguration(this);
     QSettings s;
-    if (s.value("ShowCaseNumbers").toBool())
-    ui->chessBoard->flipBoard(mFlipBoard);
-    ui->widgetLetters->setOrientation(mFlipBoard);
-    ui->widgetNumbers->setOrientation(mFlipBoard);
-        ui->actionShow_cases_number->setChecked(true);
+    ui->chessBoard->setNumberCase(s.value("ShowCaseNumbers").toBool());
+    ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
     connect (mDialogConfiguration,&DialogConfiguration::askRefresh,this,&MainWindow::Update) ;
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
@@ -59,9 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
-    connect (ui->chessBoard,SIGNAL(LenghtAndColor(int,QColor)),ui->widgetLetters,SLOT(Reception(int,QColor)));
-    connect (ui->chessBoard,SIGNAL(LenghtAndColor(int,QColor)),ui->widgetNumbers,SLOT(Reception(int,QColor)));
-    ShowCaseNumbers();
 }
 
 
@@ -90,11 +83,8 @@ void MainWindow::IncrementCounter()
 
 void MainWindow::FlipBoard()
 {
-    qDebug()<<"Debut"<<mFlipBoard;
     mFlipBoard=!mFlipBoard;
     ui->chessBoard->flipBoard(mFlipBoard);
-    ui->widgetLetters->setOrientation(mFlipBoard);
-    ui->widgetNumbers->setOrientation(mFlipBoard);
     
 }
 
@@ -215,29 +205,12 @@ QString MainWindow::getFen()
 }
 
 
-void MainWindow::ShowCaseNumbers()
-{
-
-    if (   ui->actionShow_cases_number->isChecked() )
-    {
-        ui->widgetLetters->setHidden(false);
-        ui->widgetNumbers->setHidden(false);
-        ui->widgetLetters->setMaximumHeight(this->height()/20);
-        ui->widgetNumbers->setMaximumWidth(this->height()/20);
-        
-    }
-    else 
-    {
-        ui->widgetLetters->setHidden(true);
-        ui->widgetNumbers->setHidden(true);
-    }
-}
 
 void MainWindow::SaveCaseNumbers()
 {
         QSettings s;
         s.setValue("ShowCaseNumbers",ui->actionShow_cases_number->isChecked() );
-        ShowCaseNumbers();
+        ui->chessBoard->setNumberCase(ui->actionShow_cases_number->isChecked());
 }
 
 void MainWindow::resizeEvent(QResizeEvent *)

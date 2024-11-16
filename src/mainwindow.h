@@ -51,7 +51,6 @@ private:
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
-    void ShowCaseNumbers();
 protected:
     void resizeEvent(QResizeEvent *e);
 };

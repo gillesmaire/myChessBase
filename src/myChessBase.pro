@@ -13,7 +13,6 @@ DEFINES += CHESS_NO_EXCEPTIONS
 SOURCES += \
     chessboard.cpp \
     colorbutton.cpp \
-    columnnumbers.cpp \
     creationbase.cpp \
     dialogabout.cpp \
     dialoginfo.cpp \
@@ -22,7 +21,6 @@ SOURCES += \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
     formmainwidget.cpp \
-    lineletters.cpp \
     main.cpp \
     mainwindow.cpp \
     myvisitor.cpp \
@@ -31,7 +29,6 @@ SOURCES += \
 HEADERS += \
     chessboard.h \
     colorbutton.h \
-    columnnumbers.h \
     creationbase.h \
     dialogabout.h \
     dialoginfo.h \
@@ -40,7 +37,6 @@ HEADERS += \
     dialogshortcuts.h \
     ecotablegeneration.h \
     formmainwidget.h \
-    lineletters.h \
     mainwindow.h \
     myvisitor.h \
     utils.h
