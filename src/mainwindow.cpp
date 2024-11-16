@@ -28,7 +28,6 @@
 #include "dialogabout.h"
 #include <formcounterpage.h>
 #include <formboardpage.h>  
-#include <formmainwidget.h>
 #include "dialogprogressbarimport.h"
 #include "dialogconfiguration.h"
 #include "dialogshortcuts.h"
@@ -55,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
+    connect (ui->actionCreate_a_Pgn_file,&QAction::triggered,this,&MainWindow::ActiveWidget);
 }
 
 
@@ -222,4 +222,10 @@ void MainWindow::resizeEvent(QResizeEvent *)
 /// \brief MainWindow::MakeECOTable Generate an ECO Table. It is made by adminsitrator
 ///  The Table is generated from David Barnes file
 
+
+void MainWindow::ActiveWidget()
+{
+ if ( sender()->objectName() == "actionCreate_a_Pgn_file" )
+   ui->stackedWidget->setCurrentIndex(1);
+}
 

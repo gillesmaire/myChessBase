@@ -20,7 +20,7 @@ SOURCES += \
     dialogconfiguration.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
-    formmainwidget.cpp \
+    formcreatepgn.cpp \
     main.cpp \
     mainwindow.cpp \
     myvisitor.cpp \
@@ -36,7 +36,7 @@ HEADERS += \
     dialogconfiguration.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
-    formmainwidget.h \
+    formcreatepgn.h \
     mainwindow.h \
     myvisitor.h \
     utils.h
@@ -47,7 +47,7 @@ FORMS += \
     dialogprogressbarimport.ui \
     dialogconfiguration.ui \
     dialogshortcuts.ui \
-    formmainwidget.ui \
+    formcreatepgn.ui \
     mainwindow.ui
 
 TRANSLATIONS += \

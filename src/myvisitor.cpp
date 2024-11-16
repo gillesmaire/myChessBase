@@ -25,7 +25,7 @@ MyVisitor::MyVisitor()
     qWarning() << "MyChessBase : failed to open database in thread" << QThread::currentThreadId();
       return;
     }
-  else mDb.transaction();
+   else mDb.transaction();
     
 }
 
@@ -115,8 +115,8 @@ void MyVisitor::endPgn()
          vals<<val;
     }
    
-     recs<<"ecoplus";
-     vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
+    // recs<<"ecoplus";
+    // vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
    
     QString rec=recs.join(',');
     QString val=vals.join(',');

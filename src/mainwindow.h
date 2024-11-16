@@ -51,6 +51,10 @@ private:
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
+    ///
+    /// \brief ActiveWidget set the Stacked Widget in the correspondant widget
+    ///
+    void ActiveWidget();
 protected:
     void resizeEvent(QResizeEvent *e);
 };
