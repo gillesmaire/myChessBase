@@ -13,14 +13,10 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
   RecordChessFonts();
   mFontList=mChessFonts.keys();  
-  
-  mCurrentFont="Alpha";
+  QSettings s;
+  mCurrentFont=s.value("PiecesFont").toString();
   mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-  auto m1=chess::uci::uciToMove(mBoard,"e2e4");
-  mBoard.makeMove(m1);
-  auto m2=chess::uci::uciToMove(mBoard,"c7c6");
-  mBoard.makeMove(m2);
-
+  
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
@@ -164,18 +160,18 @@ void ChessBoard::RecordChessFonts()
     mChessFonts["Cheq"]=piece;
     mFontName["Cheq"]="CHEQ_TT.TTF";
     piece.clear();
-    piece["WHITEPAWN"]=QChar('P');
-    piece["WHITEKNIGHT"]=QChar('N');
-    piece["WHITEBISHOP"]=QChar('B');
-    piece["WHITEROOK"]=QChar('R');
-    piece["WHITEQUEEN"]=QChar('Q');
-    piece["WHITEKING"]=QChar('K');
+    piece["WHITEPAWN"]=QChar('O');
+    piece["WHITEKNIGHT"]=QChar('M');
+    piece["WHITEBISHOP"]=QChar('V');
+    piece["WHITEROOK"]=QChar('T');
+    piece["WHITEQUEEN"]=QChar('W');
+    piece["WHITEKING"]=QChar('L');
     piece["BLACKPAWN"]=QChar('O');
     piece["BLACKKNIGHT"]=QChar('M');
     piece["BLACKBISHOP"]=QChar('V');
     piece["BLACKROOK"]=QChar('T');
     piece["BLACKQUEEN"]=QChar('W');
-    piece["BLACKKING"]=QChar('K');
+    piece["BLACKKING"]=QChar('L');
     piece["NOPIECE"]=QChar(' ');
     mChessFonts["OpenChessFont"]=piece;
     mFontName["OpenChessFont"]="OpenChessFont.ttf";
@@ -191,6 +187,7 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitBlackSquareColor;
    extern QString InitWhitePieceColor;
    extern QString InitBlackPieceColor;
+   extern QString InitPieceFont;
    
    QSettings s;
    mSize=(event->size().width()>event->size().height())? event->size().height():event->size().width();
@@ -198,6 +195,8 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitWhitePieceColor).toString();
    mWhitePieceColor=s.value("WhitePieceColor",InitBlackPieceColor).toString();
+   mCurrentFont=s.value("PiecesFont",InitPieceFont).toString();
+   emit LenghtAndColor( event->size().width()<event->size().height()?event->size().width():event->size().height() ,mBlackSquareColor);
 }
 
 void ChessBoard::paintEvent(QPaintEvent *)
@@ -253,8 +252,46 @@ void ChessBoard::paintEvent(QPaintEvent *)
             painter.setPen(color);
             painter.setBrush(color);
             painter.setFont(font);
-            painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
-       
+            if (color==mBlackPieceColor)
+            {
+              QColor whiter;
+              whiter.setRedF(mWhitePieceColor.redF()*0.7);
+              whiter.setBlueF(mWhitePieceColor.blueF()*0.7);
+              whiter.setGreenF(mWhitePieceColor.greenF()*0.7);
+              int shift=tileSize/10.0;
+              int bigger=tileSize+shift;
+              font.setPixelSize(bigger);
+              painter.setFont(font);
+              painter.setBrush(whiter);
+              painter.setPen(whiter);
+              painter.drawText(QRectF(x-shift/2,y-shift/2,tileSize+shift*2,tileSize+shift*2),QString(car));
+              font.setPixelSize(tileSize);
+              painter.setFont(font);
+              painter.setBrush(mBlackPieceColor);
+              painter.setPen(mBlackPieceColor);
+              painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
+              //painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
+            }
+            else 
+            {
+              QColor darker;
+              darker.setRedF(mWhitePieceColor.redF()*0.8);
+              darker.setBlueF(mWhitePieceColor.blueF()*0.8);
+              darker.setGreenF(mWhitePieceColor.greenF()*0.8);
+              int shift=tileSize/10.0;
+              int bigger=tileSize+shift;
+              font.setPixelSize(bigger);
+              painter.setFont(font);
+              painter.setBrush(darker);
+              painter.setPen(darker);
+              painter.drawText(QRectF(x-shift/2,y-shift/2,tileSize+shift*2,tileSize+shift*2),QString(car));
+              font.setPixelSize(tileSize);
+              painter.setFont(font);
+              painter.setBrush(mWhitePieceColor);
+              painter.setPen(mWhitePieceColor);
+              painter.drawText(QRectF(x,y,tileSize,tileSize),QString(car));
+
+            }
         }
     }
 }

@@ -88,7 +88,7 @@ public:
     bool CountZZ(){ return(mcountzz); };
     QString maxECOplusCount()
       {
-       mEcoPlusCount.Max();
+       return mEcoPlusCount.Max();
       }
 private:
      QStringList mRecords,mValues,mMoves;

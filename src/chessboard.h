@@ -8,6 +8,7 @@
 
 class ChessBoard : public QWidget
 {
+     Q_OBJECT
 public:
     explicit ChessBoard(QWidget *widget);
     void setWhiteSquareColor( QColor col) { mWhiteSquareColor=col; update();}
@@ -33,12 +34,13 @@ private:
     QMap <QString,QString> mFontName;
     QStringList mFontList;
     QString mCurrentFont;
+    bool mShowLetters;
   //  bool mReversed=false;
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
-    void setReversed( bool Reversed );
 signals:
+    void LenghtAndColor( int , QColor);
 protected:
     void resizeEvent(QResizeEvent *e) override ;
 };

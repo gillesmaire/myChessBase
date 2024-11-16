@@ -7,6 +7,8 @@
 #include <formcounterpage.h>
 #include <dialogprogressbarimport.h>
 #include <QFutureWatcher>
+#include "dialogconfiguration.h"
+
 #include <QLineEdit>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,9 +24,11 @@ public:
     void setDataBaseConnector(QSqlDatabase *connection);
     void setDataBaseName(QString file);
     void IncrementCounter();
-static void LoadPGNFileConcurrent(QString filename);
+    bool getFlipBoard(){ return mFlipBoard ;}
 private slots:
-    void ModifyColor(QColor whitesquarecolor, QColor blacksquarecolor);
+    void Update();
+    void ShoShortCuts();
+    void SaveCaseNumbers();
 private:
     Ui::MainWindow *ui; 
     QSqlDatabase *mConnection;
@@ -41,11 +45,15 @@ private:
     FormCounterPage *mFormCounterPageptr;
     FormBoardPage *mFormBoardPageptr;
     DialogProgressBarImport *mProgressBar;
+    DialogConfiguration *mDialogConfiguration;
     void Configuration();
     void ShowFen(bool);
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
+    void ShowCaseNumbers();
+protected:
+    void resizeEvent(QResizeEvent *e);
 };
 
 

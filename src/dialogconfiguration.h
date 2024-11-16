@@ -23,7 +23,7 @@ private:
     Ui::DialogConfiguration *ui;
     QFont mCurrentFont;
 signals:
-    void sendColors( QColor colorwhitesquare, QColor colorblacksquare);
+    void askRefresh();
 };
 
 #endif // DIALOGCONFIGURATION_H

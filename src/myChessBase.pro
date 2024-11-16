@@ -13,29 +13,34 @@ DEFINES += CHESS_NO_EXCEPTIONS
 SOURCES += \
     chessboard.cpp \
     colorbutton.cpp \
+    columnnumbers.cpp \
     creationbase.cpp \
     dialogabout.cpp \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
     dialogconfiguration.cpp \
+    dialogshortcuts.cpp \
     ecotablegeneration.cpp \
     formmainwidget.cpp \
+    lineletters.cpp \
     main.cpp \
     mainwindow.cpp \
     myvisitor.cpp \
     utils.cpp
 
 HEADERS += \
-    AtomicCounter.h \
     chessboard.h \
     colorbutton.h \
+    columnnumbers.h \
     creationbase.h \
     dialogabout.h \
     dialoginfo.h \
     dialogprogressbarimport.h \
     dialogconfiguration.h \
+    dialogshortcuts.h \
     ecotablegeneration.h \
     formmainwidget.h \
+    lineletters.h \
     mainwindow.h \
     myvisitor.h \
     utils.h
@@ -45,6 +50,7 @@ FORMS += \
     dialoginfo.ui \
     dialogprogressbarimport.ui \
     dialogconfiguration.ui \
+    dialogshortcuts.ui \
     formmainwidget.ui \
     mainwindow.ui
 

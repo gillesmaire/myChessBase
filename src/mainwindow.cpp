@@ -32,6 +32,7 @@
 #include <formmainwidget.h>
 #include "dialogprogressbarimport.h"
 #include "dialogconfiguration.h"
+#include "dialogshortcuts.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -39,7 +40,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect (ui->actionE_xit,&QAction::triggered,this,&QMainWindow::close);                     // Llose this windows
+    mDialogConfiguration = new DialogConfiguration(this);
+    QSettings s;
+    if (s.value("ShowCaseNumbers").toBool())
+    ui->chessBoard->flipBoard(mFlipBoard);
+    ui->widgetLetters->setOrientation(mFlipBoard);
+    ui->widgetNumbers->setOrientation(mFlipBoard);
+        ui->actionShow_cases_number->setChecked(true);
+    connect (mDialogConfiguration,&DialogConfiguration::askRefresh,this,&MainWindow::Update) ;
+    connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
@@ -48,6 +57,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
+    connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
+    connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
+    connect (ui->chessBoard,SIGNAL(LenghtAndColor(int,QColor)),ui->widgetLetters,SLOT(Reception(int,QColor)));
+    connect (ui->chessBoard,SIGNAL(LenghtAndColor(int,QColor)),ui->widgetNumbers,SLOT(Reception(int,QColor)));
+    ShowCaseNumbers();
 }
 
 
@@ -76,8 +90,12 @@ void MainWindow::IncrementCounter()
 
 void MainWindow::FlipBoard()
 {
+    qDebug()<<"Debut"<<mFlipBoard;
     mFlipBoard=!mFlipBoard;
     ui->chessBoard->flipBoard(mFlipBoard);
+    ui->widgetLetters->setOrientation(mFlipBoard);
+    ui->widgetNumbers->setOrientation(mFlipBoard);
+    
 }
 
 void MainWindow::SuppressDataBaseGames()
@@ -116,31 +134,19 @@ void MainWindow::LoadPGNFile()
      QString dir=s.value("DataBaseDir",QDir::homePath()).toString();
      QString filename=QFileDialog::getOpenFileName(this,tr("Select a PGN file to include in Database"),dir,tr("PGN file (*.pgn)"));
      QFileInfo fi(filename); 
-     QTimer timer;
      s.setValue("DataBaseDir",fi.dir().absolutePath());
      s.sync();   
 
     if  (filename.isEmpty() ) return;
-    mProgressBar=new DialogProgressBarImport(this);
-    mProgressBar->show();
-    QObject::connect(&mWatcher, &QFutureWatcher<void>::finished, mProgressBar, &DialogProgressBarImport::ClockStop);
-    connect(&timer, &QTimer::timeout, mProgressBar, &DialogProgressBarImport::updateCounterDisplay);
-    timer.start(1000);
-    QFuture<void> future=QtConcurrent::run(LoadPGNFileConcurrent,filename);
-    mWatcher.setFuture(future);
-    mProgressBar->exec();
-    delete(mProgressBar);
-    mWatcher.disconnect();
-    
-}
-
-void MainWindow::LoadPGNFileConcurrent(QString filename ) 
-{
+   
     auto file_stream=std::ifstream(filename.toLatin1());
     auto vis =std::make_unique<MyVisitor>();
     
-    
     pgn::StreamParser parser(file_stream);
+    
+    mProgressBar=new DialogProgressBarImport(this);
+    mProgressBar->show();
+    vis->setProgressBar(mProgressBar);
     try {
         parser.readGames(*vis);
     } 
@@ -150,22 +156,22 @@ void MainWindow::LoadPGNFileConcurrent(QString filename )
     catch (...) {
      std::cerr << "Other error: " << "\n";
     }
-   
-  
+    
+    
 }
 
-void MainWindow::ModifyColor(QColor whitesquarecolor, QColor blacksquarecolor)
+
+void MainWindow::Update()
 {
-    ui->chessBoard->setBlackSquareColor(blacksquarecolor);
-    ui->chessBoard->setWhiteSquareColor(whitesquarecolor);
+    update();
     ui->chessBoard->update();
 }
 
 void MainWindow::Configuration()
 {
-  DialogConfiguration c(this);
-  connect ( &c, SIGNAL(SendColors(QColor,QColor)),this,SLOT(ModifyColor(QColor,QColor)));
-  c.exec();
+  
+  mDialogConfiguration->show();
+  
 }
 
 /// show informations as : number of games in the database, version of this sotware, size of database
@@ -197,12 +203,48 @@ void MainWindow::ShowFen(bool ok)
     
 }
 
+void MainWindow::ShoShortCuts()
+{
+   DialogShortCuts dsc(this);
+   dsc.exec();
+}
+
 QString MainWindow::getFen()
 {
     return QString(ui->chessBoard->getFEN());
 }
 
 
+void MainWindow::ShowCaseNumbers()
+{
+
+    if (   ui->actionShow_cases_number->isChecked() )
+    {
+        ui->widgetLetters->setHidden(false);
+        ui->widgetNumbers->setHidden(false);
+        ui->widgetLetters->setMaximumHeight(this->height()/20);
+        ui->widgetNumbers->setMaximumWidth(this->height()/20);
+        
+    }
+    else 
+    {
+        ui->widgetLetters->setHidden(true);
+        ui->widgetNumbers->setHidden(true);
+    }
+}
+
+void MainWindow::SaveCaseNumbers()
+{
+        QSettings s;
+        s.setValue("ShowCaseNumbers",ui->actionShow_cases_number->isChecked() );
+        ShowCaseNumbers();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *)
+{
+ QSettings s;
+ //ui->widgetLetters->setOrientation(!ui->actionFlip->isChecked());
+}
 ////
 /// \brief MainWindow::MakeECOTable Generate an ECO Table. It is made by adminsitrator
 ///  The Table is generated from David Barnes file

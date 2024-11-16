@@ -33,6 +33,7 @@ MyVisitor::MyVisitor()
 
 MyVisitor::~MyVisitor()
 {
+     mProgressBarImport->ClockStop();
      mDb.commit();
      mDb.close();
 }
@@ -114,8 +115,8 @@ void MyVisitor::endPgn()
          vals<<val;
     }
    
-    recs<<"ecoplus";
-    vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
+     recs<<"ecoplus";
+     vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
    
     QString rec=recs.join(',');
     QString val=vals.join(',');
@@ -128,6 +129,7 @@ void MyVisitor::endPgn()
 
 void MyVisitor::IncrementCounter()
 {
+    mProgressBarImport->CountIncrement();
 }
 
 ///
@@ -192,7 +194,7 @@ QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
        
 
 
-void MyVisitor::setConnection(QSqlDatabase *newConnection)
+void MyVisitor::setConnection(QSqlDatabase *)
 {
     // QSettings s;
     // QString configfile= s.fileName();
