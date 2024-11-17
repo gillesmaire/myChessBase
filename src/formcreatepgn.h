@@ -2,6 +2,7 @@
 #define FORMCREATEPGN_H
 
 #include <QWidget>
+#include "chessstackedwidget.h"
 
 namespace Ui {
 class FormCreatePGN;
@@ -17,6 +18,11 @@ public:
 
 private:
     Ui::FormCreatePGN *ui;
+    void GoIndex0();
+    QStackedWidget *mStackedWidget;
+    void Reset();
+    void FormAutoFillBlack();
+    void FormAutoFillWhite();
 };
 
 #endif // FORMCREATEPGN_H

@@ -12,6 +12,7 @@ DEFINES += CHESS_NO_EXCEPTIONS
 
 SOURCES += \
     chessboard.cpp \
+    chessstackedwidget.cpp \
     colorbutton.cpp \
     creationbase.cpp \
     dialogabout.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     chessboard.h \
+    chessstackedwidget.h \
     colorbutton.h \
     creationbase.h \
     dialogabout.h \

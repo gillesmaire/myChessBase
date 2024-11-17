@@ -21,7 +21,11 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     ui->pushButtonBlackSquareColor->setColor(s.value("BlackSquareColor",InitBlackSquareColor).toString());
     ui->pushButtonWhiteSquareColor->setName("WhiteSquareColor");
     ui->pushButtonWhiteSquareColor->setColor(s.value("WhiteSquareColor",InitWhiteSquareColor).toString());
-    
+    ui->lineEditYourFirstname->setText(s.value("YourFirstname").toString());
+    ui->lineEditYourName->setText(s.value("YourName").toString());
+    ui->lineEditYourFideID->setText(s.value("YourFideID").toString());
+    ui->lineEditYourTitle->setText(s.value("YourTitle").toString());
+    ui->lineEditYourELO->setText(s.value("YourELO").toString());
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
     
     ui->comboBoxPieces->setCurrentText(s.value("PiecesFont").toString());
@@ -30,9 +34,12 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     connect (ui->pushButtonBlackSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhitePieceColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhiteSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
-    connect (ui->pushButtonClose,SIGNAL(clicked(bool)),this,SLOT(close()));
-    connect (ui->pushButtonSave,SIGNAL(clicked(bool)),this,SLOT(Save()));
+    connect (ui->pushButtonCloseBoard,SIGNAL(clicked(bool)),this,SLOT(close()));
+    connect (ui->pushButtonSaveBoard,SIGNAL(clicked(bool)),this,SLOT(Save()));
     connect (ui->comboBoxPieces,SIGNAL(currentTextChanged(QString)),this,SLOT(ChangePiece(QString)));
+    connect (ui->pushButtonCloseInformations,&QPushButton::clicked,this,&DialogConfiguration::close);
+    connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&DialogConfiguration::Save);
+    connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&DialogConfiguration::SaveInformations);
 }
 
 DialogConfiguration::~DialogConfiguration()
@@ -64,3 +71,15 @@ void DialogConfiguration::ChangePiece(QString name)
 {
     ui->widget->setCurrentFont(name);
 }
+
+void DialogConfiguration::SaveInformations()
+{
+    QSettings s;
+    s.setValue("YourFirstname",ui->lineEditYourFirstname->text());
+    s.setValue("YourName",ui->lineEditYourName->text());
+    s.setValue("YourELO",ui->lineEditYourELO->text());
+    s.setValue("YourFideID",ui->lineEditYourFideID->text());
+    s.setValue("YourTitle",ui->lineEditYourTitle->text());    
+}
+
+

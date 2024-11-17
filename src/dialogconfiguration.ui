@@ -26,7 +26,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Board">
       <attribute name="title">
@@ -149,14 +149,14 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButtonClose">
+                <widget class="QPushButton" name="pushButtonCloseBoard">
                  <property name="text">
                   <string>Close </string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButtonSave">
+                <widget class="QPushButton" name="pushButtonSaveBoard">
                  <property name="text">
                   <string>Save</string>
                  </property>
@@ -174,8 +174,142 @@
      </widget>
      <widget class="QDialog" name="Bientot">
       <attribute name="title">
-       <string>To be</string>
+       <string>Some Informations</string>
       </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>Pre regisration</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="labelYourFirsname">
+                  <property name="text">
+                   <string>Your firstname</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelYourName">
+                  <property name="text">
+                   <string>Your name</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelYourFideID_3">
+                  <property name="text">
+                   <string>Your Fide ID</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelYourElo">
+                  <property name="text">
+                   <string>Your ELO</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelYourFideID">
+                  <property name="text">
+                   <string>Your Title</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item>
+                 <widget class="QLineEdit" name="lineEditYourFirstname"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditYourName"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditYourFideID"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditYourELO"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditYourTitle"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonCloseInformations">
+             <property name="text">
+              <string>Close</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonValidateInformations">
+             <property name="text">
+              <string>Validate</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

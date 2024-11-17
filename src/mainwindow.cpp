@@ -225,7 +225,8 @@ void MainWindow::resizeEvent(QResizeEvent *)
 
 void MainWindow::ActiveWidget()
 {
- if ( sender()->objectName() == "actionCreate_a_Pgn_file" )
-   ui->stackedWidget->setCurrentIndex(1);
+   if ( this->sender()->objectName()==QString("actionCreate_a_Pgn_file")) 
+     ui->stackedWidget->setCurrentIndex(1);
+  qDebug()<<"coouc";
 }
 

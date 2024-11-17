@@ -30,7 +30,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButtonWhiteYouPlayer">
+            <widget class="QPushButton" name="pushButtonWhiteYou">
              <property name="text">
               <string>You</string>
              </property>
@@ -222,7 +222,7 @@
               <widget class="QLineEdit" name="lineEditECO"/>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEditFDate"/>
+              <widget class="QDateEdit" name="dateEdit"/>
              </item>
              <item>
               <widget class="QLineEdit" name="lineEditSite"/>
@@ -266,7 +266,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
+      <widget class="QTextEdit" name="textEditMoves"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -291,16 +291,23 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButtonClose">
          <property name="text">
           <string>Close</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButtonValidate">
+        <widget class="QPushButton" name="pushButtonSaveInBase">
          <property name="text">
-          <string>Validate</string>
+          <string>Save in database</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonSaveAsPGN">
+         <property name="text">
+          <string>Save as PGN File</string>
          </property>
         </widget>
        </item>

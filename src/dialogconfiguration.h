@@ -19,6 +19,7 @@ private slots:
     void ChangeColor(QString, QColor);
     void Save();
     void ChangePiece(QString name );
+    void SaveInformations();
 private:
     Ui::DialogConfiguration *ui;
     QFont mCurrentFont;

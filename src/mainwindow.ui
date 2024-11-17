@@ -110,7 +110,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QStackedWidget" name="stackedWidget">
+         <widget class="ChessStackedWidget" name="stackedWidget">
           <widget class="QWidget" name="Blank"/>
           <widget class="FormCreatePGN" name="CreationPGN"/>
           <widget class="QWidget" name="page_2"/>
@@ -275,6 +275,12 @@
    <class>FormCreatePGN</class>
    <extends>QWidget</extends>
    <header>formcreatepgn.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChessStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header>chessstackedwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
