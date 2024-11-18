@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "chess.hpp"
 #include <QMap>
+#include "piece.h"
  using namespace chess;
 
 
@@ -61,8 +62,6 @@ private:
     ///
     int mSize8Case;
     QString getName(int row, int col);
-    QMap<QString,QMap<QString,QChar>> mChessFonts;
-    QMap <QString,QString> mFontName;
     QStringList mFontList;
     QString mCurrentFont;
     ///
@@ -103,6 +102,8 @@ private:
     /// \param painter
     ///
     void DrawPieces(QPainter *painter);
+    QMap<QString,QMap<QString,QChar>> Pieces;
+    
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/

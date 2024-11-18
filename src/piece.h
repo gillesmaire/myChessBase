@@ -1,24 +1,22 @@
 #ifndef PIECE_H
 #define PIECE_H
-#include "piecetype.h"
 #include <QObject>
 #include <QFont>
 #include <QColor>
 #include <QPoint>
 
-class Piece : public PieceType
+class piece 
 {
-    Q_OBJECT
 public:
-    explicit Piece(QString piece, QChar c, QColor cback , QColor cfront);
+    explicit piece(QString piecename, QChar character);
+    QString getPieceName(){return mPieceName;}
+    QString getCharacter(){return mCharacter;}
 private:
     QString mPieceName;
     QChar mCharacter;
     QPoint mOffset; 
-    QColor mColor;
+    
 };
 
-     
-};
 
 #endif // PIECE_H

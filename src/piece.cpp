@@ -1,7 +1,11 @@
-#include "piecetype.h"
+#include "piece.h"
 
 
-PieceType::PieceType(QObject *parent):QObject(parent)
+
+
+piece::piece(QString piecename, QChar character):
+                    mPieceName(piecename),mCharacter(character)
 {
     
 }
+

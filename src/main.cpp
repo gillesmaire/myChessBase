@@ -67,13 +67,13 @@ int main(int argc, char *argv[])
    // Load Fonts 
 
    
-     fontList["Magnetic"]=QFontDatabase::addApplicationFont(":/Fonts/MAGNFONT.TTF");
-     fontList["Leipzig"]=QFontDatabase::addApplicationFont(":/Fonts/LEIPFONT.TTF");
-     fontList["Cases"]=QFontDatabase::addApplicationFont(":/Fonts/CASEFONT.TTF");
-     fontList["Maya"]=QFontDatabase::addApplicationFont(":/Fonts/MAYAFONT.TTF");
-     fontList["Chess-7"]=QFontDatabase::addApplicationFont(":/Fonts/Chess-7.TTF");
-     fontList["Marroquin"]=QFontDatabase::addApplicationFont(":/Fonts/MARRFONT.TTF");
-     fontList["Cheq"]=QFontDatabase::addApplicationFont(":/Fonts/CHEQ_TT.TTF");
+     fontList["Magnetic"]=QFontDatabase::addApplicationFont(":/Fonts/Magnetic.ttf");
+     fontList["Leipzig"]=QFontDatabase::addApplicationFont(":/Fonts/Leipzig.ttf");
+     fontList["Cases"]=QFontDatabase::addApplicationFont(":/Fonts/Cases.ttf");
+     fontList["Maya"]=QFontDatabase::addApplicationFont(":/Fonts/Maya.ttf");
+     fontList["Chess-7"]=QFontDatabase::addApplicationFont(":/Fonts/Chess-7.ttf");
+     fontList["Marroquin"]=QFontDatabase::addApplicationFont(":/Fonts/Marroquin.ttf");
+     fontList["Cheq"]=QFontDatabase::addApplicationFont(":/Fonts/Cheq.ttf");
      fontList["Alpha"]=QFontDatabase::addApplicationFont(":/Fonts/Alpha.ttf");
      fontList["OpenChessFont"]=QFontDatabase::addApplicationFont(":/Fonts/OpenChessFont.ttf");
      

@@ -26,7 +26,6 @@ SOURCES += \
     mainwindow.cpp \
     myvisitor.cpp \
     piece.cpp \
-    piecetype.cpp \
     utils.cpp
 
 HEADERS += \
@@ -44,7 +43,6 @@ HEADERS += \
     mainwindow.h \
     myvisitor.h \
     piece.h \
-    piecetype.h \
     utils.h
 
 FORMS += \
