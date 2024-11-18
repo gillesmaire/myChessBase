@@ -305,9 +305,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButtonSaveAsPGN">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>Save as PGN File</string>
+          <string>Save in new  PGN file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonSaveAsSinglePGN">
+         <property name="text">
+          <string>Save as single PGN File</string>
          </property>
         </widget>
        </item>

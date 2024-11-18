@@ -25,6 +25,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     myvisitor.cpp \
+    piece.cpp \
+    piecetype.cpp \
     utils.cpp
 
 HEADERS += \
@@ -41,6 +43,8 @@ HEADERS += \
     formcreatepgn.h \
     mainwindow.h \
     myvisitor.h \
+    piece.h \
+    piecetype.h \
     utils.h
 
 FORMS += \

@@ -6,6 +6,9 @@
 #include <QMap>
  using namespace chess;
 
+
+
+typedef enum {PossibleMoves,LastMove,Nothing}  Raison;
 class ChessBoard : public QWidget
 {
      Q_OBJECT
@@ -19,6 +22,7 @@ public:
     QStringList listOfTypeOfPieces();
     void flipBoard( bool flip){ mFlip=flip; update();}
     QString getFEN();
+    QStringList AuthorizedCase(QString move);
 private: 
     void RecordChessFonts();
     Board mBoard;
@@ -31,13 +35,74 @@ private:
     QColor mBlackSquareColor;
     QColor mWhitePieceColor;
     QColor mBlackPieceColor;
+    ///
+    /// \brief mTileSize is the size of a Square
+    ///
+    int mTileSize;
+    ///
+    /// \brief mX x and y poistion of current obect
+    ///
+    int mX, mY;
+    ///
+    /// \brief mRow row and column variables
+    ///
+    int mRow, mCol;
+    
+    ///
+    /// \brief mShift is a space used to separate board and A..H 1..8 
+    ///
+    int mShift;
+    ///
+    /// \brief mMargin 
+    ///
+    int mMargin;
+    ///
+    /// \brief mSize8Case size of B cases without margin or number
+    ///
+    int mSize8Case;
     QString getName(int row, int col);
     QMap<QString,QMap<QString,QChar>> mChessFonts;
     QMap <QString,QString> mFontName;
     QStringList mFontList;
     QString mCurrentFont;
+    ///
+    /// \brief mShowLetters if true the A ..H 1 .. 8 wil be shown
+    ///
     bool mShowLetters;
-    //bool mReversed=false;
+    ///
+    /// \brief mShowPossibleMoves if true the possible move will be shown
+    ///
+    bool mShowPossibleMoves;
+    
+    ///
+    /// \brief mPossibleMoves list of possible moves recorder e3, e4 etc juste arrival square
+    ///
+    QStringList mPossibleMoves;
+    
+    int NumberCase(int x, int y);
+    ///
+    /// \brief Median to be sure color object will be seen on White Squares and Black squares we calcul the median color
+    /// 
+    /// \param color1
+    /// \param color2
+    /// \return 
+    ///
+    QColor Median(QColor color1, QColor color2);
+    ///
+    /// \brief DrawPossiblesMoves draw a circle with median color to signal the possible moves of a piece
+    /// \param painter
+    ///
+    void DrawPossiblesMoves(QPainter *painter);
+    ///
+    /// \brief DrawNumberedCase print the A B C D E F G H and 1 2 3 4 5 6 7 to show the case numbers
+    /// \param painter
+    ///
+    void DrawNumberedCase(QPainter *painter);
+    ///
+    /// \brief DrawPieces draw the pieces 
+    /// \param painter
+    ///
+    void DrawPieces(QPainter *painter);
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
@@ -46,6 +111,7 @@ signals:
     void LenghtAndColor( int , QColor);
 protected:
     void resizeEvent(QResizeEvent *e) override ;
+    virtual void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // CHESSBOARD_H
