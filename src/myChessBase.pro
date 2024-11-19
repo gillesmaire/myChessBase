@@ -24,8 +24,8 @@ SOURCES += \
     formcreatepgn.cpp \
     main.cpp \
     mainwindow.cpp \
+    movablePiece.cpp \
     myvisitor.cpp \
-    piece.cpp \
     utils.cpp
 
 HEADERS += \
@@ -41,8 +41,8 @@ HEADERS += \
     ecotablegeneration.h \
     formcreatepgn.h \
     mainwindow.h \
+    movablePiece.h \
     myvisitor.h \
-    piece.h \
     utils.h
 
 FORMS += \

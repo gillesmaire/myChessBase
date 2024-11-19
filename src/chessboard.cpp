@@ -1,5 +1,5 @@
 #include "chessboard.h"
-#include "piece.h"
+#include "movablePiece.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QSettings>
@@ -180,6 +180,8 @@ void ChessBoard::RecordChessFonts()
     P["NOPIECE"]=' ';
     Pieces["OpenChessFont"]=P;
     
+    
+    
   
 }
 
@@ -216,6 +218,15 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 }
 
 
+void ChessBoard::mouseMoveEvent (QMouseEvent *event)
+{
+ QPainter painter(this);
+ painter.drawRect(QRect(event->pos(),QSize(10,10)));
+         
+        
+
+}   
+
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
     // cs = "e2"
@@ -226,8 +237,6 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     
     QRectF pieceRect(mX, mY, mTileSize, mTileSize);
         if (pieceRect.contains(event->pos())) {qDebug()<<"ok";}
- 
-    
     
     update();
 }

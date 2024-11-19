@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "chess.hpp"
 #include <QMap>
-#include "piece.h"
+#include "movablePiece.h"
  using namespace chess;
 
 
@@ -113,6 +113,7 @@ signals:
 protected:
     void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // CHESSBOARD_H
