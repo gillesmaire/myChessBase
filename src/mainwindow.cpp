@@ -227,6 +227,5 @@ void MainWindow::ActiveWidget()
 {
    if ( this->sender()->objectName()==QString("actionCreate_a_Pgn_file")) 
      ui->stackedWidget->setCurrentIndex(1);
-  qDebug()<<"coouc";
 }
 

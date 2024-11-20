@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>System/eco.pgn</file>
+        <file>System/cursor.png</file>
     </qresource>
 </RCC>

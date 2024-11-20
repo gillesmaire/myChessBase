@@ -11,6 +11,7 @@ CONFIG += c++17
 DEFINES += CHESS_NO_EXCEPTIONS
 
 SOURCES += \
+    chesboardcursor.cpp \
     chessboard.cpp \
     chessstackedwidget.cpp \
     colorbutton.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     utils.cpp
 
 HEADERS += \
+    chesboardcursor.h \
     chessboard.h \
     chessstackedwidget.h \
     colorbutton.h \
@@ -69,3 +71,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     System.qrc \
     Fonts.qrc
+
+DISTFILES += \
+    System/cursor.png

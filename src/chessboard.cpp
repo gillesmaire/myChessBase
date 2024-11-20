@@ -6,7 +6,7 @@
 #include <QFontDatabase>
 #include <QLabel>
 #include <QColor>
-
+#include <chesboardcursor.h>
 
 
 
@@ -18,7 +18,8 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   QSettings s;
   mCurrentFont=s.value("PiecesFont").toString();
   mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-  
+  QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
+  setCursor(cbcursor);
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
@@ -236,7 +237,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     mShowPossibleMoves=true;
     
     QRectF pieceRect(mX, mY, mTileSize, mTileSize);
-        if (pieceRect.contains(event->pos())) {qDebug()<<"ok";}
+       
     
     update();
 }
@@ -344,7 +345,6 @@ void ChessBoard::DrawPieces( QPainter *painter)
             QString family;
             if (QFontDatabase::applicationFontFamilies(i).size()!=0)
                 family = QFontDatabase::applicationFontFamilies(i).at(0);
-            qDebug()<<i<<family;    
             QChar car=QChar(Pieces[mCurrentFont][getName(mRow,mCol)]);
             QColor color;
             if ( getName(mRow,mCol).startsWith("WHITE") )
