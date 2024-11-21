@@ -33,7 +33,7 @@ QCursor ChesBoardCursor::getCursor( int sizetile,QString fontname, QColor piecec
   QBrush brush(piececolor);
   p.setPen(pen);
   p.setBrush(brush);
-  QChar c=QChar(Pieces[fontname][ptr->getName(rank,file)]);
+  QChar c=QChar(Pieces[fontname][ptr->getName(file,rank)]);
   p.drawText(0,px.height()/2,c);
   p.end();
   QCursor cursor(px);

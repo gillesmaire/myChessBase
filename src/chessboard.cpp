@@ -228,9 +228,6 @@ void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 {
  QPainter painter(this);
  painter.drawRect(QRect(event->pos(),QSize(10,10)));
-         
-        
-
 }   
 
 
@@ -251,15 +248,14 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     mShowPossibleMoves=!mPossibleMoves.isEmpty();
     if  ( mShowPossibleMoves ) // we change the cursor
     {
-        QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.file(),sq.rank(),squarecolor,this);
+        QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.rank(),sq.file(),squarecolor,this);
         setCursor(cursor);
-        mSquareToBePlayed=Square(sq.file(),sq.rank());
-        
+        mSquareToBePlayed=Square(sq.rank(),sq.file()); 
     }
     update();
 }
 
-void ChessBoard::DrawOneCase(QPainter *painter,int x , int y, int size , QColor squarecolor)
+void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int size , QColor squarecolor)
 {
     painter->setPen(squarecolor);
     painter->setBrush(squarecolor);
@@ -277,7 +273,7 @@ int ChessBoard::NumberCase( int x, int y)
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;
-    if (square==64) return 64;
+    if (square==64) return 64;  
     if ( ! mFlip )
        square=(7-line)*8+col;
     else 
@@ -305,6 +301,19 @@ void ChessBoard::DrawPossiblesMoves(QPainter *painter)
              painter->drawEllipse(QRect(mX+mTileSize/3,mY+mTileSize/3,mTileSize/3,mTileSize/3));
 }
 
+
+void ChessBoard::Debug()
+{       
+        std::cout<<"********"<<std::endl;
+        for ( int i=0; i<64; i++) {
+           std::cout << std::string(mBoard.at(Square(i)))   ;
+           if ( (i+1)%8 == 0 ) std::cout << std::endl;
+        }
+        std::cout<<"********"<<std::endl;
+
+
+    
+}
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QPainter painter(this);
@@ -344,8 +353,13 @@ void ChessBoard::paintEvent(QPaintEvent *)
                 mX=(7-mCol)*mTileSize+mShift;
             }  
             // draw the square
-            DrawOneCase(&painter,mX,mY,mTileSize,squarecolor);
-            DrawPieces(&painter);
+            DrawOneSquare(&painter,mX,mY,mTileSize,squarecolor);
+            //if ()
+            qDebug()<<mCol<<" "<<mRow;
+             if (  mSquareToBePlayed!=Square()  && int(mSquareToBePlayed.file())  == mCol &&
+                  int(mSquareToBePlayed.rank())  == mRow ) ;
+                 
+             else  DrawPiece(&painter);
             // mPossibleMoces is set by mousePresEvent
             if ( mPossibleMoves.contains(square) ) 
               { 
@@ -355,28 +369,22 @@ void ChessBoard::paintEvent(QPaintEvent *)
         }
    num++;
     }
+    Debug();
     if (mSquareToBePlayed!=Square()) 
     {
-        int file=mSquareToBePlayed.file();
         int rank=mSquareToBePlayed.rank();
+        int file=mSquareToBePlayed.file();
         int x,y;
-        if (  mFlip ){
-                y = (7-file) * mTileSize+mShift;
-                x=rank*mTileSize+mShift;
-            }
-            else {    
-                y =file*mTileSize+mShift;
-                x=(7-rank)*mTileSize+mShift;
-            }
-        DrawOneCase(&painter,x,y,mTileSize,squarecolor);
+        DrawOneSquare(&painter,x,y,mTileSize,squarecolor);
         mSquareToBePlayed=Square();
+        Debug();
     }
     
     
     DrawNumberedCase(&painter);
 }
 
-void ChessBoard::DrawPieces( QPainter *painter)
+void ChessBoard::DrawPiece( QPainter *painter)
 {
  extern QMap <QString,int> fontList;
  extern QMap<QString,QMap<QString,QChar>> Pieces;           

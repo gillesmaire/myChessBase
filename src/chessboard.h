@@ -138,12 +138,13 @@ private:
     /// \brief DrawPieces draw the pieces 
     /// \param painter
     ///
-    void DrawPieces(QPainter *painter);
+    void DrawPiece(QPainter *painter);
     
-    void DrawOneCase(QPainter *painter, int x, int y, int size, QColor squarecolor);
+    void DrawOneSquare(QPainter *painter, int x, int y, int size, QColor squarecolor);
     
     Square mSquareToBePlayed=Square();
     
+    void Debug();
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
