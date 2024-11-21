@@ -144,6 +144,8 @@ private:
     
     Square mSquareToBePlayed=Square();
     
+    enum MouseStatus {PressedNotReleased,  PressedReleased, NotPressed} mMouseStatus=NotPressed;
+    
     void Debug();
 public slots:
     void setCurrentFont( QString font );

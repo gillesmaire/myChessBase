@@ -7,12 +7,160 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QDir>
+#include <QFontDatabase>
 #include <ecotablegeneration.h>
 
 #include <chess.hpp>
 
 extern QMap<QString,chess::PackedBoard> PackedBoards;
 
+void Utils::RecordChessFonts()
+{
+    QMap<QString,QChar>P;
+    extern QMap<QString,QMap<QString,QChar>> Pieces;
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Magnetic"]=P;
+    P.clear();
+
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Leipzig"]=P;
+    P.clear();
+    
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Cases"]=P;
+    P.clear();
+    
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Maya"]=P;
+    P.clear();
+    
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Chess-7"]=P;
+    P.clear();
+
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='m';
+    P["WHITEBISHOP"]='v';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='m';
+    P["BLACKBISHOP"]='v';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Marroquin"]=P;
+    P.clear();
+
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='j';
+    P["WHITEBISHOP"]='n';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='j';
+    P["BLACKBISHOP"]='n';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Alpha"]=P;
+    P.clear();
+
+    P["WHITEPAWN"]='o';
+    P["WHITEKNIGHT"]='j';
+    P["WHITEBISHOP"]='n';
+    P["WHITEROOK"]='t';
+    P["WHITEQUEEN"]='w';
+    P["WHITEKING"]='l';
+    P["BLACKPAWN"]='o';
+    P["BLACKKNIGHT"]='j';
+    P["BLACKBISHOP"]='n';
+    P["BLACKROOK"]='t';
+    P["BLACKQUEEN"]='w';
+    P["BLACKKING"]='l';
+    P["NOPIECE"]=' ';
+    Pieces["Cheq"]=P;
+    P.clear();
+    
+    P["WHITEPAWN"]='O';
+    P["WHITEKNIGHT"]='M';
+    P["WHITEBISHOP"]='V';
+    P["WHITEROOK"]='T';
+    P["WHITEQUEEN"]='W';
+    P["WHITEKING"]='L';
+    P["BLACKPAWN"]='O';
+    P["BLACKKNIGHT"]='M';
+    P["BLACKBISHOP"]='V';
+    P["BLACKROOK"]='T';
+    P["BLACKQUEEN"]='W';
+    P["BLACKKING"]='L';
+    P["NOPIECE"]=' ';
+    Pieces["OpenChessFont"]=P;
+}
 
 
 QMap<QString, QChar> Utils::ListPGNRecords()
@@ -78,6 +226,16 @@ void Utils::InitializePackedBoards()
        PackedBoards[ecoplus]=Utils::ByteArray2PackedBoard(query.value("pb").toByteArray());
     }
       
+}
+
+QString Utils::getFontFamily(QString fontname)
+{
+  extern QMap <QString,int> fontList;
+  int i =fontList[fontname];
+  QString family;
+  if (QFontDatabase::applicationFontFamilies(i).size()!=0)
+        return QFontDatabase::applicationFontFamilies(i).at(0);
+ return QString();
 }
 
 

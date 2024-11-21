@@ -19,11 +19,11 @@ public:
     /// \param piececolor  : the color of the piece  clicked
     /// \param rank        : the rank A B C ... H of the piece clicked
     /// \param file        : the file 1 2 3 ... 8 of the piece cliecked
-    /// \param squarecolor : The color of the square
+    /// \param side        : Color WHITE or BLACK
     /// \param ptr         : a pointer  on the chess board
     /// \return 
     ///
-    static QCursor getCursor(int sizetile, QString font, QColor color, int rank,int file, QColor casecolor, ChessBoard *ptr);
+    static QCursor getCursor(int sizetile, QString font, QColor color, int rank,int file, Color side, ChessBoard *ptr);
 };
 
 #endif // CHESBOARDCURSOR_H

@@ -51,7 +51,18 @@ public:
     /// \brief InitializePackedBoards to be modified ... waiting
     ///
     static void InitializePackedBoards();
-    
+    ///
+    /// \brief getFontFamily get the FontFamily QString from a fontName String
+    /// \param fontname
+    /// \return 
+    ///
+    static QString getFontFamily(QString fontname);
+    ///
+    /// \brief RecordChessFonts fill the extern QMap<QString,QMap<QString,QChar>> Pieces;
+    /// ie give the correspondance for each piece in each family between Piece name and character
+    /// used for the piece
+    ///
+    static void RecordChessFonts();
 }; 
 
 

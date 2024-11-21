@@ -1,4 +1,3 @@
-#include "chessboard.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QSettings>
@@ -9,11 +8,14 @@
 #include <QCoreApplication>
 #include <QApplication>
 
+#include "chessboard.h"
+
+#include "utils.h"
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
   extern QMap<QString,QMap<QString,QChar>> Pieces;           
-  RecordChessFonts();
+  Utils::RecordChessFonts();
   //mFontList=mChessFonts.keys();  
   mFontList=Pieces.keys();
   QSettings s;
@@ -39,157 +41,6 @@ QString ChessBoard::getFEN()
 
 
 
-void ChessBoard::RecordChessFonts()
-{
-    QMap<QString,QChar>P;
-    extern QMap<QString,QMap<QString,QChar>> Pieces;
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Magnetic"]=P;
-    P.clear();
-
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Leipzig"]=P;
-    P.clear();
-    
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Cases"]=P;
-    P.clear();
-    
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Maya"]=P;
-    P.clear();
-    
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Chess-7"]=P;
-    P.clear();
-
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='m';
-    P["WHITEBISHOP"]='v';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='m';
-    P["BLACKBISHOP"]='v';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Marroquin"]=P;
-    P.clear();
-
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='j';
-    P["WHITEBISHOP"]='n';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='j';
-    P["BLACKBISHOP"]='n';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Alpha"]=P;
-    P.clear();
-
-    P["WHITEPAWN"]='o';
-    P["WHITEKNIGHT"]='j';
-    P["WHITEBISHOP"]='n';
-    P["WHITEROOK"]='t';
-    P["WHITEQUEEN"]='w';
-    P["WHITEKING"]='l';
-    P["BLACKPAWN"]='o';
-    P["BLACKKNIGHT"]='j';
-    P["BLACKBISHOP"]='n';
-    P["BLACKROOK"]='t';
-    P["BLACKQUEEN"]='w';
-    P["BLACKKING"]='l';
-    P["NOPIECE"]=' ';
-    Pieces["Cheq"]=P;
-    P.clear();
-    
-    P["WHITEPAWN"]='O';
-    P["WHITEKNIGHT"]='M';
-    P["WHITEBISHOP"]='V';
-    P["WHITEROOK"]='T';
-    P["WHITEQUEEN"]='W';
-    P["WHITEKING"]='L';
-    P["BLACKPAWN"]='O';
-    P["BLACKKNIGHT"]='M';
-    P["BLACKBISHOP"]='V';
-    P["BLACKROOK"]='T';
-    P["BLACKQUEEN"]='W';
-    P["BLACKKING"]='L';
-    P["NOPIECE"]=' ';
-    Pieces["OpenChessFont"]=P;
-    
-    
-    
-  
-}
 
 void ChessBoard::resizeEvent(QResizeEvent *event)
 {
@@ -231,6 +82,8 @@ void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 }   
 
 
+
+
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
     // cs = "e2"
@@ -246,11 +99,12 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     mPossibleMoves =AuthorizedCase(cs);
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
     mShowPossibleMoves=!mPossibleMoves.isEmpty();
-    if  ( mShowPossibleMoves ) // we change the cursor
+    if  ( mShowPossibleMoves ) // we change the cursor 
     {
-        QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.rank(),sq.file(),squarecolor,this);
+        QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
         mSquareToBePlayed=Square(sq.rank(),sq.file()); 
+        mMouseStatus=MouseStatus::PressedNotReleased;
     }
     update();
 }
@@ -369,7 +223,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
         }
    num++;
     }
-    Debug();
     if (mSquareToBePlayed!=Square()) 
     {
         int rank=mSquareToBePlayed.rank();
@@ -377,7 +230,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
         int x,y;
         DrawOneSquare(&painter,x,y,mTileSize,squarecolor);
         mSquareToBePlayed=Square();
-        Debug();
     }
     
     
@@ -388,12 +240,8 @@ void ChessBoard::DrawPiece( QPainter *painter)
 {
  extern QMap <QString,int> fontList;
  extern QMap<QString,QMap<QString,QChar>> Pieces;           
-            int i =fontList[mCurrentFont];
-            
-            QString family;
-            if (QFontDatabase::applicationFontFamilies(i).size()!=0)
-                family = QFontDatabase::applicationFontFamilies(i).at(0);
-                
+
+            QString family=Utils::getFontFamily(mCurrentFont);
             QChar car=QChar(Pieces[mCurrentFont][getName(mCol,mRow)]);
             
             if ( getName(mCol,mRow).startsWith("WHITE") )
@@ -403,15 +251,17 @@ void ChessBoard::DrawPiece( QPainter *painter)
             QFont font(family);
             mFont=font;
             mFont.setPixelSize(mTileSize);
+            double coeff;
             painter->setPen(mColor);
             painter->setBrush(mColor);
             painter->setFont(mFont);
             if (mColor==mBlackPieceColor)
             {
               QColor whiter;
-              whiter.setRedF(mWhitePieceColor.redF()*0.7);
-              whiter.setBlueF(mWhitePieceColor.blueF()*0.7);
-              whiter.setGreenF(mWhitePieceColor.greenF()*0.7);
+              coeff=0.5;
+              whiter.setRedF(mWhitePieceColor.redF()*coeff);
+              whiter.setBlueF(mWhitePieceColor.blueF()*coeff);
+              whiter.setGreenF(mWhitePieceColor.greenF()*coeff);
               int shift=mTileSize/10.0;
               int bigger=mTileSize+shift;
               mFont.setPixelSize(bigger);
@@ -428,9 +278,10 @@ void ChessBoard::DrawPiece( QPainter *painter)
             else 
             {
               QColor darker;
-              darker.setRedF(mWhitePieceColor.redF()*0.8);
-              darker.setBlueF(mWhitePieceColor.blueF()*0.8);
-              darker.setGreenF(mWhitePieceColor.greenF()*0.8);
+              coeff=0.9;
+              darker.setRedF(mWhitePieceColor.redF()*coeff);
+              darker.setBlueF(mWhitePieceColor.blueF()*coeff);
+              darker.setGreenF(mWhitePieceColor.greenF()*coeff);
               int shift=mTileSize/10.0;
               int bigger=mTileSize+shift;
               mFont.setPixelSize(bigger);

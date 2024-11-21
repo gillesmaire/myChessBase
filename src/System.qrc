@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>System/eco.pgn</file>
         <file>System/cursor.png</file>
+        <file>System/mainfermee.png</file>
+        <file>System/mainindex.png</file>
     </qresource>
 </RCC>
