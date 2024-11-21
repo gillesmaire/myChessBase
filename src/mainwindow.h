@@ -57,6 +57,7 @@ private:
     void ActiveWidget();
 protected:
     void resizeEvent(QResizeEvent *e);
+
 };
 
 

@@ -1,5 +1,4 @@
 #include "chessboard.h"
-#include "movablePiece.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QSettings>
@@ -7,11 +6,13 @@
 #include <QLabel>
 #include <QColor>
 #include <chesboardcursor.h>
-
+#include <QCoreApplication>
+#include <QApplication>
 
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
+  extern QMap<QString,QMap<QString,QChar>> Pieces;           
   RecordChessFonts();
   //mFontList=mChessFonts.keys();  
   mFontList=Pieces.keys();
@@ -19,7 +20,11 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   mCurrentFont=s.value("PiecesFont").toString();
   mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
-  setCursor(cbcursor);
+  setCursor(cbcursor); 
+  Move m=uci::uciToMove(mBoard,"e2e4");
+  mBoard.makeMove(m);
+   m=uci::uciToMove(mBoard,"e7e6");
+  mBoard.makeMove(m);
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
@@ -37,7 +42,7 @@ QString ChessBoard::getFEN()
 void ChessBoard::RecordChessFonts()
 {
     QMap<QString,QChar>P;
-     
+    extern QMap<QString,QMap<QString,QChar>> Pieces;
     P["WHITEPAWN"]='o';
     P["WHITEKNIGHT"]='m';
     P["WHITEBISHOP"]='v';
@@ -228,21 +233,38 @@ void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 
 }   
 
+
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
     // cs = "e2"
-    QString cs=QString::fromStdString(std::string(Square(NumberCase(event->pos().x(),event->pos().y()))));
+    QPoint p=event->pos();
+    int x=p.x();
+    int y=p.y();
+    int nbcase=NumberCase(x,y);
+    if ( nbcase < 0 || nbcase>=64) return;
+    Square sq=Square(nbcase);
+    QColor squarecolor=sq.is_light()?mBlackSquareColor:mWhiteSquareColor;
+    QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
-    mShowPossibleMoves=true;
-    
-    QRectF pieceRect(mX, mY, mTileSize, mTileSize);
-       
-    
+    QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
+    mShowPossibleMoves=!mPossibleMoves.isEmpty();
+    if  ( mShowPossibleMoves ) // we change the cursor
+    {
+        QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.file(),sq.rank(),squarecolor,this);
+        setCursor(cursor);
+        mSquareToBePlayed=Square(sq.file(),sq.rank());
+        
+    }
     update();
 }
 
-
+void ChessBoard::DrawOneCase(QPainter *painter,int x , int y, int size , QColor squarecolor)
+{
+    painter->setPen(squarecolor);
+    painter->setBrush(squarecolor);
+    painter->drawRect(x,y,size,size);
+}
 
 int ChessBoard::NumberCase( int x, int y)
 {
@@ -255,6 +277,7 @@ int ChessBoard::NumberCase( int x, int y)
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;
+    if (square==64) return 64;
     if ( ! mFlip )
        square=(7-line)*8+col;
     else 
@@ -321,42 +344,61 @@ void ChessBoard::paintEvent(QPaintEvent *)
                 mX=(7-mCol)*mTileSize+mShift;
             }  
             // draw the square
-            painter.setPen(squarecolor);
-            painter.setBrush(squarecolor);
-            painter.drawRect(mX, mY, mTileSize, mTileSize);
+            DrawOneCase(&painter,mX,mY,mTileSize,squarecolor);
             DrawPieces(&painter);
+            // mPossibleMoces is set by mousePresEvent
             if ( mPossibleMoves.contains(square) ) 
-             { 
-                DrawPossiblesMoves(&painter);
-             }
+              { 
+                 DrawPossiblesMoves(&painter);
+              }
           letter++;
         }
    num++;
     }
+    if (mSquareToBePlayed!=Square()) 
+    {
+        int file=mSquareToBePlayed.file();
+        int rank=mSquareToBePlayed.rank();
+        int x,y;
+        if (  mFlip ){
+                y = (7-file) * mTileSize+mShift;
+                x=rank*mTileSize+mShift;
+            }
+            else {    
+                y =file*mTileSize+mShift;
+                x=(7-rank)*mTileSize+mShift;
+            }
+        DrawOneCase(&painter,x,y,mTileSize,squarecolor);
+        mSquareToBePlayed=Square();
+    }
+    
+    
     DrawNumberedCase(&painter);
 }
 
 void ChessBoard::DrawPieces( QPainter *painter)
 {
  extern QMap <QString,int> fontList;
-            
+ extern QMap<QString,QMap<QString,QChar>> Pieces;           
             int i =fontList[mCurrentFont];
             
             QString family;
             if (QFontDatabase::applicationFontFamilies(i).size()!=0)
                 family = QFontDatabase::applicationFontFamilies(i).at(0);
-            QChar car=QChar(Pieces[mCurrentFont][getName(mRow,mCol)]);
-            QColor color;
-            if ( getName(mRow,mCol).startsWith("WHITE") )
-                color=mWhitePieceColor;
-            else if ( getName(mRow,mCol).startsWith("BLACK") )
-                color=mBlackPieceColor; 
-            QFont font (family);
-            font.setPixelSize(mTileSize);
-            painter->setPen(color);
-            painter->setBrush(color);
-            painter->setFont(font);
-            if (color==mBlackPieceColor)
+                
+            QChar car=QChar(Pieces[mCurrentFont][getName(mCol,mRow)]);
+            
+            if ( getName(mCol,mRow).startsWith("WHITE") )
+                mColor=mWhitePieceColor;
+            else if ( getName(mCol,mRow).startsWith("BLACK") )
+                mColor=mBlackPieceColor; 
+            QFont font(family);
+            mFont=font;
+            mFont.setPixelSize(mTileSize);
+            painter->setPen(mColor);
+            painter->setBrush(mColor);
+            painter->setFont(mFont);
+            if (mColor==mBlackPieceColor)
             {
               QColor whiter;
               whiter.setRedF(mWhitePieceColor.redF()*0.7);
@@ -364,13 +406,13 @@ void ChessBoard::DrawPieces( QPainter *painter)
               whiter.setGreenF(mWhitePieceColor.greenF()*0.7);
               int shift=mTileSize/10.0;
               int bigger=mTileSize+shift;
-              font.setPixelSize(bigger);
-              painter->setFont(font);
+              mFont.setPixelSize(bigger);
+              painter->setFont(mFont);
               painter->setBrush(whiter);
               painter->setPen(whiter);
               painter->drawText(QRectF(mX-shift/2,mY-shift/2,mTileSize+shift*2,mTileSize+shift*2),QString(car));
-              font.setPixelSize(mTileSize);
-              painter->setFont(font);
+              mFont.setPixelSize(mTileSize);
+              painter->setFont(mFont);
               painter->setBrush(mBlackPieceColor);
               painter->setPen(mBlackPieceColor);
               painter->drawText(QRectF(mX,mY,mTileSize,mTileSize),QString(car));
@@ -383,17 +425,16 @@ void ChessBoard::DrawPieces( QPainter *painter)
               darker.setGreenF(mWhitePieceColor.greenF()*0.8);
               int shift=mTileSize/10.0;
               int bigger=mTileSize+shift;
-              font.setPixelSize(bigger);
-              painter->setFont(font);
+              mFont.setPixelSize(bigger);
+              painter->setFont(mFont);
               painter->setBrush(darker);
               painter->setPen(darker);
               painter->drawText(QRectF(mX-shift/2,mY-shift/2,mTileSize+shift*2,mTileSize+shift*2),QString(car));
-              font.setPixelSize(mTileSize);
-              painter->setFont(font);
+              mFont.setPixelSize(mTileSize);
+              painter->setFont(mFont);
               painter->setBrush(mWhitePieceColor);
               painter->setPen(mWhitePieceColor);
               painter->drawText(QRectF(mX,mY,mTileSize,mTileSize),QString(car));
-
             }
 }
 void ChessBoard::DrawNumberedCase( QPainter *painter)
@@ -444,7 +485,7 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
 }
 
 
-QString ChessBoard::getName(int row, int col)
+QString ChessBoard::getName(int col, int row)
 {  
     if (mBoard.at(row*8+col)==chess::Piece::WHITEPAWN)
         return ("WHITEPAWN");

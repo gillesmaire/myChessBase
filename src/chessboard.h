@@ -24,14 +24,48 @@ public:
     void flipBoard( bool flip){ mFlip=flip; update();}
     QString getFEN();
     QStringList AuthorizedCase(QString move);
+    void AskUpdate(){ update();}
+     ///
+    /// \brief getName return the piece with an enum WHITEPAWN etc ...
+    /// \param file 
+    /// \param rank
+    /// \return 
+    ///
+    QString getName(int file, int rank);
 private: 
     void RecordChessFonts();
+    ///
+    /// \brief mBoard is the bord frot chess library in charge of maintains the position and 
+    /// all  the usefull informations 
+    ///
     Board mBoard;
+    ///
+    /// \brief mFont is the chess font used to display the piece
+    ///
+    QFont mFont;
+    ///
+    /// \brief mColor is  QColor of the piece
+    ///
+    QColor mColor;
+    ///
+    /// \brief mFlip if flip the black side in at bottom else the white are at bottom
+    ///
     bool mFlip=false;
+    ///
+    /// \brief mNumberedCase  on true the chess board see the A B C ... and 1 2 3 tags in border of the
+    /// chess board
+    ///
     bool mNumberedCase=false;
-    int mSizeBoard; // size of board
-    bool mA2H=false;   // numbered text is A B ... H and  1 2 ... 8 if mA2H is true else H ... A ans 8 to 1
+    /// the size of the board in pixels
+    int mSizeBoard; 
+    ///
+    /// \brief mA2H  numbered text is A B ... H and  1 2 ... 8 if mA2H is true else H ... A ans 8 to 1
+    ///
+    bool mA2H=false;   
     void paintEvent(QPaintEvent *e) override;
+    ///
+    /// \brief mWhiteSquareColor as usual
+    ///
     QColor mWhiteSquareColor;
     QColor mBlackSquareColor;
     QColor mWhitePieceColor;
@@ -61,8 +95,11 @@ private:
     /// \brief mSize8Case size of B cases without margin or number
     ///
     int mSize8Case;
-    QString getName(int row, int col);
+   
     QStringList mFontList;
+    /// the current font used to show the pieces ...the pieces are printed as 'o' for pawn
+    /// but on each font the pawn is not 'o' . we maintains a table of correspondance in the code
+    /// 
     QString mCurrentFont;
     ///
     /// \brief mShowLetters if true the A ..H 1 .. 8 wil be shown
@@ -102,12 +139,18 @@ private:
     /// \param painter
     ///
     void DrawPieces(QPainter *painter);
-    QMap<QString,QMap<QString,QChar>> Pieces;
+    
+    void DrawOneCase(QPainter *painter, int x, int y, int size, QColor squarecolor);
+    
+    Square mSquareToBePlayed=Square();
     
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
     void setNumberCase (bool on);
+    
+   
+    
 signals:
     void LenghtAndColor( int , QColor);
 protected:

@@ -154,7 +154,8 @@ void MainWindow::LoadPGNFile()
 void MainWindow::Update()
 {
     update();
-    ui->chessBoard->update();
+    ui->chessBoard->AskUpdate();
+    
 }
 
 void MainWindow::Configuration()
