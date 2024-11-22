@@ -191,11 +191,18 @@ QString Utils::getFileNameDataBase()
     QFileInfo fi(configfile);
     return (fi.absolutePath()+"/myChessBase.db");
 }
-
+std::u16string Utils::StringViewToUtf16(const std::string_view& str_view) {
+    if (str_view.empty()) {
+        return std::u16string();
+    }
+}
 QString Utils::view2QString(std::string_view vue)
 {
     return QString::fromUtf8(vue.data(), static_cast<int>(vue.size()));
 }
+std::string_view Utils::QString2View(const QString& qstr) {
+    return std::string_view(reinterpret_cast<const char*>(qstr.utf16()), qstr.length() * 2);
+   }
 
 std::string Utils::toHexString(const std::array<uint8_t, 24> &data) {
     std::ostringstream oss;

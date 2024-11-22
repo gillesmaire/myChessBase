@@ -29,6 +29,13 @@ public:
     /// \return 
     ///
     static QString view2QString(std::string_view vue );
+    
+    ///
+    /// \brief QString2View convert string_view to QString
+    /// \param qstr
+    /// \return 
+    ///
+    static std::string_view QString2View(const QString &qstr);
     ///
     /// \brief toHexString  convert a PacketBoard to QString
     /// \param data
@@ -63,6 +70,9 @@ public:
     /// used for the piece
     ///
     static void RecordChessFonts();
+    
+    
+    static std::u16string StringViewToUtf16(const std::string_view &str_view);
 }; 
 
 

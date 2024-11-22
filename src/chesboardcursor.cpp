@@ -10,7 +10,7 @@
 
 QCursor ChesBoardCursor::SetChessBoardCursor()
 {
-    QPixmap pm (QString(":/System/mainindex.png"));
+    QPixmap pm (QString(":/System/openhand.png"));
     QCursor cursor(pm);
     return cursor;
 }
@@ -68,8 +68,8 @@ QCursor ChesBoardCursor::getCursor( int sizetile,QString fontname, QColor piecec
   p.setPen(pen);
   p.setBrush(brush);
   p.drawText(0,px.height()/2,c);
-  QPixmap pm (QString(":/System/mainfermee.png"));
-  p.drawPixmap(sizetile/4,0,sizetile/2,sizetile/2,pm);
+  QPixmap pm (QString(":/System/closehand.png"));
+  p.drawPixmap(sizetile/4,0,sizetile/2.3,sizetile/2.3,pm);
   p.end();
   
   QCursor cursor(px);

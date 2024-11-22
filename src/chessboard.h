@@ -151,20 +151,61 @@ private:
     /// \param painter
     ///
     void DrawPiece(QPainter *painter);
-    
+    ///
+    /// \brief DrawOneSquare draw a square wih Painter
+    /// \param painter used in paintEvent
+    /// \param x the x coordonate
+    /// \param y the y 
+    /// \param size the size of the square
+    /// \param squarecolor the color in QColor
+    ///
     void DrawOneSquare(QPainter *painter, int x, int y, int size, QColor squarecolor);
     
+    ///
+    /// \brief mSquareToBePlayed this variable memorize the departure square before the next move is played
+    /// it is initiaized with nothing 
+    ///
     Square mSquareToBePlayed=Square();
-    
+    ///
+    /// \brief mouse status 
+    ///
     enum MouseStatus {PressedNotReleased,  PressedReleased, NotPressed} mMouseStatus=NotPressed;
-    
+    ///
+    /// \brief Debug display the board in ASCII mode 
+    /// 
+    ///
     void Debug();
+    
+    ///
+    /// When you play a game in one of analyze modes or in pgn editing you can walk inside the list of moves
+    QStringList mMoveList;
+    ///
+    /// \brief mCurrent the current element in mMoveList. If not move is playe mCurrent=-1 at first mCurrent=0 after mCurrent=1
+    ///
+    int mCurrent=-1;
+   
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
     void setNumberCase (bool on);
     
-   
+    ///
+    /// \brief goStart go to the start of the game
+    ///
+    void goStart();
+    ///
+    /// \brief gotEnd got to the end of the game
+    ///
+    void goEnd();
+    ///
+    /// \brief goBack go back 
+    ///
+    void goBack();
+    ///
+    /// \brief goNext gotNext record
+    ///
+    void goNext();
+    
     
 signals:
     void LenghtAndColor( int , QColor);

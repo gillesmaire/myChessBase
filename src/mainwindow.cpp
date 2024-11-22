@@ -55,6 +55,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
     connect (ui->actionCreate_a_Pgn_file,&QAction::triggered,this,&MainWindow::ActiveWidget);
+    connect (ui->pushButtonStart,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goStart);
+    connect (ui->pushButtonEnd,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goEnd);
+    connect (ui->pushButtonNext,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goNext);
+    connect (ui->pushButtonBack,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goBack);
 }   
 
 

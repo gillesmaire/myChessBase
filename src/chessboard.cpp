@@ -124,15 +124,22 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
      {
        QString m=QString::fromStdString(std::string(mSquareToBePlayed))+cs;
        Move move=uci::uciToMove(mBoard,m.toStdString()); 
+       while ( mCurrent+1!=mMoveList.count()) {mMoveList.removeLast();}
        mBoard.makeMove(move);
+       mMoveList<<m;
+       mCurrent=mMoveList.count()-1;
        setCursor(ChesBoardCursor::SetChessBoardCursor());
        mSquareToBePlayed=Square();
        mPossibleMoves.clear();
        update();
-       Debug();
      }
     else
-     ;
+     {
+      setCursor(ChesBoardCursor::SetChessBoardCursor());
+      mSquareToBePlayed=Square();
+      mPossibleMoves.clear();
+      update();
+     }
 }
 
 void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int size , QColor squarecolor)
@@ -194,6 +201,66 @@ void ChessBoard::Debug()
         }
         std::cout<<"********"<<std::endl;
 }
+
+void ChessBoard::goStart()
+{
+    Board b(constants::STARTPOS);
+    mBoard=b;
+    mCurrent=-1;
+    update();
+}
+
+void ChessBoard::goBack()
+{
+    if (mMoveList.isEmpty()) return;
+    if (mCurrent==-1)  return;
+    QString move=mMoveList.at(mCurrent);
+    Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
+    if (mBoard.getFen() != constants::STARTPOS)
+    {
+       mBoard.unmakeMove(mu);
+       if (mCurrent!=-1) mCurrent--;
+       update();
+    }
+}
+
+void ChessBoard::goNext()
+{
+   if (mMoveList.isEmpty()) return;
+   if ( mCurrent==mMoveList.count()-1) return;
+   else
+    {
+    qDebug()<<mCurrent;
+    QString move;
+    if (mCurrent==-1)
+          move=mMoveList.at(0);
+      else {
+          move= mMoveList.at(mCurrent+1);
+          
+      }
+      mCurrent++;
+      Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
+      mBoard.makeMove(mu);
+      update();
+    }
+}
+     
+
+void ChessBoard::goEnd()
+{
+   if (mMoveList.isEmpty()) return;
+   if ( mCurrent==mMoveList.count()-1) return;
+
+   while (mCurrent<mMoveList.count()-1)
+    {
+      QString move= mMoveList.at(mCurrent+1);
+      Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
+      mBoard.makeMove(mu);
+      mCurrent++;
+    }
+    update();
+}
+
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QPainter painter(this);
@@ -215,6 +282,7 @@ void ChessBoard::paintEvent(QPaintEvent *)
         else 
             squarecolor=mBlackSquareColor;
         letter='a';
+       
        
         for (mCol = 0; mCol < 8; ++mCol) 
         {  
