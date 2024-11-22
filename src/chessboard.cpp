@@ -23,10 +23,7 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
   setCursor(cbcursor); 
-  Move m=uci::uciToMove(mBoard,"e2e4");
-  mBoard.makeMove(m);
-   m=uci::uciToMove(mBoard,"e7e6");
-  mBoard.makeMove(m);
+  
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
@@ -95,7 +92,7 @@ if ( ! mClickable ) return;
     int nbcase=NumberCase(x,y);
     if ( nbcase < 0 || nbcase>=64) return;
     Square sq=Square(nbcase);
-    QColor squarecolor=sq.is_light()?mBlackSquareColor:mWhiteSquareColor;
+   // QColor squarecolor=sq.is_light()?mBlackSquareColor:mWhiteSquareColor;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
@@ -106,9 +103,36 @@ if ( ! mClickable ) return;
         QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
         mSquareToBePlayed=Square(sq.rank(),sq.file()); 
+        qDebug()<<QString::fromStdString(std::string(mSquareToBePlayed));
         mMouseStatus=MouseStatus::PressedNotReleased;
     }
     update();
+}
+
+void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
+{
+    if ( ! mClickable ) return ;
+    QPoint p=event->pos();
+    int x=p.x();
+    int y=p.y();
+    int nbcase=NumberCase(x,y);
+    if ( nbcase < 0 || nbcase>=64) return;
+    Square sq=Square(nbcase);
+    QString cs=QString::fromStdString(std::string(sq));
+    
+    if ( mPossibleMoves.contains(cs)) 
+     {
+       QString m=QString::fromStdString(std::string(mSquareToBePlayed))+cs;
+       Move move=uci::uciToMove(mBoard,m.toStdString()); 
+       mBoard.makeMove(move);
+       setCursor(ChesBoardCursor::SetChessBoardCursor());
+       mSquareToBePlayed=Square();
+       mPossibleMoves.clear();
+       update();
+       Debug();
+     }
+    else
+     ;
 }
 
 void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int size , QColor squarecolor)
@@ -161,9 +185,11 @@ void ChessBoard::DrawPossiblesMoves(QPainter *painter)
 void ChessBoard::Debug()
 {       
         std::cout<<"********"<<std::endl;
-        for ( int i=0; i<64; i++) {
-           std::cout << std::string(mBoard.at(Square(i)))   ;
-           if ( (i+1)%8 == 0 ) std::cout << std::endl;
+        for ( int f=7; f>=0; f--) 
+         for ( int r=0;r<=7;r++){
+           Piece p = mBoard.at(Square(File(r),Rank(f)));
+           std::cout << std::string(p)   ;
+           if ( r==7 ) std::cout << std::endl;
         }
         std::cout<<"********"<<std::endl;
 
@@ -223,14 +249,14 @@ void ChessBoard::paintEvent(QPaintEvent *)
         }
    num++;
     }
-    if (mSquareToBePlayed!=Square()) 
-    {
-        int rank=mSquareToBePlayed.rank();
-        int file=mSquareToBePlayed.file();
-        int x,y;
-        DrawOneSquare(&painter,x,y,mTileSize,squarecolor);
-        mSquareToBePlayed=Square();
-    }
+    // if (mSquareToBePlayed!=Square()) 
+    // {
+    //     int rank=mSquareToBePlayed.rank();
+    //     int file=mSquareToBePlayed.file();
+    //     int x,y;
+    //     DrawOneSquare(&painter,x,y,mTileSize,squarecolor);
+    //     //mSquareToBePlayed=Square();
+    // }
     
     
     DrawNumberedCase(&painter);

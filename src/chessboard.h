@@ -169,9 +169,10 @@ public slots:
 signals:
     void LenghtAndColor( int , QColor);
 protected:
-    void resizeEvent(QResizeEvent *e) override ;
+    virtual void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // CHESSBOARD_H
