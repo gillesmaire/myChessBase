@@ -192,9 +192,6 @@ void ChessBoard::Debug()
            if ( r==7 ) std::cout << std::endl;
         }
         std::cout<<"********"<<std::endl;
-
-
-    
 }
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
