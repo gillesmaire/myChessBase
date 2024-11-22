@@ -77,6 +77,7 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 
 void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 {
+if ( ! mClickable ) return ;
  QPainter painter(this);
  painter.drawRect(QRect(event->pos(),QSize(10,10)));
 }   
@@ -86,6 +87,7 @@ void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
+if ( ! mClickable ) return; 
     // cs = "e2"
     QPoint p=event->pos();
     int x=p.x();
@@ -208,8 +210,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
             }  
             // draw the square
             DrawOneSquare(&painter,mX,mY,mTileSize,squarecolor);
-            //if ()
-            qDebug()<<mCol<<" "<<mRow;
              if (  mSquareToBePlayed!=Square()  && int(mSquareToBePlayed.file())  == mCol &&
                   int(mSquareToBePlayed.rank())  == mRow ) ;
                  
@@ -371,6 +371,11 @@ QString ChessBoard::getName(int col, int row)
     else if (mBoard.at(row*8+col)==chess::Piece::BLACKKING)
         return("BLACKKING");
     else return("NOPIECE");
+}
+
+void ChessBoard::setClickable(bool clickable)
+{
+    mClickable=clickable;
 }
 
 void ChessBoard::setCurrentFont(QString font)

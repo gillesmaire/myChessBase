@@ -10,6 +10,8 @@
 
 
 typedef enum {PossibleMoves,LastMove,Nothing}  Raison;
+
+
 class ChessBoard : public QWidget
 {
      Q_OBJECT
@@ -24,7 +26,7 @@ public:
     void flipBoard( bool flip){ mFlip=flip; update();}
     QString getFEN();
     QStringList AuthorizedCase(QString move);
-    void AskUpdate(){ update();}
+    void AskUpdate(){ qDebug()<<"update in chessboard"; update();}
      ///
     /// \brief getName return the piece with an enum WHITEPAWN etc ...
     /// \param file 
@@ -32,6 +34,11 @@ public:
     /// \return 
     ///
     QString getName(int file, int rank);
+    ///
+    /// \brief setClickable if no clickabe the pieces can't be moved my mouse
+    /// \param clickable
+    ///
+    void setClickable(bool clickable);
 private: 
     void RecordChessFonts();
     ///
@@ -114,6 +121,11 @@ private:
     /// \brief mPossibleMoves list of possible moves recorder e3, e4 etc juste arrival square
     ///
     QStringList mPossibleMoves;
+    
+    ///
+    /// \brief mClickable the chessboard can be clicked only fi mClickable is set
+    ///
+    bool mClickable=true;
     
     int NumberCase(int x, int y);
     ///

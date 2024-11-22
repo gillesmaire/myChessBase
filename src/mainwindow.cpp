@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
     connect (ui->actionCreate_a_Pgn_file,&QAction::triggered,this,&MainWindow::ActiveWidget);
-}
+}   
 
 
 
@@ -153,6 +153,7 @@ void MainWindow::LoadPGNFile()
 
 void MainWindow::Update()
 {
+    qDebug()<<"updage asked by configuration";
     update();
     ui->chessBoard->AskUpdate();
     

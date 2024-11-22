@@ -29,6 +29,7 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
     
     ui->comboBoxPieces->setCurrentText(s.value("PiecesFont").toString());
+    ui->widget->setClickable(false);
     
     connect (ui->pushButtonBlackPieceColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonBlackSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
