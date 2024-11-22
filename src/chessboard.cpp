@@ -166,7 +166,7 @@ int ChessBoard::NumberCase( int x, int y)
 QColor ChessBoard::Median( QColor color1 , QColor color2 )
 {
     return QColor((color1.red()+color2.red())/2,
-                  (color2.green()+color2.green())/2,
+                  (color1.green()+color2.green())/2,
                   (color1.blue()+color2.blue())/2 );
 }
 
@@ -178,6 +178,7 @@ void ChessBoard::DrawPossiblesMoves(QPainter *painter)
              pen.setColor(color);
              QBrush brush(color);
              painter->setBrush(brush);
+             painter->setPen(pen);
              painter->drawEllipse(QRect(mX+mTileSize/3,mY+mTileSize/3,mTileSize/3,mTileSize/3));
 }
 
