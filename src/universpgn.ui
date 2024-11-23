@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>722</width>
-    <height>410</height>
+    <width>1191</width>
+    <height>793</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_9">
+  <layout class="QHBoxLayout" name="horizontalLayout_10">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_9">
+    <layout class="QVBoxLayout" name="verticalLayout_10">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
@@ -43,6 +43,13 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
+              <widget class="QLabel" name="labelWhiteFirstname">
+               <property name="text">
+                <string>Firstname</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="labelWhiteTitle">
                <property name="text">
                 <string>Name</string>
@@ -57,7 +64,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="labelWhiteTitle_2">
+              <widget class="QLabel" name="labelWhiteNale">
                <property name="text">
                 <string>Title</string>
                </property>
@@ -117,6 +124,13 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
+              <widget class="QLabel" name="labelBlackFirstName">
+               <property name="text">
+                <string>Firstname</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="labelBlackName">
                <property name="text">
                 <string>Name</string>
@@ -167,22 +181,49 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <layout class="QVBoxLayout" name="verticalLayout_9">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="labelYear">
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBoxYear"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelMonth">
+             <property name="text">
+              <string>Month</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBoxMonth"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelDay">
+             <property name="text">
+              <string>Day</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBoxDay"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <widget class="QLabel" name="labelECO">
                <property name="text">
                 <string>ECO </string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelDate">
-               <property name="text">
-                <string>Date</string>
                </property>
               </widget>
              </item>
@@ -219,10 +260,21 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
-              <widget class="QLineEdit" name="lineEditECO"/>
-             </item>
-             <item>
-              <widget class="QDateEdit" name="dateEdit"/>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QLineEdit" name="lineEditECO"/>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox">
+                 <property name="toolTip">
+                  <string>ECO is E70 ext is E70bd</string>
+                 </property>
+                 <property name="text">
+                  <string>Ext</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <widget class="QLineEdit" name="lineEditSite"/>
@@ -269,6 +321,13 @@
       <widget class="QTextEdit" name="textEditMoves"/>
      </item>
      <item>
+      <widget class="QTableView" name="tableViewListOfGames">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
         <spacer name="horizontalSpacer_3">
@@ -291,9 +350,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButtonClose">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>Close</string>
+          <string>New</string>
          </property>
         </widget>
        </item>
@@ -314,7 +373,14 @@
        <item>
         <widget class="QPushButton" name="pushButtonSaveAsSinglePGN">
          <property name="text">
-          <string>Save as single PGN File</string>
+          <string>Save in existing PGN File</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonClose">
+         <property name="text">
+          <string>Close</string>
          </property>
         </widget>
        </item>

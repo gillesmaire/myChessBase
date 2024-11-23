@@ -1,0 +1,5 @@
+1 Add checkboxes to openings
+2 Strike the last column in openings
+3 records to search 
+4 - select in the liste whith mouse  
+5 - When I  down wih teh mouse the scrolling doesn't follow !

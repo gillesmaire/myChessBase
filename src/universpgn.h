@@ -1,5 +1,5 @@
-#ifndef FORMCREATEPGN_H
-#define FORMCREATEPGN_H
+#ifndef UNIVERSPGN_H
+#define UNIVERSPGN_H
 
 #include <QWidget>
 #include "chessstackedwidget.h"
@@ -15,7 +15,12 @@ class FormCreatePGN : public QWidget
 public:
     explicit FormCreatePGN(QWidget *parent = nullptr);
     ~FormCreatePGN();
-
+    void SetListMove(QString);
+    ///
+    /// \brief getListMove return the text in que QTexEdit ie list of moves
+    /// \return 
+    ///
+    QString getListMove();
 private:
     Ui::FormCreatePGN *ui;
     void GoIndex0();
@@ -23,6 +28,8 @@ private:
     void Reset();
     void FormAutoFillBlack();
     void FormAutoFillWhite();
+private slots:
+    void GetListMoves(QStringList list); 
 };
 
-#endif // FORMCREATEPGN_H
+#endif // UNIVERSPGN_H

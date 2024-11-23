@@ -162,6 +162,31 @@ void Utils::RecordChessFonts()
     Pieces["OpenChessFont"]=P;
 }
 
+QString Utils::NumberSanMoves(QStringList list)
+{
+ QString result;
+ QString white;
+ QString black;
+ int i=0;
+ QString  first("");
+ for (auto move: list)
+    {
+     i++;
+    if ( i%2==1 ){
+      white=QString("%1%2. %3").arg(first).arg(i).arg(move) ;
+      first= " ";
+      }
+    else {
+      black=move;
+      result+=white + " " + black ;
+      white="";
+     }
+    }
+  if ( ! white.isEmpty()) 
+     result= result+ white;
+  return (result);
+}
+
 
 QMap<QString, QChar> Utils::ListPGNRecords()
 {

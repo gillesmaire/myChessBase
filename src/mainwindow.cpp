@@ -18,6 +18,7 @@
 
 #include <QMessageBox>
 #include <QDir>
+#include <QRegularExpression>
 
 #include <memory>
 #include <fstream>
@@ -39,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     mDialogConfiguration = new DialogConfiguration(this);
+    ui->stackedWidgetButtonVsInfo->setCurrentIndex(0);
     QSettings s;
     ui->chessBoard->setNumberCase(s.value("ShowCaseNumbers").toBool());
     ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
@@ -46,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
+    connect (ui->actionMy_Preferences,&QAction::triggered,this,&MainWindow::MyPreferences);
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
     connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
@@ -55,12 +58,32 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
     connect (ui->actionCreate_a_Pgn_file,&QAction::triggered,this,&MainWindow::ActiveWidget);
-    connect (ui->pushButtonStart,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goStart);
+    connect (ui->pushButtonStart,&QPushButton::clicked,this,&MainWindow::goStart);
     connect (ui->pushButtonEnd,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goEnd);
     connect (ui->pushButtonNext,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goNext);
     connect (ui->pushButtonBack,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goBack);
+    connect (ui->chessBoard,SIGNAL(MovesModified(QStringList)),ui->CreationPGN,SLOT(GetListMoves(QStringList)));
+    connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
+            this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
+    
 }   
 
+
+void MainWindow::goStart()
+{
+  ui->chessBoard->goStart();
+  ui->CreationPGN->SetListMove(QString());
+}
+
+void MainWindow::goBack()
+{
+    ui->chessBoard->goBack();
+    QString listofmoves=ui->CreationPGN->getListMove();
+    listofmoves.replace (QRegularExpression("\\d+\\."),"");
+    QStringList l=listofmoves.split(" ");
+    l.removeLast();
+    ui->CreationPGN->SetListMove(l.join(" "));
+}
 
 
 MainWindow::~MainWindow()
@@ -83,7 +106,10 @@ void MainWindow::IncrementCounter()
     
 }
 
-
+void MainWindow::MyPreferences()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
 
 void MainWindow::FlipBoard()
 {
@@ -177,6 +203,7 @@ void MainWindow::ShowInformations()
     di.exec();
 }
 
+
 void MainWindow::About()
 {
     DialogAbout da(this);
@@ -235,3 +262,9 @@ void MainWindow::ActiveWidget()
      ui->stackedWidget->setCurrentIndex(1);
 }
 
+void MainWindow::ShowVariation(QString ECO,QString opening,QString variation,QString ecoplus,QString moves)
+{
+    ui->stackedWidgetButtonVsInfo->setCurrentIndex(1);
+    ui->pageInfo->setTitle(QString("ECO  %1 (%4) :  %2 - %3 ").arg(ECO).arg(opening).arg(variation).arg(ecoplus));
+    ui->chessBoard->PlayListOfSANMove(moves.split(' '));
+}

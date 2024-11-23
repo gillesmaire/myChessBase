@@ -22,11 +22,14 @@ SOURCES += \
     dialogconfiguration.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
-    formcreatepgn.cpp \
+    formtitle.cpp \
+    formuniversmypreferences.cpp \
     main.cpp \
     mainwindow.cpp \
     movablePiece.cpp \
+    mytableview.cpp \
     myvisitor.cpp \
+    universpgn.cpp \
     utils.cpp
 
 HEADERS += \
@@ -41,10 +44,13 @@ HEADERS += \
     dialogconfiguration.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
-    formcreatepgn.h \
+    formtitle.h \
+    formuniversmypreferences.h \
     mainwindow.h \
     movablePiece.h \
+    mytableview.h \
     myvisitor.h \
+    universpgn.h \
     utils.h
 
 FORMS += \
@@ -53,8 +59,10 @@ FORMS += \
     dialogprogressbarimport.ui \
     dialogconfiguration.ui \
     dialogshortcuts.ui \
-    formcreatepgn.ui \
-    mainwindow.ui
+    formtitle.ui \
+    formuniversmypreferences.ui \
+    mainwindow.ui \
+    universpgn.ui
 
 TRANSLATIONS += \
     myChessBase_en_US.ts

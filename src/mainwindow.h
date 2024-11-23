@@ -29,6 +29,7 @@ private slots:
     void Update();
     void ShoShortCuts();
     void SaveCaseNumbers();
+    void ShowVariation(QString ECO, QString opening, QString variation, QString ecoplus, QString moves);
 private:
     Ui::MainWindow *ui; 
     QSqlDatabase *mConnection;
@@ -55,6 +56,15 @@ private:
     /// \brief ActiveWidget set the Stacked Widget in the correspondant widget
     ///
     void ActiveWidget();
+    ///
+    /// \brief goStart called when the button go start is clicked. We need to inform chesssBoard and PGNEditor
+    ///
+    void goStart();
+    ///
+    /// \brief goBackcalled when the button go back is clicked. We need to inform chesssBoard and PGNEditor
+    ///
+    void goBack();
+    void MyPreferences();
 protected:
     void resizeEvent(QResizeEvent *e);
 

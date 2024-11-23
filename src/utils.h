@@ -71,6 +71,13 @@ public:
     ///
     static void RecordChessFonts();
     
+    ///
+    /// \brief NumberSanMoves transfrorm an SAN list like e4 e5 Nf3 Nc6 to 1.e4 e5 2.Nf3 Nc6
+    /// \param list list of move 
+    /// \return  the list with numbers
+    ///
+    static QString NumberSanMoves( QStringList list);
+    
     
     static std::u16string StringViewToUtf16(const std::string_view &str_view);
 }; 

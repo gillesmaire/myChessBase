@@ -124,10 +124,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
      {
        QString m=QString::fromStdString(std::string(mSquareToBePlayed))+cs;
        Move move=uci::uciToMove(mBoard,m.toStdString()); 
-       while ( mCurrent+1!=mMoveList.count()) {mMoveList.removeLast();}
+       mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
+       while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
        mBoard.makeMove(move);
-       mMoveList<<m;
-       mCurrent=mMoveList.count()-1;
+       mMoveUCIList<<m;
+       
+       emit MovesModified(mMoveSanList);
+       mCurrent=mMoveUCIList.count()-1;
        setCursor(ChesBoardCursor::SetChessBoardCursor());
        mSquareToBePlayed=Square();
        mPossibleMoves.clear();
@@ -212,9 +215,9 @@ void ChessBoard::goStart()
 
 void ChessBoard::goBack()
 {
-    if (mMoveList.isEmpty()) return;
+    if (mMoveUCIList.isEmpty()) return;
     if (mCurrent==-1)  return;
-    QString move=mMoveList.at(mCurrent);
+    QString move=mMoveUCIList.at(mCurrent);
     Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
     if (mBoard.getFen() != constants::STARTPOS)
     {
@@ -226,16 +229,15 @@ void ChessBoard::goBack()
 
 void ChessBoard::goNext()
 {
-   if (mMoveList.isEmpty()) return;
-   if ( mCurrent==mMoveList.count()-1) return;
+   if (mMoveUCIList.isEmpty()) return;
+   if ( mCurrent==mMoveUCIList.count()-1) return;
    else
     {
-    qDebug()<<mCurrent;
     QString move;
     if (mCurrent==-1)
-          move=mMoveList.at(0);
+          move=mMoveUCIList.at(0);
       else {
-          move= mMoveList.at(mCurrent+1);
+          move= mMoveUCIList.at(mCurrent+1);
           
       }
       mCurrent++;
@@ -248,12 +250,12 @@ void ChessBoard::goNext()
 
 void ChessBoard::goEnd()
 {
-   if (mMoveList.isEmpty()) return;
-   if ( mCurrent==mMoveList.count()-1) return;
+   if (mMoveUCIList.isEmpty()) return;
+   if ( mCurrent==mMoveUCIList.count()-1) return;
 
-   while (mCurrent<mMoveList.count()-1)
+   while (mCurrent<mMoveUCIList.count()-1)
     {
-      QString move= mMoveList.at(mCurrent+1);
+      QString move= mMoveUCIList.at(mCurrent+1);
       Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
       mBoard.makeMove(mu);
       mCurrent++;
@@ -468,6 +470,19 @@ QString ChessBoard::getName(int col, int row)
 void ChessBoard::setClickable(bool clickable)
 {
     mClickable=clickable;
+}
+
+void ChessBoard::PlayListOfSANMove(QStringList moves)
+{
+    Board b(constants::STARTPOS);
+    mBoard=b ;
+    Move move;
+    for ( auto m :  moves ) 
+    {
+     move=chess::uci::parseSan(mBoard,std::string_view(m.toStdString()));
+     mBoard.makeMove(move);
+    }
+    update();
 }
 
 void ChessBoard::setCurrentFont(QString font)

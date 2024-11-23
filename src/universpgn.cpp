@@ -1,14 +1,29 @@
-#include "formcreatepgn.h"
-#include "ui_formcreatepgn.h"
+#include "universpgn.h"
+#include "ui_universpgn.h"
+#include "utils.h"
+
 #include <QDebug>
 #include <QSettings>
+#include <QDate>
 
 FormCreatePGN::FormCreatePGN(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::FormCreatePGN)
 {
     ui->setupUi(this);
-    ui->dateEdit->setDate(QDate::currentDate());
+  //  ui->dateEdit->setDate(QDate::currentDate());
+    ui->comboBoxResult->setCurrentText("?");
+    QDate today=QDate::currentDate();
+    ui->spinBoxDay->setMaximum(31); 
+    ui->spinBoxDay->setMinimum(1);
+    ui->spinBoxDay->setValue(today.day());
+    ui->spinBoxMonth->setMaximum(12);
+    ui->spinBoxMonth->setMinimum(1);
+    ui->spinBoxMonth->setValue(today.month());
+    ui->spinBoxYear->setMinimum(1600);
+    ui->spinBoxYear->setMaximum(today.year());
+    ui->spinBoxYear->setValue(today.year());
+ 
     connect(ui->pushButtonClose,&QPushButton::clicked,this,&FormCreatePGN::GoIndex0);
     connect(ui->pushButtonReset,&QPushButton::clicked,this,&FormCreatePGN::Reset);
     connect(ui->pushButtonBlackYou,&QPushButton::clicked,this,&FormCreatePGN::FormAutoFillBlack);
@@ -23,6 +38,17 @@ void FormCreatePGN::GoIndex0()
 FormCreatePGN::~FormCreatePGN()
 {
     delete ui;
+}
+
+void FormCreatePGN::SetListMove(QString listmove)
+{
+    ui->textEditMoves->clear();
+    ui->textEditMoves->setText(Utils::NumberSanMoves(listmove.split(" ")));
+}
+
+QString FormCreatePGN::getListMove()
+{
+    return ui->textEditMoves->toPlainText();
 }
 
 void FormCreatePGN::Reset()
@@ -43,7 +69,8 @@ void FormCreatePGN::Reset()
   ui->comboBoxResult->setCurrentIndex(0);
   ui->lineEditECO->clear();
   ui->lineEditEvent->clear();
-  ui->dateEdit->setDate(QDate::currentDate());
+ 
+ // ui->dateEdit->setDate(QDate::currentDate());
   ui->lineEditSite->clear();
   ui->lineEditRound->clear();
 }
@@ -65,3 +92,9 @@ void FormCreatePGN::FormAutoFillWhite()
     ui->lineEditWhiteName->setText(s.value("YourName").toString()+","+s.value("YourFirstname").toString());
     ui->lineEditWhiteTitle->setText(s.value("YourTitle").toString());
 }
+
+void FormCreatePGN::GetListMoves(QStringList list)
+{
+    ui->textEditMoves->setText(Utils::NumberSanMoves(list));
+}
+

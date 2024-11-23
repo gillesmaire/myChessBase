@@ -39,6 +39,12 @@ public:
     /// \param clickable
     ///
     void setClickable(bool clickable);
+    ///
+    /// \brief PlayListOfSANMove : this function set the  board at begining state ask to play a liste of moves in 
+    ///  SAN syle ie. For example : e4 e5 Nf6 
+    /// \param moves
+    ///
+    void PlayListOfSANMove( QStringList moves);
 private: 
     void RecordChessFonts();
     ///
@@ -178,11 +184,13 @@ private:
     
     ///
     /// When you play a game in one of analyze modes or in pgn editing you can walk inside the list of moves
-    QStringList mMoveList;
+    QStringList mMoveUCIList;
+    QStringList mMoveSanList;
     ///
     /// \brief mCurrent the current element in mMoveList. If not move is playe mCurrent=-1 at first mCurrent=0 after mCurrent=1
     ///
     int mCurrent=-1;
+    
    
 public slots:
     void setCurrentFont( QString font );
@@ -209,11 +217,13 @@ public slots:
     
 signals:
     void LenghtAndColor( int , QColor);
+    void MovesModified( QStringList );
 protected:
     virtual void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
+    
 };
 
 #endif // CHESSBOARD_H

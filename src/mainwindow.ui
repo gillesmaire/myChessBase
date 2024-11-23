@@ -41,62 +41,80 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButtonStart">
-            <property name="text">
-             <string>&lt;&lt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButtonBack">
-            <property name="text">
-             <string>&lt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButtonNext">
-            <property name="text">
-             <string>&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButtonEnd">
-            <property name="text">
-             <string>&gt;&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <widget class="QStackedWidget" name="stackedWidgetButtonVsInfo">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="pageButtons">
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonStart">
+                <property name="text">
+                 <string>&lt;&lt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonBack">
+                <property name="text">
+                 <string>&lt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonNext">
+                <property name="text">
+                 <string>&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonEnd">
+                <property name="text">
+                 <string>&gt;&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="FormTitle" name="pageInfo"/>
+         </widget>
         </item>
        </layout>
       </item>
@@ -111,9 +129,12 @@
         </item>
         <item>
          <widget class="ChessStackedWidget" name="stackedWidget">
+          <property name="currentIndex">
+           <number>2</number>
+          </property>
           <widget class="QWidget" name="Blank"/>
           <widget class="FormCreatePGN" name="CreationPGN"/>
-          <widget class="QWidget" name="page_2"/>
+          <widget class="FormUniversMyPreferences" name="PreferenceUnivers"/>
          </widget>
         </item>
        </layout>
@@ -135,6 +156,9 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionPGN_working"/>
+    <addaction name="actionDataBase_Working"/>
+    <addaction name="actionMy_Preferences"/>
     <addaction name="actionLoad_Pgn_file"/>
     <addaction name="actionCreate_a_Pgn_file"/>
     <addaction name="actionConfiguration"/>
@@ -263,6 +287,21 @@
     <string>F4</string>
    </property>
   </action>
+  <action name="actionPGN_working">
+   <property name="text">
+    <string>PGN working</string>
+   </property>
+  </action>
+  <action name="actionDataBase_Working">
+   <property name="text">
+    <string>DataBase Working</string>
+   </property>
+  </action>
+  <action name="actionMy_Preferences">
+   <property name="text">
+    <string>Preferences working</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -272,15 +311,27 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>FormCreatePGN</class>
-   <extends>QWidget</extends>
-   <header>formcreatepgn.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ChessStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header>chessstackedwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormCreatePGN</class>
+   <extends>QWidget</extends>
+   <header>universpgn.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormUniversMyPreferences</class>
+   <extends>QWidget</extends>
+   <header>formuniversmypreferences.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormTitle</class>
+   <extends>QWidget</extends>
+   <header>formtitle.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
