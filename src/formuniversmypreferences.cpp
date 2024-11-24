@@ -1,18 +1,20 @@
 #include "formuniversmypreferences.h"
 #include "ui_formuniversmypreferences.h"
 #include <QScreen>
+#include <QSettings>
 
 FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::FormUniversMyPreferences)
 {
+    QSettings s;
     ui->setupUi(this);
     model = new QSqlQueryModel(this);
     ui->ECOview->setModel(model);
     ui->ECOview->setSortingEnabled(true);
-    ui->ECOview->setModel(model);
-   
-   
+    ui->ECOview->setModel(model); 
+    ui->comboBoxChoice->setCurrentIndex(s.value("ECOTableDefautValue").toInt());
+    s.setValue("ECOTableDefautValue",ui->comboBoxChoice->currentIndex());
     QString query="SELECT eco,ecoplus,opening,variation,moves from ECO" ;
     model->setQuery(query);
      QFont f;
@@ -37,6 +39,8 @@ FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
                               ui->ECOview->scrollTo(current); // Défile jusqu'à l'élément sélectionné
                          }
                      });
+
+
 }
 
 void FormUniversMyPreferences::LaunchRequest()
@@ -68,7 +72,8 @@ void FormUniversMyPreferences::LaunchNewRequest( bool )
      }
      QString query="SELECT eco,ecoplus,opening,variation,moves from ECO "+where ;
      model->setQuery(query);
-     qDebug()<<query;
+     QSettings s;
+     s.setValue("ECOTableDefautValue",ui->comboBoxChoice->currentIndex());
    
 }
 
