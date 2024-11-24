@@ -1,40 +1,76 @@
 #include "formuniversmypreferences.h"
 #include "ui_formuniversmypreferences.h"
+#include <QScreen>
 
 FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::FormUniversMyPreferences)
 {
     ui->setupUi(this);
-     model = new QSqlTableModel(this);
-     model->setTable("ECO");
-     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-     model->removeColumns(4,2);
-     model->select();
-     model->insertColumns(6,1);
-     
-     model->setHeaderData(5, Qt::Horizontal, tr("Nb moves"));
-     model->setHeaderData(6, Qt::Horizontal, tr("Prefered"));
-     //model->setHeaderData(1, Qt::Horizontal, tr("Salary"));
-
-    ui->tableView->setModel(model);
-    ui->tableView->setColumnWidth(0,20);
-    ui->tableView->setColumnWidth(1,200);
-    ui->tableView->setColumnWidth(2,170);
-    ui->tableView->setColumnWidth(3,8);
-    ui->tableView->setColumnWidth(5,10);
-    ui->tableView->setSortingEnabled(true) ;
-    ui->tableView->setAlternatingRowColors(true);
-    //connect(ui->tableView, &QTableView::clicked,this,&FormUniversMyPreferences::ShowEcoPlus);
-    connect(ui->tableView, &MyTableView::currentChangedSignal,this,&FormUniversMyPreferences::ShowEcoPlus);
-    QObject::connect(ui->tableView->selectionModel(), &QItemSelectionModel::currentChanged,
-                     ui->tableView, [this](const QModelIndex &current, const QModelIndex &) {
-                         if (current.isValid()) {
-                             ui->tableView->scrollTo(current); // Défile jusqu'à l'élément sélectionné
+    model = new QSqlQueryModel(this);
+    ui->ECOview->setModel(model);
+    ui->ECOview->setSortingEnabled(true);
+    ui->ECOview->setModel(model);
+   
+   
+    QString query="SELECT eco,ecoplus,opening,variation,moves from ECO" ;
+    model->setQuery(query);
+     QFont f;
+    double dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
+    double oneChar=dpi*f.pointSize()/72;
+    ui->ECOview->setSortingEnabled(true);
+    ui->ECOview->setColumnWidth(0,2*oneChar);
+    ui->ECOview->setColumnWidth(1,2*oneChar);
+    ui->ECOview->setColumnWidth(2,20*oneChar);
+    ui->ECOview->setColumnWidth(3,10*oneChar);
+    ui->ECOview->setColumnWidth(4,8*oneChar);
+    ui->ECOview->setSortingEnabled(true) ;
+    ui->ECOview->setAlternatingRowColors(true);
+    model->setHeaderData(5, Qt::Horizontal, tr("Nb moves"));
+    model->setHeaderData(6, Qt::Horizontal, tr("Preferred"));
+    connect (ui->pushButtonGo,SIGNAL(clicked(bool)),this,SLOT(LaunchNewRequest(bool)));
+    connect (ui->lineEditChoice,&QLineEdit::returnPressed,this,&FormUniversMyPreferences::LaunchRequest);
+    connect(ui->ECOview, &MyTableView::currentChangedSignal,this,&FormUniversMyPreferences::ShowEcoPlus);
+    QObject::connect(ui->ECOview->selectionModel(), &QItemSelectionModel::currentChanged,
+                      ui->ECOview, [this](const QModelIndex &current, const QModelIndex &) {
+                          if (current.isValid()) {
+                              ui->ECOview->scrollTo(current); // Défile jusqu'à l'élément sélectionné
                          }
                      });
 }
 
+void FormUniversMyPreferences::LaunchRequest()
+{
+    LaunchNewRequest( true );
+
+}
+void FormUniversMyPreferences::LaunchNewRequest( bool )
+{
+  QString where;
+     if (! ui->lineEditChoice->text().isEmpty()){
+     qDebug()<<ui->comboBoxChoice->currentIndex();
+        switch ( ui->comboBoxChoice->currentIndex() ){
+        case 0 :    where=QString("WHERE ECO = '%1'").arg(ui->lineEditChoice->text()); 
+                    break ;
+        case 1 :    {QString eco=ui->lineEditChoice->text().first(3);
+                    QString plus=ui->lineEditChoice->text().last(2);              
+                    where=QString("WHERE ECO = '%1' AND ECOPLUS ='%2'").arg(eco).arg(plus); }
+                    break;
+        case 2 :    where=QString("WHERE opening LIKE '%%1%' OR variation LIKE '%%1%'").arg(ui->lineEditChoice->text());
+                    break;
+        case 3 :    where=QString("WHERE opening LIKE '%%1%'").arg(ui->lineEditChoice->text());
+                    break;
+        case 4 :    where=QString("WHERE variation LIKE '%%1%'").arg(ui->lineEditChoice->text());
+                    break;
+        case 5 :    where=QString("WHERE moves LIKE '%1%' ").arg(ui->lineEditChoice->text());
+                    break;
+        }
+     }
+     QString query="SELECT eco,ecoplus,opening,variation,moves from ECO "+where ;
+     model->setQuery(query);
+     qDebug()<<query;
+   
+}
 
 FormUniversMyPreferences::~FormUniversMyPreferences()
 {

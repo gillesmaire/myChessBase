@@ -2,7 +2,9 @@
 #define FORMUNIVERSMYPREFERENCES_H
 
 #include <QWidget>
-#include <QSqlTableModel>
+#include <QSqlQueryModel>
+
+
 namespace Ui {
 class FormUniversMyPreferences;
 }
@@ -17,10 +19,13 @@ public:
 
 private:
     Ui::FormUniversMyPreferences *ui;
-    QSqlTableModel *model; 
+    QSqlQueryModel *model; 
     void ShowEcoPlus(QModelIndex index);
 signals:
     void Informations( QString eco, QString opening, QString variation, QString ecoplus, QString moves);
+private slots:
+    void LaunchNewRequest(bool );
+    void LaunchRequest();
 };
 
 #endif // FORMUNIVERSMYPREFERENCES_H
