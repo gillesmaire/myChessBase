@@ -16,6 +16,7 @@ SOURCES += \
     chessstackedwidget.cpp \
     colorbutton.cpp \
     creationbase.cpp \
+    customsqlcolumnproxymodel.cpp \
     dialogabout.cpp \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
@@ -33,11 +34,13 @@ SOURCES += \
     utils.cpp
 
 HEADERS += \
+    BooleanCheckBoxDelegate.h \
     chesboardcursor.h \
     chessboard.h \
     chessstackedwidget.h \
     colorbutton.h \
     creationbase.h \
+    customsqlcolumnproxymodel.h \
     dialogabout.h \
     dialoginfo.h \
     dialogprogressbarimport.h \

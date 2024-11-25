@@ -1,0 +1,2 @@
+#include "customsqlcolumnproxymodel.h"
+
