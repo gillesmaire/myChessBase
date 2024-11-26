@@ -271,3 +271,48 @@ QString Utils::getFontFamily(QString fontname)
 }
 
 
+int Utils::ECONumber()
+{
+    QSqlQuery query("select count (*)  from  ECO");
+    query.next();
+    return query.value(0).toInt();
+}
+
+QStringList Utils:: ListFavouriteOpenings()
+{
+    QFile file(getUserSettingsDirectory()+"/openings.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return {};
+    }
+    QStringList selectedOpenings;
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed(); // Lire et nettoyer chaque ligne
+        if (!line.isEmpty() && !line.startsWith('#')) { // Ignorer les commentaires
+            selectedOpenings.append(line);
+        }
+    }
+    file.close();
+    return selectedOpenings;
+}
+
+bool Utils::SaveFouvouriteOpenings(QStringList list)
+{
+     QFile file(getUserSettingsDirectory()+"/openings.txt");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return false; 
+     }
+    QTextStream out(&file);
+    for (const QString& code : list) {
+        out << code << "\n";
+        }
+    file.close();
+    return true;
+}
+
+
+QString Utils::getUserSettingsDirectory() {
+    QSettings settings;
+    QFileInfo fileInfo(settings.fileName());
+    return fileInfo.absolutePath();
+}

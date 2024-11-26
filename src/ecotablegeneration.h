@@ -3,7 +3,6 @@
 
  #include <chess.hpp>
  #include <QDebug>
- #include "utils.h"
  #include <QSqlQuery>
 
 ///
@@ -17,7 +16,7 @@
 ///   ECOPLUS  : is ECO plus xx from A00aa to E99zz to extend the number of moves calculated here
 ///   MOVES : the list moves of the variation given by DBF
 ///   NBM : is Number of moves in the variation to be able to make select ordered by number of moves
-///   PB : is the packet board of each variation to be able is an transposition if a player is in an know opening
+///   **Canceled** PB : is the packet board of each variation to be able is an transposition if a player is in an know opening
 ///   NBWIN : number of games win in the variation given periodically by the DATABASE
 ///   NBLOST : number of games lost in the variation given periodically by the DATABASE
 ///   NBEQ : number of equal machs in the variatoion givent periodically by the DATABASE

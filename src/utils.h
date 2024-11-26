@@ -78,9 +78,30 @@ public:
     ///
     static QString NumberSanMoves( QStringList list);
     
-    
     static std::u16string StringViewToUtf16(const std::string_view &str_view);
-}; 
 
+    ///
+    /// \brief ECONumber return the number of ECO in the tabel ECO
+    /// \return 
+    ///
+    static int ECONumber();
+    ////
+    /// \brief ListFavouriteOpening contruct a QStringList with the list
+    /// of favourite openings for the user. Le file is stored in ini file of user.
+    /// \return the list of vavourite
+    ///
+    static QStringList ListFavouriteOpenings();
+    ///
+    /// \brief SaveFouvouriteOpenings save the list. 
+    /// \param list
+    ///
+    bool  SaveFouvouriteOpenings (QStringList list);
+    ////
+    /// \brief getUserSettingsDirectory get the name of ini directory
+    /// \return 
+    ///
+    static QString getUserSettingsDirectory();
+};
+    
 
 #endif // UTILS_H

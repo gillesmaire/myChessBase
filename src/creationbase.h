@@ -10,7 +10,7 @@ public:
     QSqlDatabase * getConnection();
     QString getDataBaseFileName(){ return mFilename; }
 private:
-    
+    void CreateECOTable();
     QSqlDatabase mDb ;
     QString mFilename;
 };

@@ -1,10 +1,13 @@
 #include "formuniversmypreferences.h"
 #include "ui_formuniversmypreferences.h"
 #include "customsqlcolumnproxymodel.h"
+#include "checkboxdelegate.h"
 #include <QScreen>
 #include <QSettings>
 #include <QSqlQuery>
 #include <QVariant>
+
+
 
 
 
@@ -19,7 +22,7 @@ FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     q.next();
     QList<QVariant> values;
     qDebug()<<q.value(0);
-    for (int i=0;i<q.value(0).toInt();i++) values<<"true";
+    for (int i=0;i<q.value(0).toInt();i++) values<<i;
     
     mSqlModel = new CustomSQLColumnProxyModel;
     mSqlModel->setCustomColumnData(values);
@@ -27,6 +30,8 @@ FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     ui->ECOview->setModel(mSqlModel);
     
     ui->ECOview->setSortingEnabled(true);
+    
+    
     ui->comboBoxChoice->setCurrentIndex(s.value("ECOTableDefautValue").toInt());
     s.setValue("ECOTableDefautValue",ui->comboBoxChoice->currentIndex());
     QString query="SELECT eco,ecoplus,opening,variation,moves from ECO" ;
@@ -37,13 +42,17 @@ FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     ui->ECOview->setSortingEnabled(true);
     ui->ECOview->setColumnWidth(0,2*oneChar);
     ui->ECOview->setColumnWidth(1,2*oneChar);
-    ui->ECOview->setColumnWidth(2,2*oneChar);
-    ui->ECOview->setColumnWidth(3,20*oneChar);
-    ui->ECOview->setColumnWidth(4,10*oneChar);
-    mSqlModel->setHeaderData(5, Qt::Horizontal, tr("Preferred"));
+    ui->ECOview->setColumnWidth(2,16*oneChar);
+    ui->ECOview->setColumnWidth(3,10*oneChar);
+    ui->ECOview->setColumnWidth(4,8*oneChar);
+    ui->ECOview->setColumnWidth(5,3*oneChar);
+    mSqlModel->setHeaderData(5, Qt::Horizontal, tr("Alert"));
    // mdelegate = new CheckBoxDelegate(this);
     ui->ECOview->setSortingEnabled(true) ;
     ui->ECOview->setAlternatingRowColors(true);
+    CheckBoxDelegate *delegate = new CheckBoxDelegate();
+    ui->ECOview->setItemDelegateForColumn(5, delegate);
+    
     connect (ui->pushButtonGo,SIGNAL(clicked(bool)),this,SLOT(LaunchNewRequest(bool)));
     connect (ui->lineEditChoice,&QLineEdit::returnPressed,this,&FormUniversMyPreferences::LaunchRequest);
     connect(ui->ECOview, &MyTableView::currentChangedSignal,this,&FormUniversMyPreferences::ShowEcoPlus);

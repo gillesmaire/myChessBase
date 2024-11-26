@@ -8,8 +8,9 @@
 #include <QSettings>
 #include <QFileInfo>
 #include <QThread>
-
 #include <QSqlQuery>
+#include <QSqlError>
+
 #include "dialogprogressbarimport.h"
 #include <QAtomicInt>
 
@@ -115,19 +116,31 @@ void MyVisitor::endPgn()
          vals<<val;
     }
    
-    // recs<<"ecoplus";
-    // vals<<"'"+CalcEcoEcoPlus( mMoves, 40)+"'";
+    recs<<"ecoplus";
+    QString plus=CalcEcoEcoPlus( mMoves, 40);
+    vals<<"'"+plus+"'";
    
     QString rec=recs.join(',');
     QString val=vals.join(',');
     QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
     QSqlQuery query(req,mDb);
+    QString q;
+    QMap<QString,QChar> list=Utils::ListPGNRecords();
+    for (auto key:  list.keys() ){
+            QString type=(list[key]=='T')?"TEXT":"INTEGER";
+            q+=QString("'%1' %2").arg(key,type)+",";
+        }
+    
+    
     IncrementCounter();
+   
     
    
 }
 
-void MyVisitor::IncrementCounter()
+void MyVisitor::
+
+IncrementCounter()
 {
     mProgressBarImport->CountIncrement();
 }
@@ -155,7 +168,7 @@ void MyVisitor::InitValues()
 QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
 {
   extern  QMap<QString,chess::PackedBoard> PackedBoards; 
-  // BackedBoars contains all openings packed board
+  //BackedBoards contains all openings packed board
   QStringList results;
   
   // results contains the longuest combinaison
@@ -179,13 +192,13 @@ QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
       auto packed=chess::Board::Compact::encode(board);
       // is the packed in know as a opening
       for (auto ecoplus: PackedBoards.keys())
-         { 
-          if ( PackedBoards[ecoplus]==packed )
-            {
-              // we know  an opening candidate we have to get eco ecoplus and nbm (number of move)
-              results<<ecoplus;
-            }
-         }       
+          { 
+           if ( PackedBoards[ecoplus]==packed )
+             {
+               // we know  an opening candidate we have to get eco ecoplus and nbm (number of move)
+               results<<ecoplus;
+             }
+          }       
     }
    // results contains all the candidates we choose the longuest who is the last
    return (results.last());  

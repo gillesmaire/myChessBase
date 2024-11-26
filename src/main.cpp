@@ -25,6 +25,8 @@ QString InitPieceFont="Maya";
 QMap<QString,chess::PackedBoard> PackedBoards;
 QMap<QString,QMap<QString,QChar>> Pieces;
 QAtomicInt atct(0);
+QStringList FavouriteOpenings;
+
 
 ///
 ////// \brief main name of the program
@@ -43,7 +45,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("myChessBase");
     QCoreApplication::setApplicationName("myChessBase");
    
-    // Date of first use 
     
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings s;
@@ -81,9 +82,13 @@ int main(int argc, char *argv[])
     // Data base creation if not exists
     CreationBase *b =  new CreationBase();
     
+    extern  QStringList FavouriteOpenings;
+    FavouriteOpenings=Utils::ListFavouriteOpenings();
+    
+    // Date of first use 
+    
     // list of PackedPoint and name of 
     Utils::InitializePackedBoards();
-    
     
     MainWindow w;
     w.setDataBaseConnector(b->getConnection());

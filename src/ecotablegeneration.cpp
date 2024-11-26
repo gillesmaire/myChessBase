@@ -1,6 +1,7 @@
 #include "ecotablegeneration.h"
 #include <QSqlQuery>
 #include <QSqlError>
+#include "utils.h"
 
 EcoTableGeneration::EcoTableGeneration() {}
 
@@ -30,8 +31,8 @@ void EcoTableGeneration::endPgn()
 {
    
      QString sqlreq=QString(
-          "INSERT INTO ECO ( eco, opening, variation, ecoplus, pb,fen, moves, nbm) VALUES" 
-                          "(:eco,:opening,:variation,:ecoplus,:pb,:fen,:moves,:nbm)");
+          "INSERT INTO ECO ( eco, opening, variation, ecoplus, moves, nbm, wins, losts, equals ) VALUES" 
+                          "(:eco,:opening,:variation,:ecoplus,:moves,:nbm,:wins,:losts,:equals)");
     QString ecoval=mValues.takeFirst();
     QString opening=mValues.takeFirst();
     //if (mEcoPlusCount.toQString()=="zz") mcountzz=true;
@@ -62,13 +63,24 @@ void EcoTableGeneration::endPgn()
     query.bindValue(":opening",opening); 
     query.bindValue(":variation",variation);
     query.bindValue(":ecoplus",mEcoPlusCount.toQString());
-    query.bindValue(":fen",FEN(mMoves));
-    query.bindValue(":pb", Utils::PackeBoard2ByteArray(BitBoard(mMoves)));
+    //query.bindValue(":fen",FEN(mMoves));
+    //query.bindValue(":pb", Utils::PackeBoard2ByteArray(BitBoard(mMoves)));
     query.bindValue(":moves",mMoves.join(' '));
     query.bindValue(":nbm",mMoves.count()); 
+    query.bindValue(":wins",0); 
+    query.bindValue(":losts",0); 
+    query.bindValue(":equals",0); 
     query.exec();
- //   qDebug()<<query.lastError().text();
-    
+  //  qDebug()<<query.lastError().text();
+  //  qDebug()<<query.lastQuery();
+    QString q;
+    QMap<QString,QChar> list=Utils::ListPGNRecords();
+    for (auto key:  list.keys() ){
+    QString type=(list[key]=='T')?"TEXT":"INTEGER";
+            q+=QString("'%1' %2").arg(key,type)+",";
+    }
+    QString qs1(QString("CREATE TABLE '%1%2' ('Id' INTEGER NOT NULL UNIQUE,MOVES NOT NULL,%3 PRIMARY KEY('Id' AUTOINCREMENT))").arg(ecoval).arg(mEcoPlusCount.toQString()).arg(q));
+    QSqlQuery qsq1(qs1);
 }
     
 void EcoTableGeneration::setSqlHandler( QSqlDatabase *db)
