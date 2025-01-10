@@ -264,7 +264,6 @@ QString Utils::getFontFamily(QString fontname)
 {
   extern QMap <QString,int> fontList;
   int i =fontList[fontname];
-  QString family;
   if (QFontDatabase::applicationFontFamilies(i).size()!=0)
         return QFontDatabase::applicationFontFamilies(i).at(0);
  return QString();
@@ -315,4 +314,10 @@ QString Utils::getUserSettingsDirectory() {
     QSettings settings;
     QFileInfo fileInfo(settings.fileName());
     return fileInfo.absolutePath();
+}
+
+void Utils::PrintChrono()
+{
+    QDateTime d;
+    qDebug()<<d;
 }

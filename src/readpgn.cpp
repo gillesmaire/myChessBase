@@ -1,4 +1,4 @@
-#include "myvisitor.h"
+#include "readpgn.h"
 #include <QDebug>
 #include <QSqlRecord>
 #include <QList>
@@ -16,46 +16,42 @@
 
 
 
-MyVisitor::MyVisitor()
+ReadPGN::ReadPGN()
 { 
     mRecords=Utils::ListPGNRecords();
-    QString connectionName = QString("ConnectionMyVis-%1").arg(reinterpret_cast<quintptr>(QThread::currentThreadId()));
-    mDb = QSqlDatabase::addDatabase("QSQLITE", connectionName);
-    mDb.setDatabaseName(Utils::getFileNameDataBase());
-   if (!mDb.open()) {
-    qWarning() << "MyChessBase : failed to open database in thread" << QThread::currentThreadId();
-      return;
-    }
-   else mDb.transaction();
+    // QString connectionName = QString("ConnectionMyVis-%1").arg(reinterpret_cast<quintptr>(QThread::currentThreadId()));
+    // mDb = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+   // mDb->setDatabaseName(Utils::getFileNameDataBase());
     
 }
 
 
 
-MyVisitor::~MyVisitor()
+ReadPGN::~ReadPGN()
 {
      mProgressBarImport->ClockStop();
-     mDb.commit();
-     mDb.close();
+     mDb->commit();
+     qDebug()<<"FIN transaction";
+     mDb->close();
 }
 
 
 ///
-/// \brief MyVisitor::startPgn is the first event when program start to read a PGN
+/// \brief ReadPGN::startPgn is the first event when program start to read a PGN
 /// It is also the start of reading header
 ///
-void MyVisitor::startPgn()
+void ReadPGN::startPgn()
 {
-    InitValues();
-    mMoves.clear();
+     InitValues();
+     mMoves.clear();
 }
 
 ///
-/// \brief MyVisitor::header this function is call when Event or other records are read (date etc)
+/// \brief ReadPGN::header this function is call when Event or other records are read (date white whiteID result etc)
 /// \param key
 /// \param value
 ///
-void MyVisitor::header(std::string_view key, std::string_view value)
+void ReadPGN::header(std::string_view key, std::string_view value)
 {
 
     QString k=view2QString(key);
@@ -69,34 +65,35 @@ void MyVisitor::header(std::string_view key, std::string_view value)
            mValues.replace(i,elem);
            break;
            }
+      if (k=="Result"){  mResult=v;}
       i++ ;
     }
 }
 
 ///
-/// \brief MyVisitor::move each move are given with an optional comment without black or white indication nor
+/// \brief ReadPGN::move each move are given with an optional comment without black or white indication nor
 /// number of move.
 /// \param move
 /// \param comment
 ///
-void MyVisitor::move(std::string_view move, std::string_view )
+void ReadPGN::move(std::string_view move, std::string_view )
 {
     mMoves<<view2QString(move);
 }
 
 
 ///
-/// \brief MyVisitor::startMoves this function is called before the first move is done (before 1.e4 for example) It is 
+/// \brief ReadPGN::startMoves this function is called before the first move is done (before 1.e4 for example) It is 
 /// the end of header
 ///
-void MyVisitor::startMoves()
+void ReadPGN::startMoves()
 {
 }
 
 ///
-/// \brief MyVisitor::endPgn is the last
+/// \brief ReadPGN::endPgn is the last
 ///
-void MyVisitor::endPgn()
+void ReadPGN::endPgn()
 {
     QStringList recs;
     QStringList  vals;
@@ -107,23 +104,31 @@ void MyVisitor::endPgn()
     vals<<m;
     recs<<"MOVES";
     for ( auto info : mValues)
-     {
+     { 
+        
+        if (info.first == QString("ECO") )      
+            mECO=info.second.toString();
+        else
+        {
         recs<<info.first;
         QString val;
         if ( mRecords[info.first]=='T' )
                 val=QString("'%1'").arg(info.second.toString());
         else val=info.second.toString();
          vals<<val;
+       }
     }
    
-    recs<<"ecoplus";
-    QString plus=CalcEcoEcoPlus( mMoves, 40);
-    vals<<"'"+plus+"'";
+   //  recs<<"ecoplus";
+      QString plus=CalcEcoEcoPlus( mMoves, 40);
+   //  vals<<"'"+plus+"'";
    
     QString rec=recs.join(',');
     QString val=vals.join(',');
-    QString req=QString("INSERT INTO Games (%1) VALUES (%2)").arg(rec).arg(val);
-    QSqlQuery query(req,mDb);
+    //QString req=QString("INSERT INTO %1 (%2) VALUES (%3)").arg(plus).arg(rec).arg(val);
+    QString req=QString("INSERT INTO staging (ECO,%2) VALUES ('%1',%3)").arg(plus).arg(rec).arg(val);
+    QSqlQuery query(req);
+   // qDebug()<<query.lastQuery()<<query.lastError().text();
     QString q;
     QMap<QString,QChar> list=Utils::ListPGNRecords();
     for (auto key:  list.keys() ){
@@ -138,17 +143,15 @@ void MyVisitor::endPgn()
    
 }
 
-void MyVisitor::
-
-IncrementCounter()
+void ReadPGN::IncrementCounter()
 {
     mProgressBarImport->CountIncrement();
 }
 
 ///
-/// \brief MyVisitor::InitValues on each pgn mvalues is reset with ('' or 0) if record is text or integer
+/// \brief ReadPGN::InitValues on each pgn mvalues is reset with ('' or 0) if record is text or integer
 ///
-void MyVisitor::InitValues()    
+void ReadPGN::InitValues()    
 {
     mValues.clear();
     QMap<QString,QChar> map=Utils::ListPGNRecords();
@@ -159,13 +162,11 @@ void MyVisitor::InitValues()
         mValues.append(QPair<QString,QVariant>(m,""));
       else if (map[m]=='I')
         mValues.append(QPair<QString,QVariant>(m,0));
-      else 
-        mValues.append(QPair<QString,QVariant>(m,0));
     }
     
 }
 
-QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
+QString ReadPGN::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
 {
   extern  QMap<QString,chess::PackedBoard> PackedBoards; 
   //BackedBoards contains all openings packed board
@@ -207,17 +208,12 @@ QString MyVisitor::CalcEcoEcoPlus(QStringList Moves, int numberOfMovesAnalyzed)
        
 
 
-void MyVisitor::setConnection(QSqlDatabase *)
+void ReadPGN::setConnection(QSqlDatabase * db)
 {
-    // QSettings s;
-    // QString configfile= s.fileName();
-    // QFileInfo fi(configfile);
-    // QString filename=fi.absolutePath()+"/myChessBase.db";
-    // QFileInfo fibase(filename);
-    // QSqlDatabase mDb=QSqlDatabase::addDatabase("QSQLITE");
+     mDb=db;
 }
 
-void MyVisitor::setProgressBar( DialogProgressBarImport *progressbar)
+void ReadPGN::setProgressBar( DialogProgressBarImport *progressbar)
 {
     mProgressBarImport =progressbar;
 }

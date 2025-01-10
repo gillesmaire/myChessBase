@@ -40,7 +40,7 @@ QSqlDatabase *CreationBase::getConnection()
 
 void CreationBase::CreateECOTable()
 {
-    QString q ("CREATE TABLE 'ECO' ( eco not NULL,ecoplus,opening NOT NULL,variation,moves NOT NULL,nbm INTEGER NOT NULL, wins INTEGER , losts INTEGER , equals INTEGER ) ");
+    QString q ("CREATE TABLE 'ECO' ( eco not NULL,ecoplus,opening NOT NULL,variation,moves NOT NULL,pb BLOB,  nbm INTEGER NOT NULL, wins INTEGER , losts INTEGER , equals INTEGER ) ");
     QSqlQuery query(q) ;
     QString tmpfile=QDir::temp().absolutePath();
     QString ecofile=tmpfile+QString("/eco.pgn");

@@ -24,7 +24,7 @@ QString InitBlackPieceColor="#04151D";
 QString InitPieceFont="Maya";
 QMap<QString,chess::PackedBoard> PackedBoards;
 QMap<QString,QMap<QString,QChar>> Pieces;
-QAtomicInt atct(0);
+QAtomicInt atct(0); // to be delete
 QStringList FavouriteOpenings;
 
 

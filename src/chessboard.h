@@ -26,7 +26,7 @@ public:
     void flipBoard( bool flip){ mFlip=flip; update();}
     QString getFEN();
     QStringList AuthorizedCase(QString move);
-    void AskUpdate(){ qDebug()<<"update in chessboard"; update();}
+    void AskUpdate(){  update();}
      ///
     /// \brief getName return the piece with an enum WHITEPAWN etc ...
     /// \param file 

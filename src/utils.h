@@ -101,6 +101,8 @@ public:
     /// \return 
     ///
     static QString getUserSettingsDirectory();
+    
+    static void PrintChrono();
 };
     
 

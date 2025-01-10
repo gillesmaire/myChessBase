@@ -21,7 +21,6 @@ FormUniversMyPreferences::FormUniversMyPreferences(QWidget *parent)
     QSqlQuery q("select Count() from ECO");
     q.next();
     QList<QVariant> values;
-    qDebug()<<q.value(0);
     for (int i=0;i<q.value(0).toInt();i++) values<<i;
     
     mSqlModel = new CustomSQLColumnProxyModel;
@@ -75,7 +74,6 @@ void FormUniversMyPreferences::LaunchNewRequest( bool )
 {
   QString where;
      if (! ui->lineEditChoice->text().isEmpty()){
-     qDebug()<<ui->comboBoxChoice->currentIndex();
         switch ( ui->comboBoxChoice->currentIndex() ){
         case 0 :    where=QString("WHERE ECO = '%1'").arg(ui->lineEditChoice->text()); 
                     break ;
@@ -113,6 +111,5 @@ void FormUniversMyPreferences::ShowEcoPlus(QModelIndex index)
      QString variation=index.sibling(index.row(),3).data().toString();
      QString moves=index.sibling(index.row(),4).data().toString();
      QVariant preferred=index.sibling(index.row(),5).data().toString();
-     qDebug()<<eco<<ecoplus<<opening<<variation<<ecoplus<<moves<<preferred;
      emit Informations(eco,opening,variation,ecoplus,moves);
 }

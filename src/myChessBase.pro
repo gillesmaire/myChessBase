@@ -30,7 +30,7 @@ SOURCES += \
     mainwindow.cpp \
     movablePiece.cpp \
     mytableview.cpp \
-    myvisitor.cpp \
+    readpgn.cpp \
     universpgn.cpp \
     utils.cpp
 
@@ -54,7 +54,7 @@ HEADERS += \
     mainwindow.h \
     movablePiece.h \
     mytableview.h \
-    myvisitor.h \
+    readpgn.h \
     universpgn.h \
     utils.h
 

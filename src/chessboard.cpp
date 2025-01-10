@@ -103,7 +103,6 @@ if ( ! mClickable ) return;
         QCursor cursor = ChesBoardCursor::getCursor(mTileSize,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
         mSquareToBePlayed=Square(sq.rank(),sq.file()); 
-        qDebug()<<QString::fromStdString(std::string(mSquareToBePlayed));
         mMouseStatus=MouseStatus::PressedNotReleased;
     }
     update();

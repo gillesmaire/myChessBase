@@ -24,7 +24,7 @@
 #include <fstream>
 #include "chess.hpp"
 
-#include "myvisitor.h"
+#include "readpgn.h"
 #include "dialoginfo.h"
 #include "dialogabout.h"
 #include <formcounterpage.h>
@@ -160,13 +160,17 @@ void MainWindow::LoadPGNFile()
     if  (filename.isEmpty() ) return;
    
     auto file_stream=std::ifstream(filename.toLatin1());
-    auto vis =std::make_unique<MyVisitor>();
-    
+    auto vis =std::make_unique<ReadPGN>();
+    vis->setConnection(mConnection);
     pgn::StreamParser parser(file_stream);
+    
+    
     
     mProgressBar=new DialogProgressBarImport(this);
     mProgressBar->show();
     vis->setProgressBar(mProgressBar);
+    qDebug()<<"debut transaction"<<mConnection->transaction();
+    
     try {
         parser.readGames(*vis);
     } 
@@ -175,7 +179,9 @@ void MainWindow::LoadPGNFile()
      }
     catch (...) {
      std::cerr << "Other error: " << "\n";
+     
     }
+    qDebug()<<"fin transaction"<<mConnection->commit();
     
     
 }
@@ -183,7 +189,6 @@ void MainWindow::LoadPGNFile()
 
 void MainWindow::Update()
 {
-    qDebug()<<"updage asked by configuration";
     update();
     ui->chessBoard->AskUpdate();
     

@@ -1,5 +1,5 @@
-#ifndef MYVISITOR_H
-#define MYVISITOR_H
+#ifndef READPGN_H
+#define READPGN_H
 #include "chess.hpp"
 #include <QString>
 #include <QStringList>
@@ -11,9 +11,9 @@
 using namespace chess;
 
 ///
-/// \brief The MyVisitor class is derivated from pgn::Visitor from C++ Chess Library
+/// \brief The ReadPGN class is derivated from pgn::Visitor from C++ Chess Library
 ///
-class MyVisitor :  public pgn::Visitor 
+class ReadPGN :  public pgn::Visitor 
 {
      friend class DialogCount;
      
@@ -22,12 +22,15 @@ private:
       // contains the key values of records used in database 
       QList<QPair<QString,QVariant>> mValues;
  
-      // mRecords contains all the records of database in the first place and type 'TEXT' ou 'INTEGER'
+      // mRecords contains all the records of database in the first place and type 'TEXT' or 'INTEGER'
       QMap<QString,QChar>mRecords;
       
       // all moves of a game
       QStringList mMoves;
-
+      
+      // eco is in the name of the table not in the table !
+      QString mECO;
+      QString mResult;
       ///
       /// \brief view2QString this function convert string_view in QString
       /// \param vue
@@ -47,7 +50,7 @@ private:
      ///
         
     DialogProgressBarImport *mProgressBarImport;
-    QSqlDatabase mDb ;
+    QSqlDatabase *mDb ;
     
     ///
     /// \brief CalcEcoEcoPlus this function loops on 20 first moves of a game separated by space 
@@ -61,8 +64,8 @@ private:
     
     
 public:
-    MyVisitor();
-    virtual ~MyVisitor();
+    ReadPGN();
+    virtual ~ReadPGN();
     ///
     /// \brief header : called  for each header tag 
     /// \param key
@@ -87,13 +90,13 @@ public:
     /// \brief endPgn : called at the end of each PGN game
     ///
     void endPgn();
-    
    void IncrementCounter();
    void setConnection(QSqlDatabase *newConnection);
    void InitPtrMainWindow( MainWindow *ptr);
    void setProgressBar(DialogProgressBarImport *progressbar);
+   
 //   void StopChrono();
 
 };
 
-#endif // MYVISITOR_H
+#endif // READPGN_H

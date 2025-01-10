@@ -49,7 +49,6 @@ bool CustomSQLColumnProxyModel::setData(const QModelIndex &index, const QVariant
     if (index.column() == QSqlQueryModel::columnCount()) {
         if (index.row() < m_customColumnData.size()) {
             m_customColumnData[index.row()] = value;
-            qDebug()<<"la VALUE"<<value;
             emit dataChanged(index, index);
             return true;
         }

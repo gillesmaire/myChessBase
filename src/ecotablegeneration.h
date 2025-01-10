@@ -9,18 +9,37 @@
 /// \brief The EcoTableGeneration class create the table ECO in the database 
 /// The table is built from an ECO file from Davif Barnes File (DBF)
 /// The structure of the table is  :
-/// 
-///   ECO : from A00 to E99, the value is given by DBF
-///   OPENING : official name of variation more official than in PGN files  given by DBF
-///   VARIATION : the variation  given by DBF
+///   ECO      : from A00 to E99, the value is given by DBF
 ///   ECOPLUS  : is ECO plus xx from A00aa to E99zz to extend the number of moves calculated here
-///   MOVES : the list moves of the variation given by DBF
-///   NBM : is Number of moves in the variation to be able to make select ordered by number of moves
-///   **Canceled** PB : is the packet board of each variation to be able is an transposition if a player is in an know opening
-///   NBWIN : number of games win in the variation given periodically by the DATABASE
-///   NBLOST : number of games lost in the variation given periodically by the DATABASE
-///   NBEQ : number of equal machs in the variatoion givent periodically by the DATABASE
+///   OPENING  : official name of variation more official than in PGN files  given by DBF
+///   VARIATION: the variation  given by DBF
+///   MOVES    : the list moves of the variation given by DBF
+///   NBM      : is Number of moves in the variation to be able to make select ordered by number of moves
+///   WINS     : number of games win in the variation given periodically by the DATABASE
+///   LOSTS    : number of games lost in the variation given periodically by the DATABASE
+///   EQUALS   : number of equal machs in the variatoion givent periodically by the DATABASE
 
+///  Here is construct 2014 tables with the folowing convention :
+/// 
+///   the Name of the table is ECO+ECOPLUS A00aa the last one is E99ab following the convention 
+///   sugggered by the  classification from David J. Barnes (d.j.barnes@kent.ac.uk)
+/// 
+/// The table  A00aa contains :
+///   ID : for a game
+///   MOVES : the list of moves from A00 (b4) isnot in the list
+///   BLACK : black player name
+///   BLACKELO : 
+///   BLACKFIDEID 
+///   BLACTITLE 
+///   DATE of game
+///   Event 
+///   Result 
+///   Round 
+///   SITE 
+///   WHITEELO
+///   WHITEFIDDEID
+///   WHITETITLE
+/// 
 class CountString {
 private:
     int right; // Partie pour la première lettre ('a' à 'z')
@@ -97,6 +116,7 @@ private:
      QSqlDatabase *mdb;
      CountString mEcoPlusCount;
      bool mcountzz = false;
+     bool mStagingTableCreated = false;
      
      
      
