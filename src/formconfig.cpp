@@ -1,15 +1,15 @@
-#include "dialogconfiguration.h"
-#include "ui_dialogconfiguration.h"
+#include "formconfig.h"
+#include "ui_formconfig.h"
 #include <QSettings>
 
 extern QString InitWhiteSquareColor;
 extern QString InitBlackSquareColor;
 extern QString InitWhitePieceColor;
 extern QString InitBlackPieceColor;
-   
-DialogConfiguration::DialogConfiguration(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::DialogConfiguration)
+
+FormConfig::FormConfig(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::FormConfig)
 {
     ui->setupUi(this);
     QSettings s;
@@ -27,6 +27,8 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     ui->lineEditYourTitle->setText(s.value("YourTitle").toString());
     ui->lineEditYourELO->setText(s.value("YourELO").toString());
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
+    ui->doubleSpinBoxXshift->setValue(s.value("XShift",1).toDouble());
+    ui->doubleSpinBoxYshift->setValue(s.value("YShift",1).toDouble());
     
     ui->comboBoxPieces->setCurrentText(s.value("PiecesFont").toString());
     ui->widget->setClickable(false);
@@ -35,20 +37,21 @@ DialogConfiguration::DialogConfiguration(QWidget *parent)
     connect (ui->pushButtonBlackSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhitePieceColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhiteSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
-    connect (ui->pushButtonCloseBoard,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect (ui->pushButtonSaveBoard,SIGNAL(clicked(bool)),this,SLOT(Save()));
     connect (ui->comboBoxPieces,SIGNAL(currentTextChanged(QString)),this,SLOT(ChangePiece(QString)));
-    connect (ui->pushButtonCloseInformations,&QPushButton::clicked,this,&DialogConfiguration::close);
-    connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&DialogConfiguration::Save);
-    connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&DialogConfiguration::SaveInformations);
+    connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&FormConfig::Save);
+    connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&FormConfig::SaveInformations);
+
 }
 
-DialogConfiguration::~DialogConfiguration()
+FormConfig::~FormConfig()
 {
     delete ui;
 }
 
-void DialogConfiguration::ChangeColor(QString string,QColor color)
+
+
+void FormConfig::ChangeColor(QString string,QColor color)
 {
  if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
  else if ( string == "WhiteSquareColor" )ui->widget->setWhiteSquareColor(color);
@@ -57,7 +60,7 @@ void DialogConfiguration::ChangeColor(QString string,QColor color)
  
 }
 
-void DialogConfiguration::Save()
+void FormConfig::Save()
 {
     QSettings s;
     s.setValue("BlackSquareColor",ui->pushButtonBlackSquareColor->getColor());
@@ -65,15 +68,17 @@ void DialogConfiguration::Save()
     s.setValue("BlackPieceColor",ui->pushButtonBlackPieceColor->getColor());
     s.setValue("WhitePieceColor",ui->pushButtonWhitePieceColor->getColor());
     s.setValue("PiecesFont",ui->comboBoxPieces->currentText());
+    s.setValue("XShift",ui->doubleSpinBoxXshift->value());
+    s.setValue("YShift",ui->doubleSpinBoxYshift->value());
     emit askRefresh();
 }
 
-void DialogConfiguration::ChangePiece(QString name)
+void FormConfig::ChangePiece(QString name)
 {
     ui->widget->setCurrentFont(name);
 }
 
-void DialogConfiguration::SaveInformations()
+void FormConfig::SaveInformations()
 {
     QSettings s;
     s.setValue("YourFirstname",ui->lineEditYourFirstname->text());
@@ -82,5 +87,3 @@ void DialogConfiguration::SaveInformations()
     s.setValue("YourFideID",ui->lineEditYourFideID->text());
     s.setValue("YourTitle",ui->lineEditYourTitle->text());    
 }
-
-

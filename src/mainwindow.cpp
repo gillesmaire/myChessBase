@@ -30,7 +30,6 @@
 #include <formcounterpage.h>
 #include <formboardpage.h>  
 #include "dialogprogressbarimport.h"
-#include "dialogconfiguration.h"
 #include "dialogshortcuts.h"
 
 
@@ -39,12 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    mDialogConfiguration = new DialogConfiguration(this);
     ui->stackedWidgetButtonVsInfo->setCurrentIndex(0);
     QSettings s;
     ui->chessBoard->setNumberCase(s.value("ShowCaseNumbers").toBool());
     ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
-    connect (mDialogConfiguration,&DialogConfiguration::askRefresh,this,&MainWindow::Update) ;
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
@@ -52,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
     connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
-    connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
+    //connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
@@ -194,12 +191,7 @@ void MainWindow::Update()
     
 }
 
-void MainWindow::Configuration()
-{
-  
-  mDialogConfiguration->show();
-  
-}
+
 
 /// show informations as : number of games in the database, version of this sotware, size of database
 void MainWindow::ShowInformations()

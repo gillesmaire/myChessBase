@@ -1,4 +1,4 @@
-QT       += core gui sql concurrent svg
+QT       += core gui sql concurrent 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,9 +21,9 @@ SOURCES += \
     dialogabout.cpp \
     dialoginfo.cpp \
     dialogprogressbarimport.cpp \
-    dialogconfiguration.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
+    formconfig.cpp \
     formtitle.cpp \
     formuniversmypreferences.cpp \
     main.cpp \
@@ -46,9 +46,9 @@ HEADERS += \
     dialogabout.h \
     dialoginfo.h \
     dialogprogressbarimport.h \
-    dialogconfiguration.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
+    formconfig.h \
     formtitle.h \
     formuniversmypreferences.h \
     mainwindow.h \
@@ -62,8 +62,8 @@ FORMS += \
     dialogabout.ui \
     dialoginfo.ui \
     dialogprogressbarimport.ui \
-    dialogconfiguration.ui \
     dialogshortcuts.ui \
+    formconfig.ui \
     formtitle.ui \
     formuniversmypreferences.ui \
     mainwindow.ui \
@@ -86,4 +86,5 @@ RESOURCES += \
     Fonts.qrc
 
 DISTFILES += \
+    Ideas.md \
     System/cursor.png

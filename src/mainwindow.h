@@ -6,8 +6,8 @@
 #include <formboardpage.h>
 #include <formcounterpage.h>
 #include <dialogprogressbarimport.h>
+#include <formconfig.h>
 #include <QFutureWatcher>
-#include "dialogconfiguration.h"
 
 #include <QLineEdit>
 QT_BEGIN_NAMESPACE
@@ -46,7 +46,7 @@ private:
     FormCounterPage *mFormCounterPageptr;
     FormBoardPage *mFormBoardPageptr;
     DialogProgressBarImport *mProgressBar;
-    DialogConfiguration *mDialogConfiguration;
+    FormConfig *mFormConfig;
     void Configuration();
     void ShowFen(bool);
     QString getFen();

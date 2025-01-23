@@ -264,7 +264,10 @@ void ChessBoard::goEnd()
 
 void ChessBoard::paintEvent(QPaintEvent *)
 { 
+    QSettings s;
     QPainter painter(this);
+    qreal scale=devicePixelRatioF();
+    painter.scale(s.value("XShift",1).toDouble(),s.value("YShift",1).toDouble());
     painter.setRenderHint(QPainter::Antialiasing );
     QColor squarecolor;
     int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
