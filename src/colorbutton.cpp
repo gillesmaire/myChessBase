@@ -21,6 +21,7 @@ void ColorButton::paintEvent(QPaintEvent *)
 {   
     QPainter p(this);
     p.setBrush(mColor);
+    p.setPen(mColor);
     p.drawRect(0,0,width(),height());
 }
 

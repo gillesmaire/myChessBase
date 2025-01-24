@@ -200,7 +200,6 @@
     </property>
     <addaction name="actionPGN_working"/>
     <addaction name="actionDataBase_Working"/>
-    <addaction name="actionMy_Preferences"/>
     <addaction name="actionLoad_Pgn_file"/>
     <addaction name="actionCreate_a_Pgn_file"/>
     <addaction name="actionE_xit"/>
