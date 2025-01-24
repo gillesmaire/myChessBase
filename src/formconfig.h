@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::FormConfig *ui;
     QFont mCurrentFont;
+    void RedrawChessBoard();
 signals:
     void askRefresh();
 };

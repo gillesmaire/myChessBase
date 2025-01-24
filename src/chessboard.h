@@ -45,7 +45,14 @@ public:
     /// \param moves
     ///
     void PlayListOfSANMove( QStringList moves);
-private: 
+    ///
+    /// \brief setCorrection force correction of x and y 
+    /// \param x a value from 0,50 to 1,00 for x adjustement
+    /// \param y a value from 0,50 to 1,00 for y adjustement
+    ///
+    void setCorrection(qreal x, qreal y);
+
+private:
     void RecordChessFonts();
     ///
     /// \brief mBoard is the bord frot chess library in charge of maintains the position and 
@@ -83,12 +90,15 @@ private:
     QColor mBlackSquareColor;
     QColor mWhitePieceColor;
     QColor mBlackPieceColor;
+    
+    qreal mXcorrection;
+    qreal mYcorrection;
     ///
     /// \brief mTileSize is the size of a Square
     ///
     int mTileSize;
     ///
-    /// \brief mX x and y poistion of current obect
+    /// \brief mX x and y poistion of current object
     ///
     int mX, mY;
     ///

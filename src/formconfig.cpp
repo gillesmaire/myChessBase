@@ -41,6 +41,8 @@ FormConfig::FormConfig(QWidget *parent)
     connect (ui->comboBoxPieces,SIGNAL(currentTextChanged(QString)),this,SLOT(ChangePiece(QString)));
     connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&FormConfig::Save);
     connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&FormConfig::SaveInformations);
+    connect (ui->doubleSpinBoxXshift,&QDoubleSpinBox::valueChanged,this,&FormConfig::RedrawChessBoard);
+    connect (ui->doubleSpinBoxYshift,&QDoubleSpinBox::valueChanged,this,&FormConfig::RedrawChessBoard);
 
 }
 
@@ -49,14 +51,18 @@ FormConfig::~FormConfig()
     delete ui;
 }
 
-
+void FormConfig::RedrawChessBoard()
+{
+    ui->widget->setCorrection(ui->doubleSpinBoxXshift->value(),ui->doubleSpinBoxYshift->value());
+    ui->widget->repaint();
+}
 
 void FormConfig::ChangeColor(QString string,QColor color)
 {
- if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
- else if ( string == "WhiteSquareColor" )ui->widget->setWhiteSquareColor(color);
- else if ( string == "BlackPieceColor" ) ui->widget->setBlackPieceColor(color);
- else if ( string == "WhitePieceColor" ) ui->widget->setWhitePieceColor(color);
+     if ( string == "BlackSquareColor" ) ui->widget->setBlackSquareColor(color);
+    else if ( string == "WhiteSquareColor" )ui->widget->setWhiteSquareColor(color);
+    else if ( string == "BlackPieceColor" ) ui->widget->setBlackPieceColor(color);
+    else if ( string == "WhitePieceColor" ) ui->widget->setWhitePieceColor(color);
  
 }
 

@@ -22,8 +22,17 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   mCurrentFont=s.value("PiecesFont").toString();
   mBoard.fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
-  setCursor(cbcursor); 
+  setCursor(cbcursor);
+  mXcorrection= s.value("XShift",1).toDouble();
+  mYcorrection=s.value("YShift",1).toDouble(); 
   
+}
+
+
+void ChessBoard::setCorrection(qreal x, qreal y)
+{
+    mXcorrection=x;
+    mYcorrection=y;
 }
 
 QStringList ChessBoard::listOfTypeOfPieces()
@@ -48,7 +57,7 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitPieceFont;
    
    QSettings s;
-   mSizeBoard=(event->size().width()>event->size().height())? event->size().height():event->size().width();
+   mSizeBoard=(event->size().width()>event->size().height())? event->size().height()-8*s.value("XShift",1).toDouble():event->size().width()-8*s.value("YShift",1).toDouble();
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
@@ -155,8 +164,8 @@ int ChessBoard::NumberCase( int x, int y)
 {
     int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
     int sizeCase=(mSizeBoard-2*sizeNumberedCase)/8;
-    x-=sizeNumberedCase;
-    y-=sizeNumberedCase;
+    x=x-sizeNumberedCase;
+    y=y-sizeNumberedCase;
     int line= y/sizeCase;
     int col= x/sizeCase;
     int square;
@@ -266,8 +275,8 @@ void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QSettings s;
     QPainter painter(this);
-    qreal scale=devicePixelRatioF();
-    painter.scale(s.value("XShift",1).toDouble(),s.value("YShift",1).toDouble());
+    qDebug()<<"repaint";
+    painter.scale(mXcorrection,mYcorrection);
     painter.setRenderHint(QPainter::Antialiasing );
     QColor squarecolor;
     int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
