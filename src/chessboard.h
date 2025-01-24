@@ -96,7 +96,8 @@ private:
     ///
     /// \brief mTileSize is the size of a Square
     ///
-    int mTileSize;
+    int mTilewith;
+    int mTileheight;
     ///
     /// \brief mX x and y poistion of current object
     ///
@@ -175,7 +176,7 @@ private:
     /// \param size the size of the square
     /// \param squarecolor the color in QColor
     ///
-    void DrawOneSquare(QPainter *painter, int x, int y, int size, QColor squarecolor);
+    void DrawOneSquare(QPainter *painter, int x, int y, int w, int h, QColor squarecolor);
     
     ///
     /// \brief mSquareToBePlayed this variable memorize the departure square before the next move is played

@@ -13,35 +13,397 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QHBoxLayout" name="horizontalLayout_10">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_11">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>cocuuo</string>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
+       <widget class="ChessBoard" name="widget" native="true"/>
+       <widget class="QWidget" name="">
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLabel" name="labelWhitePlayer">
+                 <property name="text">
+                  <string>White player</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonWhiteYou">
+                 <property name="text">
+                  <string>You</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QLabel" name="labelWhiteFirstname">
+                   <property name="text">
+                    <string>Firstname</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelWhiteTitle">
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelWhiteElo">
+                   <property name="text">
+                    <string>ELO</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelWhiteNale">
+                   <property name="text">
+                    <string>Title</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelWhiteFIDEID">
+                   <property name="text">
+                    <string>FIDE ID</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QLineEdit" name="lineEditWhiteName"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditWhiteELO"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditWhiteTitle"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditWhiteFIDEID"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="labelBlackPlayer">
+                 <property name="text">
+                  <string>White player</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonBlackYou">
+                 <property name="text">
+                  <string>You</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="labelBlackFirstName">
+                   <property name="text">
+                    <string>Firstname</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelBlackName">
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelBlackELO">
+                   <property name="text">
+                    <string>ELO</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelBlackTitle">
+                   <property name="text">
+                    <string>Title</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelBlackID">
+                   <property name="text">
+                    <string>FIDE ID</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QLineEdit" name="lineEditBlackName"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditBlackELO"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditBlackTitle"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditBlackFIDEID"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="labelYear">
+                 <property name="text">
+                  <string>Year</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxYear"/>
+               </item>
+               <item>
+                <widget class="QLabel" name="labelMonth">
+                 <property name="text">
+                  <string>Month</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxMonth"/>
+               </item>
+               <item>
+                <widget class="QLabel" name="labelDay">
+                 <property name="text">
+                  <string>Day</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxDay"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="labelECO">
+                   <property name="text">
+                    <string>ECO </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelSite">
+                   <property name="text">
+                    <string>Site</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelEvent">
+                   <property name="text">
+                    <string>Event</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelRound">
+                   <property name="text">
+                    <string>Round</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelResult">
+                   <property name="text">
+                    <string>Result</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QLineEdit" name="lineEditECO"/>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox">
+                     <property name="toolTip">
+                      <string>ECO is E70 ext is E70bd</string>
+                     </property>
+                     <property name="text">
+                      <string>Ext</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditSite"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditEvent"/>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditRound"/>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBoxResult">
+                   <item>
+                    <property name="text">
+                     <string>1-0</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>0-1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1/2-1/2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>?</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="textEditMoves"/>
+         </item>
+         <item>
+          <widget class="QTableView" name="tableViewListOfGames">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonReset">
+             <property name="text">
+              <string>Reset</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>New</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonSaveInBase">
+             <property name="text">
+              <string>Save in database</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Save in new  PGN file</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonSaveAsSinglePGN">
+             <property name="text">
+              <string>Save in existing PGN File</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonClose">
+             <property name="text">
+              <string>Close</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item alignment="Qt::AlignBottom">
       <widget class="FormNavigationButton" name="widgetNavigation" native="true">
        <property name="minimumSize">
         <size>
-         <width>400</width>
-         <height>80</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
       </widget>
@@ -55,6 +417,12 @@
    <class>FormNavigationButton</class>
    <extends>QWidget</extends>
    <header>formnavigationbutton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChessBoard</class>
+   <extends>QWidget</extends>
+   <header>chessboard.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

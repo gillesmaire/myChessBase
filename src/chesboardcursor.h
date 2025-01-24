@@ -23,7 +23,7 @@ public:
     /// \param ptr         : a pointer  on the chess board
     /// \return 
     ///
-    static QCursor getCursor(int sizetile, QString font, QColor color, int rank,int file, Color side, ChessBoard *ptr);
+    static QCursor getCursor(int widthtile, int heighttile, QString font, QColor color, int rank,int file, Color side, ChessBoard *ptr);
 };
 
 #endif // CHESBOARDCURSOR_H
