@@ -24,6 +24,8 @@ SOURCES += \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
     formconfig.cpp \
+    formnavigationbutton.cpp \
+    formpgneditor.cpp \
     formtitle.cpp \
     formuniversmypreferences.cpp \
     main.cpp \
@@ -49,6 +51,8 @@ HEADERS += \
     dialogshortcuts.h \
     ecotablegeneration.h \
     formconfig.h \
+    formnavigationbutton.h \
+    formpgneditor.h \
     formtitle.h \
     formuniversmypreferences.h \
     mainwindow.h \
@@ -64,6 +68,8 @@ FORMS += \
     dialogprogressbarimport.ui \
     dialogshortcuts.ui \
     formconfig.ui \
+    formnavigationbutton.ui \
+    formpgneditor.ui \
     formtitle.ui \
     formuniversmypreferences.ui \
     mainwindow.ui \
