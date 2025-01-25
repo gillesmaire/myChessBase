@@ -57,7 +57,15 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitPieceFont;
    
    QSettings s;
-   mSizeBoard=(event->size().width()>event->size().height())? event->size().height()-8*s.value("XShift",1).toDouble():event->size().width()-8*s.value("YShift",1).toDouble();
+   
+   // mSizeBoard=(event->size().width()*mXcorrection>event->size().height()*mYcorrection)? 
+   //       (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection:
+   //        event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
+   
+   mHSizeBoard= (event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
+   mVSizeBoard= (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection;
+         
+   
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
@@ -163,12 +171,14 @@ void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int w, int h, QC
 
 int ChessBoard::NumberCase( int x, int y)
 {
-    int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
-    int sizeCase=(mSizeBoard-2*sizeNumberedCase)/8;
-    x=x-sizeNumberedCase;
-    y=y-sizeNumberedCase;
-    int line= y/sizeCase;
-    int col= x/sizeCase;
+    int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
+    int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
+    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/8;
+    int sizeVCase=(mVSizeBoard-2*sizeVNumberedCase)/8;
+    x=x-sizeHNumberedCase;
+    y=y-sizeVNumberedCase;
+    int line= y/mYcorrection/sizeVCase;
+    int col= x/mXcorrection/sizeHCase;
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;
@@ -280,13 +290,19 @@ void ChessBoard::paintEvent(QPaintEvent *)
     painter.scale(mXcorrection,mYcorrection);
     painter.setRenderHint(QPainter::Antialiasing );
     QColor squarecolor;
-    int sizeNumberedCase=mNumberedCase?mSizeBoard/16:0;
-    int sizeCase=(mSizeBoard-2*sizeNumberedCase)/8;
-    mSize8Case=sizeCase*8; // calculated once
-    mTilewith = sizeCase;
-    mTileheight=sizeCase;
-    mShift =sizeNumberedCase?sizeCase/2:0;
-    mMargin= sizeNumberedCase/8;
+    int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
+    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/8;
+    int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
+    int sizeVCase=(mHSizeBoard-2*sizeVNumberedCase)/8;
+    
+    mSize8CaseH=sizeHCase*8; // calculated once
+    mSize8CaseV=sizeVCase*8; // calculated once
+    mTilewith = sizeHCase;
+    mTileheight=sizeVCase;
+    mShiftX=sizeHNumberedCase?sizeHCase/2:0;
+    mShiftY=sizeVNumberedCase?sizeVCase/2:0;
+    mMarginX= sizeHNumberedCase/8;
+    mMarginY= sizeVNumberedCase/8;
     squarecolor=mBlackSquareColor;
     char letter;
     char  num='1';
@@ -308,12 +324,12 @@ void ChessBoard::paintEvent(QPaintEvent *)
                 squarecolor=mBlackSquareColor;
             // Draw rect
             if (  !mFlip ){
-                mY = (7-mRow) * mTileheight+mShift;
-                mX=mCol*mTilewith+mShift;
+                mY = (7-mRow) * mTileheight+mShiftY;
+                mX=mCol*mTilewith+mShiftX;
             }
             else {    
-                mY =mRow*mTileheight+mShift;
-                mX=(7-mCol)*mTilewith+mShift;
+                mY =mRow*mTileheight+mShiftY;
+                mX=(7-mCol)*mTilewith+mShiftX;
             }  
             // draw the square
             DrawOneSquare(&painter,mX,mY,mTilewith,mTileheight,squarecolor);
@@ -413,38 +429,38 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
         painter->setFont(f); 
         painter->setPen(mBlackSquareColor);
         int pixels=QFontInfo(f).pixelSize();
-        painter->drawLine(mShift,mShift-mMargin,mShift+mSize8Case,mShift-mMargin);
-        painter->drawLine(mShift,mSize8Case+mShift+mMargin,mShift+mSize8Case,mSize8Case+mShift+mMargin);
+        painter->drawLine(mShiftX,mShiftY-mMarginY,mShiftX+mSize8CaseH,mShiftY-mMarginY);
+        painter->drawLine(mShiftX,mSize8CaseV+mShiftY+mMarginY,mShiftX+mSize8CaseH,mSize8CaseV+mShiftY+mMarginY);
         int i =1;
         if ( !mFlip) {
            for ( char car ='A' ; car <='H' ; car++ ) {
-           painter->drawText(i*pas-2*mMargin,pixels+mMargin, QChar(car));
-           painter->drawText(i*pas-2*mMargin,pixels+mMargin+mSize8Case+mTilewith/2, QChar(car));
+           painter->drawText(i*pas-2*mMarginX,pixels+mMarginY, QChar(car));
+           painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith/2, QChar(car));
            i++;
          }
         }
         else
           for ( char car ='H' ; car >='A' ; car-- ) {
-          painter->drawText(i*pas-2*mMargin,pixels+mMargin, QChar(car));
-          painter->drawText(i*pas-2*mMargin,pixels+mMargin+mSize8Case+mTilewith/2, QChar(car));
+          painter->drawText(i*pas-2*mMarginX,pixels+mMarginY, QChar(car));
+          painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith/2, QChar(car));
            i++;
          } 
-        painter->drawLine(mShift-mMargin,mShift,mShift-mMargin,mSize8Case+mShift);
-        painter->drawLine(mShift+mMargin+mSize8Case,mShift,mShift+mMargin+mSize8Case,mSize8Case+mShift);
+        painter->drawLine(mShiftX-mMarginX,mShiftY,mShiftY-mMarginY,mSize8CaseV+mShiftY);
+        painter->drawLine(mShiftX+mMarginX+mSize8CaseV,mShiftY,mShiftX+mMarginX+mSize8CaseH,mSize8CaseV+mShiftY);
         i =0;
         if (mFlip)
         {  
         for ( char car ='1' ; car <='8' ; car++ ) {
-           painter->drawText(pixels-mMargin,i*pas+pas+mMargin, QChar(car));
-           painter->drawText(pixels-mMargin+mSize8Case+mTilewith/2,i*pas+pas+mMargin, QChar(car));
+           painter->drawText(pixels-mMarginX,i*pas+pas+mMarginY, QChar(car));
+           painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,i*pas+pas+mMarginY, QChar(car));
            
            i++;
          }
         }
         else
            for ( char car ='8' ; car >='1' ; car-- ) {
-               painter->drawText(pixels-mMargin,i*pas+pas+mMargin, QChar(car));
-               painter->drawText(pixels-mMargin+mSize8Case+mTilewith/2,i*pas+pas+mMargin, QChar(car));
+               painter->drawText(pixels-mMarginX,i*pas+pas+mMarginY, QChar(car));
+               painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,i*pas+pas+mMarginY, QChar(car));
             i++;
            }
         } 

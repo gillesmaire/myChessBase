@@ -76,8 +76,11 @@ private:
     /// chess board
     ///
     bool mNumberedCase=false;
-    /// the size of the board in pixels
-    int mSizeBoard; 
+    
+    /// the size of the board in pixels. Theses sizes can be corrected by mXcorrection or mYcorrection
+    /// 
+    int mHSizeBoard; 
+    int mVSizeBoard; 
     ///
     /// \brief mA2H  numbered text is A B ... H and  1 2 ... 8 if mA2H is true else H ... A ans 8 to 1
     ///
@@ -110,15 +113,18 @@ private:
     ///
     /// \brief mShift is a space used to separate board and A..H 1..8 
     ///
-    int mShift;
+    int mShiftX;
+    int mShiftY;
     ///
     /// \brief mMargin 
     ///
-    int mMargin;
+    int mMarginX;
+    int mMarginY;
     ///
     /// \brief mSize8Case size of B cases without margin or number
     ///
-    int mSize8Case;
+    int mSize8CaseH;
+    int mSize8CaseV;
    
     QStringList mFontList;
     /// the current font used to show the pieces ...the pieces are printed as 'o' for pawn
