@@ -11,7 +11,7 @@ class FormNavigationButton : public QWidget
 {
     Q_OBJECT
 
-enum Action { First, Before, Next, Last };
+enum Action { First, Before, Play, Next, Last,Reverse,NumberCase};
 public:
     explicit FormNavigationButton(QWidget *parent = nullptr);
     ~FormNavigationButton();

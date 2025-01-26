@@ -58,20 +58,21 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    
    QSettings s;
    
-   // mSizeBoard=(event->size().width()*mXcorrection>event->size().height()*mYcorrection)? 
-   //       (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection:
-   //        event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
+    // mSizeBoard=(event->size().width()*mXcorrection>event->size().height()*mYcorrection)? 
+    //       (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection:
+    //        event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
    
    mHSizeBoard= (event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
    mVSizeBoard= (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection;
-         
+   int size = std::min(event->size().width(), event->size().height());
+   //this->resize(size, size);
    
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
    mWhitePieceColor=s.value("WhitePieceColor",InitWhitePieceColor).toString();
    mCurrentFont=s.value("PiecesFont",InitPieceFont).toString();
-   emit LenghtAndColor( event->size().width()<event->size().height()?event->size().width():event->size().height() ,mBlackSquareColor);
+  // emit LenghtAndColor( event->size().width()<event->size().height()?event->size().width():event->size().height() ,mBlackSquareColor);
 }
 
 

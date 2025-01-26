@@ -93,4 +93,5 @@ RESOURCES += \
 
 DISTFILES += \
     Ideas.md \
+    System/ToDo.md \
     System/cursor.png

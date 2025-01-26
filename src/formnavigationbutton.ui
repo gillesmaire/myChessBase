@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
+    <width>628</width>
     <height>79</height>
    </rect>
   </property>
@@ -30,6 +30,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButtonNumberCase">
+       <property name="text">
+        <string>A-H</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonReverse">
+       <property name="text">
+        <string>↺</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButtonFirst">
        <property name="text">
         <string>&lt;&lt;</string>
@@ -40,6 +54,13 @@
       <widget class="QPushButton" name="pushButtonBefore">
        <property name="text">
         <string>&lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PushButtonPlay">
+       <property name="text">
+        <string>=&gt;</string>
        </property>
       </widget>
      </item>

@@ -17,9 +17,12 @@ void FormNavigationButton::dispatch()
 {
    QString origin=sender()->objectName();
    if (  origin.endsWith("First")) emit button(Action::First) ;
-   else if ( origin.endsWith("Last") ) emit (button(Action::Last)) ;
-   else if ( origin.endsWith("Next") ) emit (button(Action::Next)) ;
-   else if ( origin.endsWith("Before") ) emit (button(Action::Before)) ;
+   else if ( origin.endsWith("Last") ) emit button(Action::Last) ;
+   else if ( origin.endsWith("Next") ) emit button(Action::Next) ;
+   else if ( origin.endsWith("Play") ) emit button(Action::Play) ;
+   else if ( origin.endsWith("Before") ) emit button(Action::Before) ;
+   else if ( origin.endsWith("Reverse") ) emit button(Action::Reverse) ;
+   else if ( origin.endsWith("NumberCase") ) emit button(Action::NumberCase) ;
    else emit button(Action::First);
 }
 
