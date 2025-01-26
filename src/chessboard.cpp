@@ -62,10 +62,11 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
     //       (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection:
     //        event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
    
-   mHSizeBoard= (event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
-   mVSizeBoard= (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection;
+    mHSizeBoard= (event->size().width())/mXcorrection-120;
+    mVSizeBoard= (event->size().height())/mYcorrection-120;
    int size = std::min(event->size().width(), event->size().height());
-   //this->resize(size, size);
+   qDebug()<<size;
+   this->resize(size, size);
    
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();

@@ -65,8 +65,7 @@ private:
     ///
     void goBack();
     void MyPreferences();
-protected:
-    void resizeEvent(QResizeEvent *e);
+
 
 };
 

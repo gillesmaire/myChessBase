@@ -18,7 +18,6 @@ public:
     void dispatch();
 private:
     Ui::FormNavigationButton *ui;
-    
 signals:
     void button( int action);
 };

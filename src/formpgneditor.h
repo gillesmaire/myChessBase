@@ -29,7 +29,6 @@ private:
     void Reset();
     void FormAutoFillBlack();
     void FormAutoFillWhite();
-
 };
 
 #endif // FORMPGNEDITOR_H

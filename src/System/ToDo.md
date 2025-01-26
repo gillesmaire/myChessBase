@@ -2,7 +2,7 @@
 
 ## Chessboard 
 
-- Size of chessboard not fixes with xCorrection
+
 
 
 

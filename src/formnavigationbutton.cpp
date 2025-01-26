@@ -1,5 +1,6 @@
 #include "formnavigationbutton.h"
 #include "ui_formnavigationbutton.h"
+#include <QResizeEvent>
 
 FormNavigationButton::FormNavigationButton(QWidget *parent)
     : QWidget(parent)
@@ -25,6 +26,7 @@ void FormNavigationButton::dispatch()
    else if ( origin.endsWith("NumberCase") ) emit button(Action::NumberCase) ;
    else emit button(Action::First);
 }
+
 
 FormNavigationButton::~FormNavigationButton()
 {

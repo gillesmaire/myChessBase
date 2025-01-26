@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_11">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
         <widget class="ChessBoard" name="Board" native="true"/>
        </item>
@@ -419,15 +422,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FormNavigationButton</class>
-   <extends>QWidget</extends>
-   <header>formnavigationbutton.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ChessBoard</class>
    <extends>QWidget</extends>
    <header>chessboard.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormNavigationButton</class>
+   <extends>QWidget</extends>
+   <header>formnavigationbutton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -91,3 +91,4 @@ void FormPGNEditor::FormAutoFillWhite()
     ui->lineEditWhiteName->setText(s.value("YourName").toString()+","+s.value("YourFirstname").toString());
     ui->lineEditWhiteTitle->setText(s.value("YourTitle").toString());
 }
+

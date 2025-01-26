@@ -243,11 +243,6 @@ void MainWindow::SaveCaseNumbers()
         ui->chessBoard->setNumberCase(ui->actionShow_cases_number->isChecked());
 }
 
-void MainWindow::resizeEvent(QResizeEvent *)
-{
- QSettings s;
- //ui->widgetLetters->setOrientation(!ui->actionFlip->isChecked());
-}
 ////
 /// \brief MainWindow::MakeECOTable Generate an ECO Table. It is made by adminsitrator
 ///  The Table is generated from David Barnes file
