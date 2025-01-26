@@ -447,7 +447,7 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
            i++;
          } 
         painter->drawLine(mShiftX-mMarginX,mShiftY,mShiftY-mMarginY,mSize8CaseV+mShiftY);
-        painter->drawLine(mShiftX+mMarginX+mSize8CaseV,mShiftY,mShiftX+mMarginX+mSize8CaseH,mSize8CaseV+mShiftY);
+        painter->drawLine(mShiftX+mMarginX+mSize8CaseH,mShiftY,mShiftX+mMarginX+mSize8CaseH,mSize8CaseV+mShiftY);
         i =0;
         if (mFlip)
         {  
