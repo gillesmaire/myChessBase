@@ -8,7 +8,7 @@
 
 # After
 
-- Connect the for mnavigation button with action
+- Connect the for navigation button with action
 
 
 # Long term

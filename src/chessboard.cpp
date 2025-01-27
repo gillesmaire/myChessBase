@@ -57,17 +57,10 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitPieceFont;
    
    QSettings s;
-   
-    // mSizeBoard=(event->size().width()*mXcorrection>event->size().height()*mYcorrection)? 
-    //       (event->size().height()-8*s.value("XShift",1).toDouble())*mYcorrection:
-    //        event->size().width()-8*s.value("YShift",1).toDouble())*mXcorrection;
-   
-    mHSizeBoard= (event->size().width())/mXcorrection-120;
-    mVSizeBoard= (event->size().height())/mYcorrection-120;
+   mHSizeBoard= (event->size().width())/mXcorrection-120;
+   mVSizeBoard= (event->size().height())/mYcorrection-120;
    int size = std::min(event->size().width(), event->size().height());
-   qDebug()<<size;
    this->resize(size, size);
-   
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
@@ -175,12 +168,13 @@ int ChessBoard::NumberCase( int x, int y)
 {
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
-    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/8;
-    int sizeVCase=(mVSizeBoard-2*sizeVNumberedCase)/8;
+ 
+    int sizeHCase=(size().width()-2*sizeHNumberedCase)/8;
+    int sizeVCase=(size().height()-2*sizeHNumberedCase)/8;
     x=x-sizeHNumberedCase;
     y=y-sizeVNumberedCase;
-    int line= y/mYcorrection/sizeVCase;
-    int col= x/mXcorrection/sizeHCase;
+    int line= y/(sizeVCase*mYcorrection);
+    int col= x/(sizeHCase*mXcorrection);
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;

@@ -77,6 +77,9 @@ private:
     ///
     bool mNumberedCase=false;
     
+    int  mSize8CaseH;
+    int  mSize8CaseV;
+    
     /// the size of the board in pixels. Theses sizes can be corrected by mXcorrection or mYcorrection
     /// 
     int mHSizeBoard; 
@@ -120,11 +123,7 @@ private:
     ///
     int mMarginX;
     int mMarginY;
-    ///
-    /// \brief mSize8Case size of B cases without margin or number
-    ///
-    int mSize8CaseH;
-    int mSize8CaseV;
+
    
     QStringList mFontList;
     /// the current font used to show the pieces ...the pieces are printed as 'o' for pawn
