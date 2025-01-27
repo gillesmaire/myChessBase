@@ -59,8 +59,27 @@
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonWhiteYou">
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>You</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonEraseWhitePlayer">
+               <property name="maximumSize">
+                <size>
+                 <width>40</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>x</string>
                </property>
               </widget>
              </item>
@@ -110,6 +129,9 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
+                <widget class="QLineEdit" name="lineEditWhiteFirstName"/>
+               </item>
+               <item>
                 <widget class="QLineEdit" name="lineEditWhiteName"/>
                </item>
                <item>
@@ -134,14 +156,33 @@
              <item>
               <widget class="QLabel" name="labelBlackPlayer">
                <property name="text">
-                <string>White player</string>
+                <string>Black player</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonBlackYou">
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>You</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonEraseBlackPlayer">
+               <property name="maximumSize">
+                <size>
+                 <width>40</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>x</string>
                </property>
               </widget>
              </item>
@@ -190,6 +231,9 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QLineEdit" name="lineEditBlackFirstName"/>
+               </item>
                <item>
                 <widget class="QLineEdit" name="lineEditBlackName"/>
                </item>

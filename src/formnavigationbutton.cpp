@@ -11,6 +11,9 @@ FormNavigationButton::FormNavigationButton(QWidget *parent)
     connect (ui->pushButtonBefore,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonNext,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonLast,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
+    connect (ui->pushButtonReverse,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
+    connect (ui->pushButtonNumberCase,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
+    connect (ui->pushButtonFEN,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
 }
 
 
@@ -24,6 +27,8 @@ void FormNavigationButton::dispatch()
    else if ( origin.endsWith("Before") ) emit button(Action::Before) ;
    else if ( origin.endsWith("Reverse") ) emit button(Action::Reverse) ;
    else if ( origin.endsWith("NumberCase") ) emit button(Action::NumberCase) ;
+   else if ( origin.endsWith("RemoveLast") ) emit button(Action::RemoveLast) ;
+   else if ( origin.endsWith("FEN") ) emit button(Action::FEN) ;
    else emit button(Action::First);
 }
 

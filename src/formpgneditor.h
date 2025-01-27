@@ -20,6 +20,8 @@ public:
     /// \return 
     ///
     QString getListMove();
+    void EraseBlackPlayer();
+    void EraseWhitePlayer();
 
 private slots:
     void Go(int i);
@@ -29,6 +31,8 @@ private:
     void Reset();
     void FormAutoFillBlack();
     void FormAutoFillWhite();
+signals:
+    void showFen();
 };
 
 #endif // FORMPGNEDITOR_H

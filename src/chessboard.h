@@ -23,7 +23,15 @@ public:
     void setBlackPieceColor( QColor col) {  mBlackPieceColor=col; update(); }
     void setPosition( chess::Board board) { mBoard=board;};
     QStringList listOfTypeOfPieces();
-    void flipBoard( bool flip){ mFlip=flip; update();}
+    ///
+    /// \brief flipBoard Flip the board 
+    /// \param flip true or false
+    ///
+    void flipBoard( bool flip);
+    ///
+    /// \brief getFEN  get the FEN of position. The FEN is a readable key allowing to
+    /// retrieve a position 
+    ///
     QString getFEN();
     QStringList AuthorizedCase(QString move);
     void AskUpdate(){  update();}
@@ -51,7 +59,19 @@ public:
     /// \param y a value from 0,50 to 1,00 for y adjustement
     ///
     void setCorrection(qreal x, qreal y);
+    
+    ///
+    /// \brief flipped 
+    /// \return true is black are on bottom false else
+    /// 
 
+    bool flipped();
+    
+    ///
+    /// \brief casesNumbered
+    /// \return return true if columns A H and lines  1 8 are displayed
+    ///
+    bool casesNumbered();
 private:
     void RecordChessFonts();
     ///
@@ -241,5 +261,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;
     
 };
+
+inline bool ChessBoard::casesNumbered() { return mNumberedCase ;}
 
 #endif // CHESSBOARD_H

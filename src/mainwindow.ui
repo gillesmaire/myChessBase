@@ -24,7 +24,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabLearningMode">
        <attribute name="title">
@@ -224,22 +224,7 @@
     <addaction name="actionRemove_Database"/>
     <addaction name="actionSupprimer_le_fichier_DataBase"/>
    </widget>
-   <widget class="QMenu" name="menuChess_Board">
-    <property name="title">
-     <string>Chess &amp;Board</string>
-    </property>
-    <addaction name="actionFlip"/>
-    <addaction name="actionShow_cases_number"/>
-   </widget>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <addaction name="actionShow_Fen"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuChess_Board"/>
-   <addaction name="menuOptions"/>
    <addaction name="menuMaintenance"/>
    <addaction name="menuHelp"/>
   </widget>

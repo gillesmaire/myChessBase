@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
     connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
-    //connect (ui->actionConfiguration,&QAction::triggered,this,&MainWindow::Configuration) ; 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
     connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
@@ -62,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->chessBoard,SIGNAL(MovesModified(QStringList)),ui->CreationPGN,SLOT(GetListMoves(QStringList)));
     connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
             this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
+    connect (ui->pgnEditor,SIGNAL(showFen()),this,SLOT(ShowFen()));
+           
     
 }   
 
@@ -208,14 +209,14 @@ void MainWindow::About()
 }
 
 
-void MainWindow::ShowFen(bool ok)
+void MainWindow::ShowFen()
 {
-   if ( ok && ! mFENShown )  {
+   if ( ! mFENShown )  {
        mFENShown=true;
        mFEN=new QLineEdit(getFen());
        ui->statusbar->addWidget(mFEN);
      }
-   else if (!ok && mFENShown )
+   else 
    { 
     mFENShown=false;
     ui->statusbar->removeWidget(mFEN);

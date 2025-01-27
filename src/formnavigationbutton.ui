@@ -17,19 +17,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="horizontalSpacerLeft">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QPushButton" name="pushButtonNumberCase">
        <property name="enabled">
         <bool>true</bool>
@@ -46,6 +33,12 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Display A - H for columns and 1 - 8 for lines</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <property name="text">
         <string>A-H</string>
        </property>
@@ -59,10 +52,51 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Reverse the board</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <property name="text">
         <string>↺</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonFEN">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Show FEN of position in the status bar</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>FEN</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonFirst">
@@ -71,6 +105,12 @@
          <width>40</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Go to the begining</string>
+       </property>
+       <property name="statusTip">
+        <string/>
        </property>
        <property name="text">
         <string>&lt;&lt;</string>
@@ -85,8 +125,33 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Go to the last move without deleting the last move</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <property name="text">
         <string>&lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PushButtonRemoveLast">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Delete the following moves</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>&lt;x</string>
        </property>
       </widget>
      </item>
@@ -97,6 +162,12 @@
          <width>40</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Play all the moves from begining to end</string>
+       </property>
+       <property name="statusTip">
+        <string/>
        </property>
        <property name="text">
         <string>=&gt;</string>
@@ -111,6 +182,12 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Go to next move</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <property name="text">
         <string>&gt;</string>
        </property>
@@ -123,6 +200,12 @@
          <width>40</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Go to end of game or variation</string>
+       </property>
+       <property name="statusTip">
+        <string/>
        </property>
        <property name="text">
         <string>&gt;&gt;</string>

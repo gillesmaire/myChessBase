@@ -35,9 +35,17 @@ void ChessBoard::setCorrection(qreal x, qreal y)
     mYcorrection=y;
 }
 
+bool ChessBoard::flipped() { return mFlip; }
+
 QStringList ChessBoard::listOfTypeOfPieces()
 {
     return (mFontList);
+}
+
+void ChessBoard::flipBoard(bool flip)
+{
+    mFlip = flip;
+    update();
 }
 
 QString ChessBoard::getFEN()

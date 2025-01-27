@@ -30,6 +30,7 @@ private slots:
     void ShoShortCuts();
     void SaveCaseNumbers();
     void ShowVariation(QString ECO, QString opening, QString variation, QString ecoplus, QString moves);
+    void ShowFen();
 private:
     Ui::MainWindow *ui; 
     QSqlDatabase *mConnection;
@@ -48,7 +49,7 @@ private:
     DialogProgressBarImport *mProgressBar;
     FormConfig *mFormConfig;
     void Configuration();
-    void ShowFen(bool);
+
     QString getFen();
     bool mFENShown=false;
     QLineEdit *mFEN;
