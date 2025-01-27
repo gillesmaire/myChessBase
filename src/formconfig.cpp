@@ -23,9 +23,9 @@ FormConfig::FormConfig(QWidget *parent)
     ui->pushButtonWhiteSquareColor->setColor(s.value("WhiteSquareColor",InitWhiteSquareColor).toString());
     ui->lineEditYourFirstname->setText(s.value("YourFirstname").toString());
     ui->lineEditYourName->setText(s.value("YourName").toString());
-    ui->lineEditYourFideID->setText(s.value("YourFideID").toString());
-    ui->lineEditYourTitle->setText(s.value("YourTitle").toString());
-    ui->lineEditYourELO->setText(s.value("YourELO").toString());
+    ui->spinBoxFideID->setValue(s.value("YourFideID").toInt());
+    ui->comboBoxYoutTitle->setCurrentText(s.value("YourTitle").toString());
+    ui->spinBoxYourElo->setValue(s.value("YourELO").toInt());
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
     ui->doubleSpinBoxXshift->setValue(s.value("XShift",1).toDouble());
     ui->doubleSpinBoxYshift->setValue(s.value("YShift",1).toDouble());
@@ -89,7 +89,7 @@ void FormConfig::SaveInformations()
     QSettings s;
     s.setValue("YourFirstname",ui->lineEditYourFirstname->text());
     s.setValue("YourName",ui->lineEditYourName->text());
-    s.setValue("YourELO",ui->lineEditYourELO->text());
-    s.setValue("YourFideID",ui->lineEditYourFideID->text());
-    s.setValue("YourTitle",ui->lineEditYourTitle->text());    
+    s.setValue("YourELO",ui->spinBoxYourElo->value());
+    s.setValue("YourFideID",ui->spinBoxFideID->value());
+    s.setValue("YourTitle",ui->comboBoxYoutTitle->currentText());    
 }

@@ -26,7 +26,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Board">
       <attribute name="title">
@@ -383,13 +383,37 @@ the case. </string>
                  <widget class="QLineEdit" name="lineEditYourName"/>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEditYourFideID"/>
+                 <widget class="QSpinBox" name="spinBoxFideID">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEditYourELO"/>
+                 <widget class="QSpinBox" name="spinBoxYourElo">
+                  <property name="maximum">
+                   <number>5000</number>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEditYourTitle"/>
+                 <widget class="QComboBox" name="comboBoxYoutTitle">
+                  <item>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>MI</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>GMI</string>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
                </layout>
               </item>
