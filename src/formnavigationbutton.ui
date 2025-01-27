@@ -31,6 +31,21 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonNumberCase">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>40</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>A-H</string>
        </property>
@@ -38,6 +53,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonReverse">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>↺</string>
        </property>
@@ -45,6 +66,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonFirst">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&lt;&lt;</string>
        </property>
@@ -52,6 +79,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonBefore">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&lt;</string>
        </property>
@@ -59,6 +92,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="PushButtonPlay">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>=&gt;</string>
        </property>
@@ -66,6 +105,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonNext">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&gt;</string>
        </property>
@@ -73,6 +118,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonLast">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&gt;&gt;</string>
        </property>

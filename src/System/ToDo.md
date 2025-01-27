@@ -3,6 +3,7 @@
 ## Chessboard 
 
 
+- Set en rectangle or something to show the side to play
 
 
 
