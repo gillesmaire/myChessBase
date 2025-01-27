@@ -23,6 +23,7 @@ FormConfig::FormConfig(QWidget *parent)
     ui->pushButtonWhiteSquareColor->setColor(s.value("WhiteSquareColor",InitWhiteSquareColor).toString());
     ui->lineEditYourFirstname->setText(s.value("YourFirstname").toString());
     ui->lineEditYourName->setText(s.value("YourName").toString());
+    ui->spinBoxYourElo->setDigitNumber(4);
     ui->spinBoxFideID->setValue(s.value("YourFideID").toInt());
     ui->comboBoxYoutTitle->setCurrentText(s.value("YourTitle").toString());
     ui->spinBoxYourElo->setValue(s.value("YourELO").toInt());

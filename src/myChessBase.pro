@@ -23,6 +23,7 @@ SOURCES += \
     dialogprogressbarimport.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
+    filledspinbox.cpp \
     formconfig.cpp \
     formnavigationbutton.cpp \
     formpgneditor.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     dialogprogressbarimport.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
+    filledspinbox.h \
     formconfig.h \
     formnavigationbutton.h \
     formpgneditor.h \

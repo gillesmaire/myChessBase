@@ -135,7 +135,7 @@
                 <widget class="QLineEdit" name="lineEditWhiteName"/>
                </item>
                <item>
-                <widget class="QSpinBox" name="spinBoxWhiteElo">
+                <widget class="FilledSpinBox" name="spinBoxWhiteElo">
                  <property name="maximum">
                   <number>4000</number>
                  </property>
@@ -161,7 +161,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QSpinBox" name="spinBoxWhiteFideID">
+                <widget class="FilledSpinBox" name="spinBoxWhiteFideID">
                  <property name="inputMethodHints">
                   <set>Qt::ImhDigitsOnly</set>
                  </property>
@@ -265,7 +265,7 @@
                 <widget class="QLineEdit" name="lineEditBlackName"/>
                </item>
                <item>
-                <widget class="QSpinBox" name="spinBoxBlackElo">
+                <widget class="FilledSpinBox" name="spinBoxBlackElo">
                  <property name="maximum">
                   <number>4000</number>
                  </property>
@@ -291,7 +291,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QSpinBox" name="SpinBoxBlackFideID">
+                <widget class="FilledSpinBox" name="SpinBoxBlackFideID">
                  <property name="maximum">
                   <number>99999999</number>
                  </property>
@@ -507,6 +507,11 @@
    <extends>QWidget</extends>
    <header>formnavigationbutton.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FilledSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>filledspinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

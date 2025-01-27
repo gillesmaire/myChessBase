@@ -16,6 +16,8 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->widgetNavigation,SIGNAL(button(int)),this,SLOT(Go(int)));
     connect (ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
     connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
+    ui->spinBoxBlackElo->setDigitNumber(4);
+    ui->spinBoxWhiteElo->setDigitNumber(4);
 }
 
 

@@ -383,14 +383,14 @@ the case. </string>
                  <widget class="QLineEdit" name="lineEditYourName"/>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBoxFideID">
+                 <widget class="FilledSpinBox" name="spinBoxFideID">
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBoxYourElo">
+                 <widget class="FilledSpinBox" name="spinBoxYourElo">
                   <property name="maximum">
                    <number>5000</number>
                   </property>
@@ -518,6 +518,11 @@ the case. </string>
    <class>ColorButton</class>
    <extends>QPushButton</extends>
    <header>colorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FilledSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>filledspinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
