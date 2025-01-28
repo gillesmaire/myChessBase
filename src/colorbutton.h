@@ -4,6 +4,11 @@
 #include <QPushButton>
 #include <QPainter>
 
+
+///
+/// \brief The ColorButton class is a QPushButton with a color displayed on 
+/// to show the color choosed
+///
 class ColorButton : public QPushButton
 {
     Q_OBJECT

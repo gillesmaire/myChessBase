@@ -19,8 +19,6 @@ SOURCES += \
     colorbutton.cpp \
     creationbase.cpp \
     customsqlcolumnproxymodel.cpp \
-    dialogabout.cpp \
-    dialoginfo.cpp \
     dialogprogressbarimport.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
@@ -48,8 +46,6 @@ HEADERS += \
     colorbutton.h \
     creationbase.h \
     customsqlcolumnproxymodel.h \
-    dialogabout.h \
-    dialoginfo.h \
     dialogprogressbarimport.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
@@ -67,8 +63,6 @@ HEADERS += \
     utils.h
 
 FORMS += \
-    dialogabout.ui \
-    dialoginfo.ui \
     dialogprogressbarimport.ui \
     dialogshortcuts.ui \
     formconfig.ui \

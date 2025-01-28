@@ -41,9 +41,3 @@ The principal functions
 
 
 
-Add links inline like [this link to the Qt homepage](https://www.qt.io),
-or with a reference like [this other link to the Qt homepage][1].
-
- 
-
-[1]: https://www.qt.io

@@ -41,7 +41,15 @@ class CalendarDialog : public QDialog {
 Q_OBJECT 
  
 public:
+///
+/// \brief CalendarDialog allow to show the QCalandarWidget in a Windows
+/// \param parent is the widget on the calendar is open
+///
     CalendarDialog(QWidget* parent = nullptr);
+    ///
+    /// \brief selectedDate 
+    /// \return  return the Date selected by the users
+    ///
     QDate selectedDate() const;
 
 private:

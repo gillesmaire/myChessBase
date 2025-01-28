@@ -3,8 +3,8 @@
 ## Chessboard 
 
 
-- Set en rectangle or something to show the side to play
-
+- Set a rectangle or something to show the side to play
+- understand why the chess is not expanded on leeft side
 
 
 # After

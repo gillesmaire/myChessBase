@@ -26,7 +26,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Board">
       <attribute name="title">
@@ -515,14 +515,14 @@ the case. </string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ColorButton</class>
-   <extends>QPushButton</extends>
-   <header>colorbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>FilledSpinBox</class>
    <extends>QSpinBox</extends>
    <header>filledspinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ColorButton</class>
+   <extends>QPushButton</extends>
+   <header>colorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -39,8 +39,6 @@ private:
     bool mFlipBoard=false;
     void LoadPGNFile();
     QFutureWatcher<void> mWatcher;
-    void ShowInformations();
-    void About();
     void SuppressDataBaseGames();
     void SuppressDataBase();
     void FlipBoard();

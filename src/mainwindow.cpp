@@ -25,8 +25,6 @@
 #include "chess.hpp"
 
 #include "readpgn.h"
-#include "dialoginfo.h"
-#include "dialogabout.h"
 #include <formcounterpage.h>
 #include <formboardpage.h>  
 #include "dialogprogressbarimport.h"
@@ -44,9 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
     connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
-    connect (ui->actionInformations,&QAction::triggered,this,&MainWindow::ShowInformations);    // Show information dialog
     connect (ui->actionMy_Preferences,&QAction::triggered,this,&MainWindow::MyPreferences);
-    connect (ui->actionAbout,&QAction::triggered,this,&MainWindow::About);                      // Show about dialog
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
     connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
@@ -193,20 +189,6 @@ void MainWindow::Update()
 }
 
 
-
-/// show informations as : number of games in the database, version of this sotware, size of database
-void MainWindow::ShowInformations()
-{
-    DialogInfo di(this);
-    di.exec();
-}
-
-
-void MainWindow::About()
-{
-    DialogAbout da(this);
-    da.exec();
-}
 
 
 void MainWindow::ShowFen()

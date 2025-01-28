@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1640</width>
-    <height>849</height>
+    <width>1103</width>
+    <height>939</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabLearningMode">
        <attribute name="title">
@@ -186,6 +186,58 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tabDoc">
+       <attribute name="title">
+        <string>Documentation</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="tabPosition">
+           <enum>QTabWidget::East</enum>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Documentation</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="About">
+           <attribute name="title">
+            <string>Credit</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QPlainTextEdit" name="plainTextEdit">
+              <property name="plainText">
+               <string>Program written by Gilles Maire (c) 2024 
+Under GNU Licence 3.0
+gilles@gillesmaire.com
+Developped in C++/Qt6  under Linux Debian 12
+
+Uses the library  chess-library written by disservin from 
+Skotfish project https://github.com/Disservin
+
+Uses the PGN file of ECO classification from David J. Barnes (d.j.barnes@kent.ac.uk)
+
+Use many chess fonts from
+
+-  Josh Walters for  OpenChessFont
+https://github.com/joshwalters/open-chess-font
+under Creative Common  By SA 3.0
+- Armando Hernadez Marroquin for Magnetic Font
+mquin@sancristobal.podernet.com.mx</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -195,7 +247,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1640</width>
+     <width>1103</width>
      <height>22</height>
     </rect>
    </property>
@@ -209,14 +261,6 @@
     <addaction name="actionCreate_a_Pgn_file"/>
     <addaction name="actionE_xit"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionInformations"/>
-    <addaction name="actionShorcuts"/>
-    <addaction name="actionAbout"/>
-   </widget>
    <widget class="QMenu" name="menuMaintenance">
     <property name="title">
      <string>Maintenance</string>
@@ -226,7 +270,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMaintenance"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionLoad_Pgn_file">
