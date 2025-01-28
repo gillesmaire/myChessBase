@@ -48,7 +48,7 @@ void FormPGNEditor::EraseBlackPlayer()
     ui->lineEditBlackFirstName->clear();
     ui->lineEditBlackName->clear();
     ui->spinBoxBlackElo->setValue(0);
-    ui->SpinBoxBlackFideID->setValue(0);
+    ui->spinBoxBlackFideID->setValue(0);
     ui->comboBoxBlackTitle->setCurrentIndex(0);
 
 }
@@ -72,7 +72,7 @@ void FormPGNEditor::SetListMove(QString listmove)
 void FormPGNEditor::Reset()
 {
   ui->spinBoxBlackElo->setValue(0);
-  ui->SpinBoxBlackFideID->setValue(0);
+  ui->spinBoxBlackFideID->setValue(0);
   ui->lineEditBlackFirstName->clear();
   ui->lineEditBlackName->clear();
   ui->spinBoxBlackElo->setValue(0);
@@ -101,7 +101,7 @@ void FormPGNEditor::FormAutoFillBlack()
 {
     QSettings s;
     ui->spinBoxBlackElo->setValue(s.value("YourELO").toInt());
-    ui->SpinBoxBlackFideID->setValue(s.value("YourFideID").toInt());
+    ui->spinBoxBlackFideID->setValue(s.value("YourFideID").toInt());
     ui->lineEditBlackFirstName->setText(s.value("YourFirstname").toString());
     ui->lineEditBlackName->setText(s.value("YourName").toString());
     ui->comboBoxBlackTitle->setCurrentText(s.value("YourTitle").toString());
