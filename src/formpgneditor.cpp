@@ -4,7 +4,7 @@
 #include <QDate>
 #include <QSettings>
 #include "calendardialog.h"
-
+#include "nag.h"
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::FormPGNEditor)
@@ -19,15 +19,20 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
     connect (ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
     connect (ui->Board,SIGNAL(MovesModified(QStringList)),this,SLOT(GetListMoves(QStringList)));
+    connect (ui->pushButtonAddNag,&QPushButton::clicked,this,&FormPGNEditor::AddNag);
+    connect (ui->pushButtonDeleteNag,&QPushButton::clicked,this,&FormPGNEditor::DelNag);
+    connect (ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
+    connect (ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
+    ui->comboBoxNags->addItems(Nag::getNagListNumbered());
     
 }
 
 
 void FormPGNEditor::GetListMoves( QStringList list)
 {
-    ui->textEditMoves->append(Utils::NumberSanMoves(list));
+    ui->textEditMoves->setText(Utils::NumberSanMoves(list));
 }
 
 void FormPGNEditor::SelectDateFromCalendar()
@@ -137,3 +142,68 @@ void FormPGNEditor::FormAutoFillWhite()
     ui->comboBoxWhiteTitle->setCurrentText(s.value("YourTitle").toString());
 }
 
+
+void FormPGNEditor::AddNag()
+{
+    QString str= Nag::getNag(ui->comboBoxNags->currentText());
+    if (str.isEmpty()) return ; 
+    QTextCursor cursor = ui->textEditMoves->textCursor();
+    int pos=cursor.position();
+    qDebug()<<ui->textEditMoves->document()->characterAt(pos);
+    if ( pos > 0 &&  ui->textEditMoves->document()->characterAt(pos) == QChar(0x2029)  ) {  
+        cursor.movePosition(QTextCursor::Right);
+        cursor.insertText(" ");
+     }
+     cursor.insertText(str);
+     ui->textEditMoves->setTextCursor(cursor);  
+}
+
+void FormPGNEditor::DelNag()
+{
+    if ( Nag::isNag(ui->textEditMoves)) 
+    {
+        QTextCursor cursor = ui->textEditMoves->textCursor();
+        cursor.select(QTextCursor::WordUnderCursor); 
+        if (!cursor.selectedText().isEmpty()) 
+           {
+           qDebug()<<cursor.selectedText();
+                cursor.removeSelectedText();
+           }
+    }
+}
+
+void FormPGNEditor::AddComment()
+{
+    if (ui->lineEditComment->text().isEmpty()) return;
+    QString text=QString(" {%1} ").arg(ui->lineEditComment->text());
+     ui->textEditMoves->insertPlainText(text);
+}
+
+
+void FormPGNEditor::DelComment()
+{
+    QTextCursor cursor = ui->textEditMoves->textCursor(); 
+    QString content = ui->textEditMoves->toPlainText();  
+    int cursorPosition = cursor.position(); 
+    int start = -1;
+    int end = -1;
+    for (int i = cursorPosition - 1; i >= 0; --i) {
+        if (content[i] == '{') {
+            start = i;
+            break;
+        }
+    }
+    for (int i = cursorPosition; i < content.length(); ++i) {
+        if (content[i] == '}') {
+            end = i;
+            break;
+        }
+    }
+
+    if (start != -1 && end != -1 && start < end) {
+        content.remove(start, end - start + 1); 
+        ui->textEditMoves->setPlainText(content); 
+        cursor.setPosition(start);
+        ui->textEditMoves->setTextCursor(cursor);
+    }
+}

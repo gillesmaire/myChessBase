@@ -26,22 +26,8 @@
 //
 //
 // VERSION: 0.1
+#include "limitedtextedit.h"
 
-#include "calendardialog.h"
-#include <QHBoxLayout>
+#include <QRegularExpression>
 
-CalendarDialog::CalendarDialog(QWidget *parent)
-    : QDialog(parent)
-{
-    setWindowTitle(tr("Select a date or current date :"));
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    calendarWidget = new QCalendarWidget(this);
-    layout->addWidget(calendarWidget);
-    connect(calendarWidget, &QCalendarWidget::clicked, this, &CalendarDialog::accept);
-}
-
-QDate CalendarDialog::selectedDate() const
-{
-    return calendarWidget->selectedDate();
-}

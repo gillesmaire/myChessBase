@@ -28,10 +28,12 @@ SOURCES += \
     formpgneditor.cpp \
     formtitle.cpp \
     formuniversmypreferences.cpp \
+    limitedtextedit.cpp \
     main.cpp \
     mainwindow.cpp \
     movablePiece.cpp \
     mytableview.cpp \
+    nag.cpp \
     readpgn.cpp \
     universpgn.cpp \
     utils.cpp
@@ -55,9 +57,11 @@ HEADERS += \
     formpgneditor.h \
     formtitle.h \
     formuniversmypreferences.h \
+    limitedtextedit.h \
     mainwindow.h \
     movablePiece.h \
     mytableview.h \
+    nag.h \
     readpgn.h \
     universpgn.h \
     utils.h

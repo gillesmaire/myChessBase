@@ -491,9 +491,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
-          <widget class="QTextEdit" name="textEditMoves">
+          <widget class="LimitedTextEdit" name="textEditMoves">
            <property name="readOnly">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="html">
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -573,17 +573,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="lineEditComment"/>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="pushButtonAddComment">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="pushButtonDeleteComment">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Delete</string>
               </property>
@@ -603,17 +615,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="lineEditVariant"/>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+             <widget class="QPushButton" name="pushButtonAddVariant">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_6">
+             <widget class="QPushButton" name="pushButtonDElVariant">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Delete</string>
               </property>
@@ -633,17 +657,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QComboBox" name="comboBoxNags"/>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_7">
+             <widget class="QPushButton" name="pushButtonAddNag">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_8">
+             <widget class="QPushButton" name="pushButtonDeleteNag">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>Delete</string>
               </property>
@@ -677,6 +713,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <class>FilledSpinBox</class>
    <extends>QSpinBox</extends>
    <header>filledspinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LimitedTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>limitedtextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

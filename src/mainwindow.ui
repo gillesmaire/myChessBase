@@ -141,7 +141,7 @@
              </widget>
             </item>
             <item>
-             <widget class="ChessStackedWidget" name="stackedWidget">
+             <widget class="QStackedWidget" name="stackedWidget">
               <property name="currentIndex">
                <number>1</number>
               </property>
@@ -197,7 +197,7 @@
            <enum>QTabWidget::East</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -381,12 +381,6 @@ mquin@sancristobal.podernet.com.mx</string>
    <class>ChessBoard</class>
    <extends>QWidget</extends>
    <header>chessboard.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ChessStackedWidget</class>
-   <extends>QStackedWidget</extends>
-   <header>chessstackedwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

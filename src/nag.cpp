@@ -26,22 +26,51 @@
 //
 //
 // VERSION: 0.1
+#include "nag.h"
+#include <QString>
+#include <QObject>
+#include <QRegularExpression>
 
-#include "calendardialog.h"
-#include <QHBoxLayout>
 
-CalendarDialog::CalendarDialog(QWidget *parent)
-    : QDialog(parent)
+
+QString Nag::getNagDescription(int nag) 
 {
-    setWindowTitle(tr("Select a date or current date :"));
-
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    calendarWidget = new QCalendarWidget(this);
-    layout->addWidget(calendarWidget);
-    connect(calendarWidget, &QCalendarWidget::clicked, this, &CalendarDialog::accept);
+  return NagDescriptions.at(nag);
 }
 
-QDate CalendarDialog::selectedDate() const
+QStringList Nag::getNagList() 
 {
-    return calendarWidget->selectedDate();
+   return NagDescriptions;
+}
+
+QStringList Nag::getNagListNumbered() 
+{
+ QStringList ret;
+ int i=0;
+ for ( auto e : NagDescriptions)
+   ret<< QString("%1 - %2").arg(i++).arg(e);
+ return ret;
+}
+
+QString Nag::getNag(QString linecombobox) 
+{
+   QStringList l= linecombobox.split(" - ");
+   bool ok;
+   int val=l.at(0).toInt(&ok);
+   if (val ==  0) return QString();
+   else if ( val == 1 )  return("!!");
+   else if ( val == 2 )  return("??");
+   else if ( val == 3 )  return("!");
+   else if ( val == 4 )  return("?");
+   else if ( val == 5 )  return("!?");
+   else if ( val == 6 )  return("?!");
+   else return( QString("#%1").arg(val));
+}
+
+bool Nag::isNag(QTextEdit *te) 
+{ QTextCursor cursor = te->textCursor();
+  cursor.select(QTextCursor::WordUnderCursor); 
+  QString word = cursor.selectedText();
+  QRegularExpression nagPattern(R"(^(\!\!|\!\?|\?\?|\?|\!|\?\!|\!?|\?!|#\d+|\# \d+)$)");
+  return nagPattern.match(word).hasMatch();
 }
