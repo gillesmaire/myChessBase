@@ -30,7 +30,6 @@ FormConfig::FormConfig(QWidget *parent)
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
     ui->doubleSpinBoxXshift->setValue(s.value("XShift",1).toDouble());
     ui->doubleSpinBoxYshift->setValue(s.value("YShift",1).toDouble());
-    
     ui->comboBoxPieces->setCurrentText(s.value("PiecesFont").toString());
     ui->widget->setClickable(false);
     

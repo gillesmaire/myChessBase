@@ -11,6 +11,7 @@ CONFIG += c++17
 DEFINES += CHESS_NO_EXCEPTIONS
 
 SOURCES += \
+    calendardialog.cpp \
     checkboxdelegate.cpp \
     chesboardcursor.cpp \
     chessboard.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 
 HEADERS += \
     BooleanCheckBoxDelegate.h \
+    calendardialog.h \
     checkboxdelegate.h \
     chesboardcursor.h \
     chessboard.h \

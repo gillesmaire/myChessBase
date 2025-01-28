@@ -31,6 +31,7 @@ private:
     void Reset();
     void FormAutoFillBlack();
     void FormAutoFillWhite();
+    void SelectDateFromCalendar();
 signals:
     void showFen();
 };

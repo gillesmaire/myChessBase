@@ -3,6 +3,7 @@
 #include "utils.h"
 #include <QDate>
 #include <QSettings>
+#include "calendardialog.h"
 
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent)
@@ -16,10 +17,22 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->widgetNavigation,SIGNAL(button(int)),this,SLOT(Go(int)));
     connect (ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
     connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
+    connect (ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
+    
 }
 
+void FormPGNEditor::SelectDateFromCalendar()
+{
+    
+    CalendarDialog dialog(this);
+    dialog.exec();
+    QDate date=dialog.selectedDate();
+    ui->dateEdit->setDate(date);
+    
+    
+}
 
 void FormPGNEditor::Go(int i)
 {
