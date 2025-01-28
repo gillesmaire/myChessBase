@@ -32,7 +32,7 @@
 CalendarDialog::CalendarDialog(QWidget *parent)
     : QDialog(parent)
 {
-    setWindowTitle(tr("Select a date"));
+    setWindowTitle(tr("Select a date or current date :"));
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     calendarWidget = new QCalendarWidget(this);
