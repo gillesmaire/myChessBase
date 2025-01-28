@@ -25,6 +25,7 @@ public:
 
 private slots:
     void Go(int i);
+    void GetListMoves(QStringList list);
 
 private:
     Ui::FormPGNEditor *ui;

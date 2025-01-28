@@ -18,9 +18,16 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
     connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
     connect (ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
+    connect (ui->Board,SIGNAL(MovesModified(QStringList)),this,SLOT(GetListMoves(QStringList)));
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
     
+}
+
+
+void FormPGNEditor::GetListMoves( QStringList list)
+{
+    ui->textEditMoves->append(Utils::NumberSanMoves(list));
 }
 
 void FormPGNEditor::SelectDateFromCalendar()

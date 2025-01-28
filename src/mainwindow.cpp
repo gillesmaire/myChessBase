@@ -191,6 +191,8 @@ void MainWindow::Update()
 
 
 
+
+
 void MainWindow::ShowFen()
 {
    if ( ! mFENShown )  {
