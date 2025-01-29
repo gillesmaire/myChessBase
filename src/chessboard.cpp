@@ -365,7 +365,7 @@ void ChessBoard::paintEvent(QPaintEvent *)
 
 void ChessBoard::DrawPiece( QPainter *painter)
 {
- extern QMap <QString,int> fontList;
+ //extern QMap <QString,int> fontList;
  extern QMap<QString,QMap<QString,QChar>> Pieces;           
 
             QString family=Utils::getFontFamily(mCurrentFont);
