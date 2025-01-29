@@ -29,7 +29,6 @@ FormConfig::FormConfig(QWidget *parent)
     ui->spinBoxYourElo->setValue(s.value("YourELO").toInt());
     ui->comboBoxPieces->addItems(ui->widget->listOfTypeOfPieces());
     ui->doubleSpinBoxXshift->setValue(s.value("XShift",1).toDouble());
-    ui->doubleSpinBoxYshift->setValue(s.value("YShift",1).toDouble());
     ui->comboBoxPieces->setCurrentText(s.value("PiecesFont").toString());
     ui->widget->setClickable(false);
     
@@ -42,7 +41,6 @@ FormConfig::FormConfig(QWidget *parent)
     connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&FormConfig::Save);
     connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&FormConfig::SaveInformations);
     connect (ui->doubleSpinBoxXshift,&QDoubleSpinBox::valueChanged,this,&FormConfig::RedrawChessBoard);
-    connect (ui->doubleSpinBoxYshift,&QDoubleSpinBox::valueChanged,this,&FormConfig::RedrawChessBoard);
 
 }
 
@@ -53,7 +51,7 @@ FormConfig::~FormConfig()
 
 void FormConfig::RedrawChessBoard()
 {
-    ui->widget->setCorrection(ui->doubleSpinBoxXshift->value(),ui->doubleSpinBoxYshift->value());
+    ui->widget->setCorrection(ui->doubleSpinBoxXshift->value());
     ui->widget->repaint();
 }
 
@@ -75,7 +73,6 @@ void FormConfig::Save()
     s.setValue("WhitePieceColor",ui->pushButtonWhitePieceColor->getColor());
     s.setValue("PiecesFont",ui->comboBoxPieces->currentText());
     s.setValue("XShift",ui->doubleSpinBoxXshift->value());
-    s.setValue("YShift",ui->doubleSpinBoxYshift->value());
     emit askRefresh();
 }
 

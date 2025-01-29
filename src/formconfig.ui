@@ -220,34 +220,7 @@
                         <double>0.500000000000000</double>
                        </property>
                        <property name="maximum">
-                        <double>1.000000000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.050000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>1.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_4">
-                     <item>
-                      <widget class="QLabel" name="label_5">
-                       <property name="text">
-                        <string>y</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QDoubleSpinBox" name="doubleSpinBoxYshift">
-                       <property name="minimum">
-                        <double>0.500000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>1.000000000000000</double>
+                        <double>1.500000000000000</double>
                        </property>
                        <property name="singleStep">
                         <double>0.050000000000000</double>
@@ -265,9 +238,8 @@
                   <widget class="QLabel" name="label_6">
                    <property name="text">
                     <string>If squares are drawn as rectangle you 
-can decrease x or y to set the size.
-You can also decrease the size of 
-the case. </string>
+can adjust  x  to set the size.
+</string>
                    </property>
                   </widget>
                  </item>

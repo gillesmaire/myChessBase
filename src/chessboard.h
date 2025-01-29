@@ -58,7 +58,7 @@ public:
     /// \param x a value from 0,50 to 1,00 for x adjustement
     /// \param y a value from 0,50 to 1,00 for y adjustement
     ///
-    void setCorrection(qreal x, qreal y);
+    void setCorrection(qreal x);
     
     ///
     /// \brief flipped 

@@ -14,6 +14,7 @@
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
+    qDebug()<<"parent"<<parent->size().width()<<parent->size().height();
   extern QMap<QString,QMap<QString,QChar>> Pieces;           
   Utils::RecordChessFonts();
   //mFontList=mChessFonts.keys();  
@@ -29,10 +30,10 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 }
 
 
-void ChessBoard::setCorrection(qreal x, qreal y)
+void ChessBoard::setCorrection(qreal x)
 {
+    if(mVSizeBoard/x>size().height()-80 ) return;
     mXcorrection=x;
-    mYcorrection=y;
 }
 
 bool ChessBoard::flipped() { return mFlip; }
@@ -54,8 +55,6 @@ QString ChessBoard::getFEN()
 }
 
 
-
-
 void ChessBoard::resizeEvent(QResizeEvent *event)
 {
    extern QString InitWhiteSquareColor;
@@ -65,10 +64,13 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitPieceFont;
    
    QSettings s;
-   mHSizeBoard= (event->size().width())/mXcorrection-120;
-   mVSizeBoard= (event->size().height())/mYcorrection-120;
-   int size = std::min(event->size().width(), event->size().height());
-   this->resize(size, size);
+   // mHSizeBoard= (event->size().width())/mXcorrection-120;
+   // mVSizeBoard= (event->size().height())/mYcorrection-120;
+   
+   // qDebug()<<"corrected"<<mHSizeBoard<<mVSizeBoard;
+   int size = std::min(event->size().width()*mYcorrection, event->size().height()*mXcorrection);
+   mHSizeBoard= size;
+   mVSizeBoard= size;
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
@@ -290,15 +292,13 @@ void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QSettings s;
     QPainter painter(this);
-    qDebug()<<"repaint";
-    painter.scale(mXcorrection,mYcorrection);
-    painter.setRenderHint(QPainter::Antialiasing );
+    painter.setRenderHint(QPainter::Antialiasing);
     QColor squarecolor;
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
-    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/8;
+    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/(8*mYcorrection);
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
-    int sizeVCase=(mHSizeBoard-2*sizeVNumberedCase)/8;
-    
+    int sizeVCase=(mHSizeBoard-2*sizeVNumberedCase)/(8*mXcorrection);
+
     mSize8CaseH=sizeHCase*8; // calculated once
     mSize8CaseV=sizeVCase*8; // calculated once
     mTilewith = sizeHCase;

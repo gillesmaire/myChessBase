@@ -32,8 +32,13 @@ void FormNavigationButton::dispatch()
    else emit button(Action::First);
 }
 
+void FormNavigationButton::resizeEvent(QResizeEvent *e) 
+{
+    qDebug()<<"Nav "<<e->size();
+}
 
 FormNavigationButton::~FormNavigationButton()
 {
     delete ui;
 }
+
