@@ -25,7 +25,6 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
   setCursor(cbcursor);
   mXcorrection= s.value("XShift",1).toDouble();
-  mYcorrection=s.value("YShift",1).toDouble(); 
   
 }
 
@@ -68,7 +67,7 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    // mVSizeBoard= (event->size().height())/mYcorrection-120;
    
    // qDebug()<<"corrected"<<mHSizeBoard<<mVSizeBoard;
-   int size = std::min(event->size().width()*mYcorrection, event->size().height()*mXcorrection);
+   int size = std::min(event->size().width()*1.0, event->size().height()*mXcorrection);
    mHSizeBoard= size;
    mVSizeBoard= size;
    mWhiteSquareColor=s.value("WhiteSquareColor",InitWhiteSquareColor).toString();
@@ -178,12 +177,12 @@ int ChessBoard::NumberCase( int x, int y)
 {
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
- 
+    
     int sizeHCase=(size().width()-2*sizeHNumberedCase)/8;
     int sizeVCase=(size().height()-2*sizeHNumberedCase)/8;
     x=x-sizeHNumberedCase;
     y=y-sizeVNumberedCase;
-    int line= y/(sizeVCase*mYcorrection);
+    int line= y/sizeVCase;
     int col= x/(sizeHCase*mXcorrection);
     int square;
     if ( col > 7 || col < 0 ) square=64;
@@ -295,7 +294,7 @@ void ChessBoard::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing);
     QColor squarecolor;
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
-    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/(8*mYcorrection);
+    int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/(8);
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
     int sizeVCase=(mHSizeBoard-2*sizeVNumberedCase)/(8*mXcorrection);
 
@@ -439,32 +438,32 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
         if ( !mFlip) {
            for ( char car ='A' ; car <='H' ; car++ ) {
            painter->drawText(i*pas-2*mMarginX,pixels+mMarginY, QChar(car));
-           painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith/2, QChar(car));
+           painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith*mXcorrection, QChar(car));
            i++;
          }
         }
         else
           for ( char car ='H' ; car >='A' ; car-- ) {
           painter->drawText(i*pas-2*mMarginX,pixels+mMarginY, QChar(car));
-          painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith/2, QChar(car));
+          painter->drawText(i*pas-2*mMarginX,pixels+mMarginY+mSize8CaseV+mTilewith*mXcorrection, QChar(car));
            i++;
          } 
-        painter->drawLine(mShiftX-mMarginX,mShiftY,mShiftY-mMarginY,mSize8CaseV+mShiftY);
+        painter->drawLine(mShiftX-mMarginX,mShiftY,mShiftX-mMarginX,mSize8CaseV+mShiftY);
         painter->drawLine(mShiftX+mMarginX+mSize8CaseH,mShiftY,mShiftX+mMarginX+mSize8CaseH,mSize8CaseV+mShiftY);
         i =0;
         if (mFlip)
         {  
         for ( char car ='1' ; car <='8' ; car++ ) {
-           painter->drawText(pixels-mMarginX,i*pas+pas+mMarginY, QChar(car));
-           painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,i*pas+pas+mMarginY, QChar(car));
+           painter->drawText(pixels-mMarginX,(i/mXcorrection)*pas+pas/mXcorrection+mMarginY, QChar(car));
+           painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,(i/mXcorrection)*pas+pas/mXcorrection+mMarginY, QChar(car));
            
            i++;
          }
         }
         else
            for ( char car ='8' ; car >='1' ; car-- ) {
-               painter->drawText(pixels-mMarginX,i*pas+pas+mMarginY, QChar(car));
-               painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,i*pas+pas+mMarginY, QChar(car));
+               painter->drawText(pixels-mMarginX,(i/mXcorrection)*pas+pas/mXcorrection+mMarginY, QChar(car));
+               painter->drawText(pixels-mMarginX+mSize8CaseH+mTilewith/2,(i/mXcorrection)*pas+pas/mXcorrection+mMarginY, QChar(car));
             i++;
            }
         } 
