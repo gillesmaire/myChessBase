@@ -122,7 +122,7 @@ private:
     ///
     /// \brief mTileSize is the size of a Square
     ///
-    int mTilewith;
+    int mTilewidth;
     int mTileheight;
     ///
     /// \brief mX x and y poistion of current object
