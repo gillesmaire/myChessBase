@@ -364,9 +364,8 @@ void ChessBoard::paintEvent(QPaintEvent *)
 
 void ChessBoard::DrawPiece( QPainter *painter)
 {
- //extern QMap <QString,int> fontList;
  extern QMap<QString,QMap<QString,QChar>> Pieces;           
-
+            int delta=10;
             QString family=Utils::getFontFamily(mCurrentFont);
             QChar car=QChar(Pieces[mCurrentFont][getName(mCol,mRow)]);
             
@@ -394,12 +393,13 @@ void ChessBoard::DrawPiece( QPainter *painter)
               painter->setFont(mFont);
               painter->setBrush(whiter);
               painter->setPen(whiter);
-              painter->drawText(QRectF(mX-shift/2,mY-shift/2,mTilewith+shift*2,mTileheight+shift*2),QString(car));
+              painter->drawText(QRectF(mX-shift/2,mY-shift/2+delta,mTilewith+shift*2,mTileheight+shift*2),QString(car));
+          
               mFont.setPixelSize(mTilewith);
               painter->setFont(mFont);
               painter->setBrush(mBlackPieceColor);
               painter->setPen(mBlackPieceColor);
-              painter->drawText(QRectF(mX,mY,mTilewith,mTileheight),QString(car));
+              painter->drawText(QRectF(mX,mY+delta,mTilewith,mTileheight),QString(car));
             }
             else 
             {
@@ -414,12 +414,12 @@ void ChessBoard::DrawPiece( QPainter *painter)
               painter->setFont(mFont);
               painter->setBrush(darker);
               painter->setPen(darker);
-              painter->drawText(QRectF(mX-shift/2,mY-shift/2,mTilewith+shift*2,mTileheight+shift*2),QString(car));
-              mFont.setPixelSize(mTileheight);
+              painter->drawText(QRectF(mX-shift/2,mY-shift/2+delta,mTilewith+shift*2,mTileheight+shift*2),QString(car));
+              mFont.setPixelSize(mTilewith);
               painter->setFont(mFont);
               painter->setBrush(mWhitePieceColor);
               painter->setPen(mWhitePieceColor);
-              painter->drawText(QRectF(mX,mY,mTilewith,mTileheight),QString(car));
+              painter->drawText(QRectF(mX,mY+delta,mTilewith,mTileheight),QString(car));
             }
 }
 void ChessBoard::DrawNumberedCase( QPainter *painter)

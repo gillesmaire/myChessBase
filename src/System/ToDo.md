@@ -6,7 +6,8 @@
 - Set a rectangle or something to show the side to play
 - the little anf big Rook undo does'nt work.
 - Correct the deformatiopn with mXcorrection
-- 1 8 marker are to short
+- White pieces have a problem
+- Piece selection has shifted
 
 ## Configuration 
 
