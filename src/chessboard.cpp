@@ -14,7 +14,6 @@
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
 {
-    qDebug()<<"parent"<<parent->size().width()<<parent->size().height();
   extern QMap<QString,QMap<QString,QChar>> Pieces;           
   Utils::RecordChessFonts();
   //mFontList=mChessFonts.keys();  
@@ -66,7 +65,6 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    // mHSizeBoard= (event->size().width())/mXcorrection-120;
    // mVSizeBoard= (event->size().height())/mYcorrection-120;
    
-   // qDebug()<<"corrected"<<mHSizeBoard<<mVSizeBoard;
    int size = std::min(event->size().width()*1.0, event->size().height()*mXcorrection);
    mHSizeBoard= size;
    mVSizeBoard= size;
@@ -121,7 +119,6 @@ if ( ! mClickable ) return;
     mShowPossibleMoves=!mPossibleMoves.isEmpty();
     if  ( mShowPossibleMoves ) // we change the cursor 
     {
-    qDebug()<<mTilewidth<<mTileheight;
         QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
         mSquareToBePlayed=Square(sq.rank(),sq.file()); 
@@ -177,13 +174,14 @@ int ChessBoard::NumberCase( int x, int y)
 {
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
-    
-    int sizeHCase=(size().width()-2*sizeHNumberedCase)/8;
-    int sizeVCase=(size().height()-2*sizeHNumberedCase)/8;
+    int w=size().width();
+    int h=w;
+    int sizeHCase=(w-2*sizeHNumberedCase)/8;
+    int sizeVCase=(h-2*sizeVNumberedCase)/(8*mXcorrection);
     x=x-sizeHNumberedCase;
     y=y-sizeVNumberedCase;
-    int line= y/sizeVCase;
-    int col= x/(sizeHCase*mXcorrection);
+    int line= y/(sizeVCase);
+    int col= x/sizeHCase;
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;
@@ -365,7 +363,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
 void ChessBoard::DrawPiece( QPainter *painter)
 {
  extern QMap<QString,QMap<QString,QChar>> Pieces; 
-        qDebug()<<mTileheight<<mTilewidth;       
             int PieceSize= (mTileheight+mTilewidth)/2;
             QString family=Utils::getFontFamily(mCurrentFont);
             QChar car=QChar(Pieces[mCurrentFont][getName(mCol,mRow)]);
