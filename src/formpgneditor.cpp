@@ -26,7 +26,9 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
     ui->comboBoxNags->addItems(Nag::getNagListNumbered());
-    
+    ui->textEditMoves->setReadOnly(true);
+    ui->textEditMoves->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+
 }
 
 

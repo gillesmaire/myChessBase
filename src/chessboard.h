@@ -15,6 +15,7 @@ typedef enum {PossibleMoves,LastMove,Nothing}  Raison;
 class ChessBoard : public QWidget
 {
      Q_OBJECT
+    typedef enum { Normal, Promotion, Castle} TypeMove;
 public:
     explicit ChessBoard(QWidget *widget);
     void setWhiteSquareColor( QColor col) { mWhiteSquareColor=col; update();}
@@ -164,6 +165,7 @@ private:
     ///
     QStringList mPossibleMoves;
     
+    
     ///
     /// \brief mClickable the chessboard can be clicked only fi mClickable is set
     ///
@@ -218,6 +220,8 @@ private:
     ///
     void Debug();
     
+    
+    
     ///
     /// When you play a game in one of analyze modes or in pgn editing you can walk inside the list of moves
     QStringList mMoveUCIList;
@@ -226,8 +230,16 @@ private:
     /// \brief mCurrent the current element in mMoveList. If not move is playe mCurrent=-1 at first mCurrent=0 after mCurrent=1
     ///
     int mCurrent=-1;
+    ///
+    /// \brief isPromotion is true if  the next move is a promotion. We know next move is 
+    /// a promotion because they are for example a8q a8r a8b a8n c8q c8q a8r etc ..
+    /// \param possiblemoves the list of move 
+    /// \return true if it is a promotion
+    ///
+    bool isPromotion(QStringList possiblemoves);
     
-   
+    TypeMove mTypeMove;
+    
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/

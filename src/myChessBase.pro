@@ -26,6 +26,7 @@ SOURCES += \
     formconfig.cpp \
     formnavigationbutton.cpp \
     formpgneditor.cpp \
+    formpiece.cpp \
     formtitle.cpp \
     formuniversmypreferences.cpp \
     limitedtextedit.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     formconfig.h \
     formnavigationbutton.h \
     formpgneditor.h \
+    formpiece.h \
     formtitle.h \
     formuniversmypreferences.h \
     limitedtextedit.h \
@@ -72,6 +74,7 @@ FORMS += \
     formconfig.ui \
     formnavigationbutton.ui \
     formpgneditor.ui \
+    formpiece.ui \
     formtitle.ui \
     formuniversmypreferences.ui \
     mainwindow.ui \

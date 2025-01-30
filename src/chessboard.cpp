@@ -99,11 +99,23 @@ if ( ! mClickable ) return ;
 }   
 
 
-
+bool  ChessBoard::isPromotion(QStringList possiblemoves)
+{
+   bool isPromotion = true;
+   QString charpromo = "qrbn";
+   for (auto move: possiblemoves ) 
+        { if (move.at(1)!=QChar('8') && move.at(1)!=QChar('1') )  
+                { isPromotion=false ; break;} 
+          if (move.length()>2  && ! charpromo.contains(move.at(2) )) 
+                { isPromotion= false; break; }
+        }  
+    return isPromotion;   
+}
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
-if ( ! mClickable ) return; 
+  mTypeMove=Normal;
+  if ( ! mClickable ) return; 
     // cs = "e2"
     QPoint p=event->pos();
     int x=p.x();
@@ -115,7 +127,17 @@ if ( ! mClickable ) return;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
+   
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
+    
+    if (isPromotion(mPossibleMoves))
+    {
+        QStringList PromPossiblesmoves=mPossibleMoves;
+        mPossibleMoves.clear();
+        for ( auto i : PromPossiblesmoves)
+          if (i.endsWith("q")) { i.chop(1); mPossibleMoves<<i; } 
+        mTypeMove=Promotion; 
+    }
     mShowPossibleMoves=!mPossibleMoves.isEmpty();
     if  ( mShowPossibleMoves ) // we change the cursor 
     {
@@ -141,10 +163,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     if ( mPossibleMoves.contains(cs)) 
      {
        QString m=QString::fromStdString(std::string(mSquareToBePlayed))+cs;
-       Move move=uci::uciToMove(mBoard,m.toStdString()); 
+       //Move move=uci::uciToMove(mBoard,m.toStdString()); 
+       Move move;
+       if ( mTypeMove==Normal)
+          move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
+       else if ( mTypeMove==Promotion )
+          move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,PieceType::QUEEN);
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
        while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
        mBoard.makeMove(move);
+       Debug();
        mMoveUCIList<<m;
        
        emit MovesModified(mMoveSanList);
@@ -247,6 +275,7 @@ void ChessBoard::goBack()
        if (mCurrent!=-1) mCurrent--;
        update();
     }
+    Debug();
 }
 
 void ChessBoard::goNext()
