@@ -20,13 +20,13 @@ SOURCES += \
     creationbase.cpp \
     customsqlcolumnproxymodel.cpp \
     dialogprogressbarimport.cpp \
+    dialogpromotion.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
     filledspinbox.cpp \
     formconfig.cpp \
     formnavigationbutton.cpp \
     formpgneditor.cpp \
-    formpiece.cpp \
     formtitle.cpp \
     formuniversmypreferences.cpp \
     limitedtextedit.cpp \
@@ -50,13 +50,13 @@ HEADERS += \
     creationbase.h \
     customsqlcolumnproxymodel.h \
     dialogprogressbarimport.h \
+    dialogpromotion.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
     filledspinbox.h \
     formconfig.h \
     formnavigationbutton.h \
     formpgneditor.h \
-    formpiece.h \
     formtitle.h \
     formuniversmypreferences.h \
     limitedtextedit.h \
@@ -70,11 +70,11 @@ HEADERS += \
 
 FORMS += \
     dialogprogressbarimport.ui \
+    dialogpromotion.ui \
     dialogshortcuts.ui \
     formconfig.ui \
     formnavigationbutton.ui \
     formpgneditor.ui \
-    formpiece.ui \
     formtitle.ui \
     formuniversmypreferences.ui \
     mainwindow.ui \

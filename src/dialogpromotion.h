@@ -26,28 +26,38 @@
 //
 //
 // VERSION: 0.1
-#include "formpiece.h"
-#include "ui_formpiece.h"
+#ifndef DIALOGPROMOTION_H
+#define DIALOGPROMOTION_H
 
-FormPiece::FormPiece(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::FormPiece)
-{
-    ui->setupUi(this);
+#include <QDialog>
+
+
+
+namespace Ui {
+class DialogPromotion;
 }
 
-FormPiece::~FormPiece()
+class DialogPromotion : public QDialog
 {
-    delete ui;
-}
+    Q_OBJECT
 
-void FormPiece::setPiece(QString piece, QString FamilyFont, QColor color) 
-{
- mPiece=piece;
- mFamilyFont=FamilyFont;
- mColor=color;
- ui->label->setText(piece);
- QFont Font(FamilyFont);
- ui->label->setFont(Font);
- ui->label->setStyleSheet(QString("QLabel { background-color : black; color : %1; })").arg(color.name()));
-}
+public:
+    explicit DialogPromotion(QWidget *parent = nullptr);
+    ~DialogPromotion();
+    QChar Piece( );
+private slots:
+
+    void QueenClicked();
+    void CastleClicked();
+    void BishopClicked();
+    void KnightClicked();
+
+private:
+    Ui::DialogPromotion *ui;
+    QChar mPiece;
+    
+};
+
+
+
+#endif // DIALOGPROMOTION_H

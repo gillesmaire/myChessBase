@@ -26,39 +26,28 @@
 //
 //
 // VERSION: 0.1
-#ifndef FORMPIECE_H
-#define FORMPIECE_H
+#include "dialogpromotion.h"
+#include "ui_dialogpromotion.h"
 
-#include <QWidget>
-
-namespace Ui {
-class FormPiece;
+DialogPromotion::DialogPromotion(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::DialogPromotion)
+{
+    ui->setupUi(this);
+    connect ( ui->toolButtonQueen,SIGNAL(clicked()),this,SLOT(QueenClicked()));
+    connect ( ui->toolButtonCastle,SIGNAL(clicked()),this,SLOT(CastleClicked()));
+    connect ( ui->toolButtonBishop,SIGNAL(clicked()),this,SLOT(BishopClicked()));
+    connect ( ui->toolButtonKnight,SIGNAL(clicked()),this,SLOT(KnightClicked()));
 }
 
-///
-/// \brief The FormPiece class this class display a piece in a Widget. It is sueful for promote
-///        display piece for example
-///
-class FormPiece : public QWidget
+DialogPromotion::~DialogPromotion()
 {
-    Q_OBJECT
+    delete ui;
+}
 
-public:
-    explicit FormPiece(QWidget *parent = nullptr);
-    ~FormPiece();
-    ///
-    /// \brief setPiece define the piece by name, Famylyfont and color
-    /// \param piece
-    /// \param FamilyFont
-    /// \param color
-    ///
-    void setPiece(QString piece, QString FamilyFont, QColor color);
+QChar DialogPromotion::Piece() { return mPiece; }
 
-private:
-    Ui::FormPiece *ui;
-    QString mPiece;
-    QString mFamilyFont;
-    QColor  mColor;
-};
-
-#endif // FORMPIECE_H
+void DialogPromotion::QueenClicked() { mPiece=QChar('q');close(); }
+void DialogPromotion::CastleClicked(){ mPiece=QChar('r');close();}
+void DialogPromotion::BishopClicked(){ mPiece=QChar('b');close();}
+void DialogPromotion::KnightClicked(){ mPiece=QChar('k');close();}

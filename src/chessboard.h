@@ -238,6 +238,7 @@ private:
     ///
     bool isPromotion(QStringList possiblemoves);
     
+    QChar mPromotion;
     TypeMove mTypeMove;
     
 public slots:

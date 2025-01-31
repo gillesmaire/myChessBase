@@ -9,6 +9,7 @@
 #include <QApplication>
 
 #include "chessboard.h"
+#include "dialogpromotion.h"
 
 #include "utils.h"
 
@@ -127,7 +128,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
-   
+    if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
     
     if (isPromotion(mPossibleMoves))
@@ -137,6 +138,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
         for ( auto i : PromPossiblesmoves)
           if (i.endsWith("q")) { i.chop(1); mPossibleMoves<<i; } 
         mTypeMove=Promotion; 
+       
     }
     mShowPossibleMoves=!mPossibleMoves.isEmpty();
     if  ( mShowPossibleMoves ) // we change the cursor 
@@ -168,7 +170,17 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
        if ( mTypeMove==Normal)
           move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
        else if ( mTypeMove==Promotion )
-          move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,PieceType::QUEEN);
+       {
+          DialogPromotion askPiece(this);
+          askPiece.exec();
+          mPromotion=askPiece.Piece();
+          PieceType t;
+          if (mPromotion=='q') t=PieceType::QUEEN;
+          else if (mPromotion=='r') t=PieceType::ROOK;
+          else if (mPromotion=='b') t=PieceType::BISHOP;
+          else if (mPromotion=='k') t=PieceType::KNIGHT;
+          move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
+       }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
        while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
        mBoard.makeMove(move);
