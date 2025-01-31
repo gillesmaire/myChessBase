@@ -3,10 +3,10 @@
 ## Chessboard 
 
 
-- Set a rectangle or something to show the side to play
-- the little and big Rook undo does'nt work (action Disservin)
-- the en passant undo does'nt work. (action Disservin)
-- Need to implement promote mode 
+
+- the little and big Rook undo does'nt work 
+- the en passant undo does'nt work. 
+- 
 
 
 

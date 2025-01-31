@@ -6,6 +6,7 @@ extern QString InitWhiteSquareColor;
 extern QString InitBlackSquareColor;
 extern QString InitWhitePieceColor;
 extern QString InitBlackPieceColor;
+extern QString InitSideToPlayColor;
 
 FormConfig::FormConfig(QWidget *parent)
     : QWidget(parent)
@@ -21,6 +22,7 @@ FormConfig::FormConfig(QWidget *parent)
     ui->pushButtonBlackSquareColor->setColor(s.value("BlackSquareColor",InitBlackSquareColor).toString());
     ui->pushButtonWhiteSquareColor->setName("WhiteSquareColor");
     ui->pushButtonWhiteSquareColor->setColor(s.value("WhiteSquareColor",InitWhiteSquareColor).toString());
+    ui->pushButtonSidetoPlayColor->setColor(s.value("SideToPlayColor",InitSideToPlayColor).toString());
     ui->lineEditYourFirstname->setText(s.value("YourFirstname").toString());
     ui->lineEditYourName->setText(s.value("YourName").toString());
     ui->spinBoxYourElo->setDigitNumber(4);
@@ -36,7 +38,9 @@ FormConfig::FormConfig(QWidget *parent)
     connect (ui->pushButtonBlackSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhitePieceColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonWhiteSquareColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
+    connect (ui->pushButtonSidetoPlayColor,SIGNAL(ColorChanged(QString,QColor)),this,SLOT(ChangeColor(QString,QColor)));
     connect (ui->pushButtonSaveBoard,SIGNAL(clicked(bool)),this,SLOT(Save()));
+    
     connect (ui->comboBoxPieces,SIGNAL(currentTextChanged(QString)),this,SLOT(ChangePiece(QString)));
     connect (ui->pushButtonSaveBoard,&QPushButton::clicked,this,&FormConfig::Save);
     connect (ui->pushButtonValidateInformations,&QPushButton::clicked,this,&FormConfig::SaveInformations);
@@ -71,6 +75,7 @@ void FormConfig::Save()
     s.setValue("WhiteSquareColor",ui->pushButtonWhiteSquareColor->getColor());
     s.setValue("BlackPieceColor",ui->pushButtonBlackPieceColor->getColor());
     s.setValue("WhitePieceColor",ui->pushButtonWhitePieceColor->getColor());
+    s.setValue("SideToPlayColor",ui->pushButtonSidetoPlayColor->getColor());
     s.setValue("PiecesFont",ui->comboBoxPieces->currentText());
     s.setValue("XShift",ui->doubleSpinBoxXshift->value());
     emit askRefresh();

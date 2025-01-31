@@ -61,6 +61,7 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    extern QString InitWhitePieceColor;
    extern QString InitBlackPieceColor;
    extern QString InitPieceFont;
+   extern QString InitSideToPlayColor;
    
    QSettings s;
    // mHSizeBoard= (event->size().width())/mXcorrection-120;
@@ -73,7 +74,9 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
    mBlackSquareColor=s.value("BlackSquareColor",InitBlackSquareColor).toString();
    mBlackPieceColor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
    mWhitePieceColor=s.value("WhitePieceColor",InitWhitePieceColor).toString();
+   mSideToPlayColor=s.value("SideToPlayColor",InitSideToPlayColor).toString();
    mCurrentFont=s.value("PiecesFont",InitPieceFont).toString();
+   
   // emit LenghtAndColor( event->size().width()<event->size().height()?event->size().width():event->size().height() ,mBlackSquareColor);
 }
 
@@ -124,7 +127,6 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     int nbcase=NumberCase(x,y);
     if ( nbcase < 0 || nbcase>=64) return;
     Square sq=Square(nbcase);
-   // QColor squarecolor=sq.is_light()?mBlackSquareColor:mWhiteSquareColor;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
@@ -336,7 +338,6 @@ void ChessBoard::paintEvent(QPaintEvent *)
     int sizeHCase=(mHSizeBoard-2*sizeHNumberedCase)/(8);
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
     int sizeVCase=(mHSizeBoard-2*sizeVNumberedCase)/(8*mXcorrection);
-
     mSize8CaseH=sizeHCase*8; // calculated once
     mSize8CaseV=sizeVCase*8; // calculated once
     mTilewidth = sizeHCase;
@@ -397,8 +398,9 @@ void ChessBoard::paintEvent(QPaintEvent *)
     //     //mSquareToBePlayed=Square();
     // }
     
-    
     DrawNumberedCase(&painter);
+    
+    DrawSideToPlay(&painter);
 }
 
 void ChessBoard::DrawPiece( QPainter *painter)
@@ -508,6 +510,33 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
 }
 
 
+void ChessBoard::DrawSideToPlay( QPainter *painter)
+{ 
+    painter->setBrush(mSideToPlayColor);
+    painter->setPen(mSideToPlayColor);
+    int sizetriangle=15;
+    int mult=1;
+    if ( mNumberedCase) mult=0;
+    if ( mBoard.sideToMove()==Color::underlying::WHITE && ! mFlip)
+       {
+        QPoint p1(mShiftX-mMarginX*mult+mSize8CaseH-sizetriangle,mShiftY+mSize8CaseV);   
+        QPoint p2(mShiftX-mMarginX*mult+mSize8CaseH,mShiftY+mSize8CaseV);   
+        QPoint p3(mShiftX-mMarginX*mult+mSize8CaseH,mShiftY+mSize8CaseV-sizetriangle);   
+        QPolygon triangle;
+        triangle << p1 << p2 << p3;
+        painter->drawPolygon(triangle);
+        qDebug()<<"ok";
+       }
+    else      
+       {
+        QPoint p1(mShiftX-mMarginX*mult+mSize8CaseH-sizetriangle,mShiftY);   
+        QPoint p2(mShiftX-mMarginX*mult+mSize8CaseH,mShiftY);   
+        QPoint p3(mShiftX-mMarginX*mult+mSize8CaseH,mShiftY+sizetriangle);   
+        QPolygon triangle;
+        triangle << p1 << p2 << p3;
+        painter->drawPolygon(triangle);
+       }   
+}
 QString ChessBoard::getName(int col, int row)
 {  
     if (mBoard.at(row*8+col)==chess::Piece::WHITEPAWN)

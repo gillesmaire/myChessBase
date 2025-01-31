@@ -117,6 +117,7 @@ private:
     QColor mBlackSquareColor;
     QColor mWhitePieceColor;
     QColor mBlackPieceColor;
+    QColor mSideToPlayColor;
     
     qreal mXcorrection;
     qreal mYcorrection;
@@ -240,7 +241,11 @@ private:
     
     QChar mPromotion;
     TypeMove mTypeMove;
-    
+    ///
+    /// \brief DrawSideToPLay display a little marker on the board to indicate the side to play
+    /// \param painter 
+    ///
+    void DrawSideToPlay(QPainter *painter);
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
