@@ -26,16 +26,60 @@
 //
 //
 // VERSION: 0.1
+
+
+
 #include "dialogpromotion.h"
 #include "ui_dialogpromotion.h"
+#include "utils.h"
+#include <QSettings>
+#include <QDebug>
 
-DialogPromotion::DialogPromotion(QWidget *parent)
+
+extern QMap<QString,QMap<QString,QChar>> Pieces;
+extern QString InitWhitePieceColor;
+extern QString InitWhiteSquareColor;
+extern QString InitBlackSquareColor;
+extern QString InitWhitePieceColor;
+extern QString InitBlackPieceColor;
+
+DialogPromotion::DialogPromotion(chess::Color color,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DialogPromotion)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);          
+    setWindowFlag(Qt::FramelessWindowHint);
+    QSettings s;
+    
+    QString fontname=s.value("PiecesFont").toString();
+    QString family=Utils::getFontFamily(fontname);
+    QFont font(family);
+    font.setPointSize(60);
+    QChar Queen=QChar(Pieces[fontname]["WHITEQUEEN"]);
+    QChar Rook=QChar(Pieces[fontname]["WHITEROOK"]);
+    QChar Bishop=QChar(Pieces[fontname]["WHITEBISHOP"]);
+    QChar Knight=QChar(Pieces[fontname]["WHITEKNIGHT"]);
+    QColor fontcolor;
+    if ( color == chess::Color::WHITE)
+        fontcolor=s.value("WhitePieceColor",InitWhitePieceColor).toString();
+    else
+        fontcolor=s.value("BlackPieceColor",InitBlackPieceColor).toString();
+    QString co=QString("color: %1").arg(fontcolor.name());
+    ui->toolButtonBishop->setStyleSheet(co);
+    ui->toolButtonBishop->setFont(font);
+    ui->toolButtonBishop->setText(Bishop);
+    ui->toolButtonKnight->setStyleSheet(co);
+    ui->toolButtonKnight->setFont(font);
+    ui->toolButtonKnight->setText(Knight);
+    ui->toolButtonQueen->setStyleSheet(co);
+    ui->toolButtonQueen->setFont(font);
+    ui->toolButtonQueen->setText(Queen);
+    ui->toolButtonRook->setStyleSheet(co);
+    ui->toolButtonRook->setFont(font);
+    ui->toolButtonRook->setText(Rook);
+    
     connect ( ui->toolButtonQueen,SIGNAL(clicked()),this,SLOT(QueenClicked()));
-    connect ( ui->toolButtonCastle,SIGNAL(clicked()),this,SLOT(CastleClicked()));
+    connect ( ui->toolButtonRook,SIGNAL(clicked()),this,SLOT(CastleClicked()));
     connect ( ui->toolButtonBishop,SIGNAL(clicked()),this,SLOT(BishopClicked()));
     connect ( ui->toolButtonKnight,SIGNAL(clicked()),this,SLOT(KnightClicked()));
 }

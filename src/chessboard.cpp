@@ -173,7 +173,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
        else if ( mTypeMove==Promotion )
        {
-          DialogPromotion askPiece(this);
+          DialogPromotion askPiece(mBoard.sideToMove(),this);
           askPiece.exec();
           mPromotion=askPiece.Piece();
           PieceType t;
@@ -181,6 +181,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           else if (mPromotion=='r') t=PieceType::ROOK;
           else if (mPromotion=='b') t=PieceType::BISHOP;
           else if (mPromotion=='k') t=PieceType::KNIGHT;
+          else t=PieceType::QUEEN;
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
@@ -525,7 +526,6 @@ void ChessBoard::DrawSideToPlay( QPainter *painter)
         QPolygon triangle;
         triangle << p1 << p2 << p3;
         painter->drawPolygon(triangle);
-        qDebug()<<"ok";
        }
     else      
        {

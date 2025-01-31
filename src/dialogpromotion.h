@@ -30,7 +30,7 @@
 #define DIALOGPROMOTION_H
 
 #include <QDialog>
-
+#include "chess.hpp"
 
 
 namespace Ui {
@@ -42,7 +42,7 @@ class DialogPromotion : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogPromotion(QWidget *parent = nullptr);
+    explicit DialogPromotion(chess::Color color,QWidget *parent = nullptr);
     ~DialogPromotion();
     QChar Piece( );
 private slots:

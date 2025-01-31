@@ -4,10 +4,10 @@
 
 
 
-- the little and big Rook undo does'nt work 
+- the little and big Rook undo does'nt work in recerse mode 
 - the en passant undo does'nt work. 
-- 
-
+- Rook can't play ! and sometime Queen
+- Design a nice piece selection dialog
 
 
 ## Configuration 
