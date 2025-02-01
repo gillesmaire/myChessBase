@@ -22,9 +22,26 @@ public:
     QString getListMove();
     void EraseBlackPlayer();
     void EraseWhitePlayer();
-
+public slots:
+    ///
+    /// \brief setFen Show FEN on ChessBoard
+    /// \param FEN a valid or Invalid FEN to show on the Board
+    ///
+    void setFen(QString FEN);
+    
 private slots:
+    ///
+    /// \brief Go  depends of value of button 
+    ///     -  FormNavigationButton::First  => ui->Board->goStart()
+    ///     -  FormNavigationButton::Last   => ui->Board->goEnd()
+    ///     -  FormNavigationButton::Before => ui->Board->goBack()
+    ///     -  FormNavigationButton::Next   => ui->Board->goNext()
+    ///     -  FormNavigationButton::Reverse=> ui->Board->flipBoard(!ui->Board->flipped())
+    ///     -  FormNavigationButton::NumberCase=> ui->Board->setNumberCase
+    ///
     void Go(int i);
+    
+    
     void GetListMoves(QStringList list);
 
    

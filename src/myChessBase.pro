@@ -32,7 +32,6 @@ SOURCES += \
     limitedtextedit.cpp \
     main.cpp \
     mainwindow.cpp \
-    movablePiece.cpp \
     mytableview.cpp \
     nag.cpp \
     readpgn.cpp \
@@ -61,7 +60,6 @@ HEADERS += \
     formuniversmypreferences.h \
     limitedtextedit.h \
     mainwindow.h \
-    movablePiece.h \
     mytableview.h \
     nag.h \
     readpgn.h \

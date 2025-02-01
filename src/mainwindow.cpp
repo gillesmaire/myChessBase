@@ -58,9 +58,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
             this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
     connect (ui->pgnEditor,SIGNAL(showFen()),this,SLOT(ShowFen()));
-           
-    
+  
 }   
+
+void MainWindow::ReadFen()
+{
+    qDebug()<<"FEN:"<<mFEN->text();
+    
+}
 
 
 void MainWindow::goStart()
@@ -199,6 +204,8 @@ void MainWindow::ShowFen()
        mFENShown=true;
        mFEN=new QLineEdit(getFen());
        ui->statusbar->addWidget(mFEN);
+        connect (mFEN,SIGNAL(returnPressed()),this,SLOT(ReadFen()));
+    
      }
    else 
    { 

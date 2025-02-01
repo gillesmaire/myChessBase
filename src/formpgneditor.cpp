@@ -89,6 +89,11 @@ void FormPGNEditor::EraseWhitePlayer()
     ui->comboBoxBlackTitle->setCurrentIndex(0);
 }
 
+void FormPGNEditor::setFen(QString FEN) 
+{
+    ui->Board->setFEN(FEN);
+}
+
 void FormPGNEditor::SetListMove(QString listmove)
 {
     ui->textEditMoves->clear();

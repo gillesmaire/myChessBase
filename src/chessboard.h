@@ -33,7 +33,6 @@
 #include <QWidget>
 #include "chess.hpp"
 #include <QMap>
-#include "movablePiece.h"
  using namespace chess;
 
 
@@ -63,7 +62,21 @@ public:
     /// retrieve a position 
     ///
     QString getFEN();
+    
+    ///
+    /// \brief setFEN : set the Board with the FEN passed in argument
+    /// 
+    ///
+    
+    void  setFEN(QString fen);
+    ///
+    /// \brief AuthorizedCase retuen the list of autorized cases
+    /// \param move the move to be played for example e2
+    /// \return  d6 d5 is the case are unoccuped and no check is possible
+    ///
     QStringList AuthorizedCase(QString move);
+    
+    
     void AskUpdate(){  update();}
      ///
     /// \brief getName return the piece with an enum WHITEPAWN etc ...
@@ -263,10 +276,30 @@ private:
     ///
     /// \brief isPromotion is true if  the next move is a promotion. We know next move is 
     /// a promotion because they are for example a8q a8r a8b a8n c8q c8q a8r etc ..
-    /// \param possiblemoves the list of move 
+    /// \param possiblemove the  move 
     /// \return true if it is a promotion
     ///
-    bool isPromotion(QStringList possiblemoves);
+    bool isPromotion(QString possiblemove);
+    
+    ///
+    /// \brief isPromotion is true is all the moves are promotion. We know next move is 
+    /// a promotion because they are for example a8q a8r a8b a8n c8q c8q a8r
+    /// \param possiblemoves the list of moves. We cannot have one move that is not a promotion.
+    /// \return 
+    ///
+    bool isPromotion (QStringList possiblemoves);
+
+    ///
+    /// \brief ListofPromotionMoves if list of move are promotion they contains
+    /// moves like a8q a8r a8b a8k
+    ///  Whe must delete the last letter and present a list of cases. It is not
+    ///  possible to have other moves
+    /// than promotions
+    /// \param possibleMoves list of possible moves 4 time longuer
+    /// \return the list with no doublon and no last letter
+    ///
+    QStringList ListofPromotionMoves(QStringList possibleMoves);
+    
     
     QChar mPromotion;
     TypeMove mTypeMove;
@@ -275,6 +308,7 @@ private:
     /// \param painter 
     ///
     void DrawSideToPlay(QPainter *painter);
+  
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/

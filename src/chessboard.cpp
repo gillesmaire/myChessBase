@@ -84,6 +84,7 @@ QString ChessBoard::getFEN()
     return QString::fromStdString(mBoard.getFen());
 }
 
+void ChessBoard::setFEN(QString fen) {mBoard.setFen(fen.toStdString());update();}
 
 void ChessBoard::resizeEvent(QResizeEvent *event)
 {
@@ -134,17 +135,42 @@ if ( ! mClickable ) return ;
 }   
 
 
-bool  ChessBoard::isPromotion(QStringList possiblemoves)
+bool  ChessBoard::isPromotion(QString move)
 {
    bool isPromotion = true;
    QString charpromo = "qrbn";
-   for (auto move: possiblemoves ) 
-        { if (move.at(1)!=QChar('8') && move.at(1)!=QChar('1') )  
-                { isPromotion=false ; break;} 
-          if (move.length()>2  && ! charpromo.contains(move.at(2) )) 
-                { isPromotion= false; break; }
-        }  
+   if (move.at(1)!=QChar('8') && move.at(1)!=QChar('1') )  
+           { isPromotion=false ; } 
+   if (move.length()>2  && ! charpromo.contains(move.at(2) )) 
+                { isPromotion= false;  }
     return isPromotion;   
+}
+
+bool ChessBoard::isPromotion(QStringList possiblemoves) 
+{
+   bool isPromotion = true;
+   QString charpromo = "qrbn";
+   for ( auto move : possiblemoves)
+   {
+   if (move.at(1)!=QChar('8') && move.at(1)!=QChar('1') )  
+           { isPromotion=false ; }
+   if (move.length()>2  && ! charpromo.contains(move.at(2) )) 
+                { isPromotion= false;  }                   
+
+   }
+   return isPromotion; 
+}
+
+
+QStringList ChessBoard::ListofPromotionMoves(QStringList possibleMoves)
+{
+  QStringList ret ;
+  for ( auto m: possibleMoves)
+  {
+    m.chop(1);
+    if (!ret.contains(m)) ret<<m;
+  }
+  return ret;
 }
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
@@ -163,21 +189,17 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     mPossibleMoves =AuthorizedCase(cs);
     if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
-    
     if (isPromotion(mPossibleMoves))
     {
-        QStringList PromPossiblesmoves=mPossibleMoves;
-        mPossibleMoves.clear();
-        for ( auto i : PromPossiblesmoves)
-         {
-          if (i.endsWith("q")) { i.chop(1);}
-           mPossibleMoves<<i; 
-         }
-        mTypeMove=Promotion; 
-       
+        mPossibleMoves=ListofPromotionMoves(mPossibleMoves);
+        QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
+        setCursor(cursor);
+        mSquareToBePlayed=Square(sq.rank(),sq.file()); 
+        mMouseStatus=MouseStatus::PressedNotReleased;
+        mTypeMove=Promotion;
     }
-    mShowPossibleMoves=!mPossibleMoves.isEmpty();
-    if  ( mShowPossibleMoves ) // we change the cursor 
+    else
+     if  ( !mPossibleMoves.isEmpty() ) // we change the cursor 
     {
         QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
@@ -217,6 +239,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           else if (mPromotion=='k') t=PieceType::KNIGHT;
           else t=PieceType::QUEEN;
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
+          mTypeMove=Normal;
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
        while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}

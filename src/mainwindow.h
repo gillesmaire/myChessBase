@@ -31,6 +31,8 @@ private slots:
     void SaveCaseNumbers();
     void ShowVariation(QString ECO, QString opening, QString variation, QString ecoplus, QString moves);
     void ShowFen();
+    void ReadFen();
+
 private:
     Ui::MainWindow *ui; 
     QSqlDatabase *mConnection;

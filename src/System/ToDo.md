@@ -5,6 +5,8 @@
 - the little and big Rook undo does'nt work in reverse mode 
 - The promote piece is concerved on rewind
 - the en passant undo does'nt work. 
+- After promotion if a piece take the promotion the piece is promuted
+
 
 
 ## Configuration 
