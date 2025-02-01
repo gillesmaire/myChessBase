@@ -1,3 +1,34 @@
+// GPL 3.0 License
+// myChessBase Project
+// Copyright (c) 2025 Gilles Maire <gilles@gillesmaire.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// THIS FILE IS AUTO GENERATED DO NOT CHANGE MANUALLY.
+//
+// Source: https://github.com/gillesmaire/myChessbase.git
+//
+//
+// VERSION: 0.1
+
+
+
 #include <QPainter>
 #include <QResizeEvent>
 #include <QSettings>
@@ -138,7 +169,10 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
         QStringList PromPossiblesmoves=mPossibleMoves;
         mPossibleMoves.clear();
         for ( auto i : PromPossiblesmoves)
-          if (i.endsWith("q")) { i.chop(1); mPossibleMoves<<i; } 
+         {
+          if (i.endsWith("q")) { i.chop(1);}
+           mPossibleMoves<<i; 
+         }
         mTypeMove=Promotion; 
        
     }
@@ -260,14 +294,15 @@ void ChessBoard::DrawPossiblesMoves(QPainter *painter)
 
 void ChessBoard::Debug()
 {       
-        std::cout<<"********"<<std::endl;
-        for ( int f=7; f>=0; f--) 
-         for ( int r=0;r<=7;r++){
-           Piece p = mBoard.at(Square(File(r),Rank(f)));
-           std::cout << std::string(p)   ;
-           if ( r==7 ) std::cout << std::endl;
+    std::cout <<"--------"<<std::endl;
+    for ( int line=7; line>=0; line--) 
+    {
+        for ( int col=0; col<=7; col++) {
+          std::cout << std::string(mBoard.at(Square(line*8+col)))   ;
         }
-        std::cout<<"********"<<std::endl;
+         std::cout <<std::endl;
+    }
+    std::cout <<"--------"<<std::endl;
 }
 
 void ChessBoard::goStart()
@@ -280,9 +315,14 @@ void ChessBoard::goStart()
 
 void ChessBoard::goBack()
 {
+        
+          
+    QString Line;
     if (mMoveUCIList.isEmpty()) return;
     if (mCurrent==-1)  return;
     QString move=mMoveUCIList.at(mCurrent);
+    QString movesan=mMoveSanList.at(mCurrent);
+    qDebug()<<"UCIList :" <<mMoveUCIList;
     Move mu=uci::uciToMove(mBoard, move.toStdString()) ;
     if (mBoard.getFen() != constants::STARTPOS)
     {
