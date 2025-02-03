@@ -1,5 +1,7 @@
 QT       += core gui sql concurrent 
 
+
+system(/usr/local/bin/template.sh GPLV3.0 myChessBase https://github.com/gillesmaire/myChessBase.git)
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17

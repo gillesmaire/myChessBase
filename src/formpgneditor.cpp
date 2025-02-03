@@ -36,7 +36,6 @@ void FormPGNEditor::GetListMoves( QStringList list)
 {
     ui->textEditMoves->setText(Utils::NumberSanMoves(list));
 }
-
 void FormPGNEditor::SelectDateFromCalendar()
 {
     
@@ -97,7 +96,9 @@ void FormPGNEditor::setFen(QString FEN)
 void FormPGNEditor::SetListMove(QString listmove)
 {
     ui->textEditMoves->clear();
+    //ui->textEditMoves->setText(Utils::NumberSanMoves(listmove.split(" ")));
     ui->textEditMoves->setText(Utils::NumberSanMoves(listmove.split(" ")));
+    
 }
 
 
@@ -156,7 +157,7 @@ void FormPGNEditor::AddNag()
     if (str.isEmpty()) return ; 
     QTextCursor cursor = ui->textEditMoves->textCursor();
     int pos=cursor.position();
-    qDebug()<<ui->textEditMoves->document()->characterAt(pos);
+    qDebug()<<"addnag"<<ui->textEditMoves->document()->characterAt(pos);
     if ( pos > 0 &&  ui->textEditMoves->document()->characterAt(pos) == QChar(0x2029)  ) {  
         cursor.movePosition(QTextCursor::Right);
         cursor.insertText(" ");
@@ -173,7 +174,7 @@ void FormPGNEditor::DelNag()
         cursor.select(QTextCursor::WordUnderCursor); 
         if (!cursor.selectedText().isEmpty()) 
            {
-           qDebug()<<cursor.selectedText();
+           qDebug()<<"delnag"<<cursor.selectedText();
                 cursor.removeSelectedText();
            }
     }

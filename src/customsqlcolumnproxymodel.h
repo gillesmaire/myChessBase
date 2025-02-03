@@ -3,7 +3,6 @@
 
 #include <QSqlQueryModel>
 #include <QList>
-#include <QDebug>
 
 class CustomSQLColumnProxyModel : public QSqlQueryModel {
     Q_OBJECT

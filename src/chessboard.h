@@ -258,14 +258,6 @@ private:
     ///
     enum MouseStatus {PressedNotReleased,  PressedReleased, NotPressed} mMouseStatus=NotPressed;
     ///
-    /// \brief Debug display the board in ASCII mode 
-    /// 
-    ///
-    void Debug();
-    
-    
-    
-    ///
     /// When you play a game in one of analyze modes or in pgn editing you can walk inside the list of moves
     QStringList mMoveUCIList;
     QStringList mMoveSanList;

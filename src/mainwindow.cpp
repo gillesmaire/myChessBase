@@ -140,7 +140,7 @@ void MainWindow::SuppressDataBase()
    QFileInfo fi(s.fileName());
    QString filename=fi.absolutePath()+"/myChessBase.db";
    QFile F(filename);
-   qDebug()<<filename;
+   qDebug()<<"filename"<<filename;
    F.remove();
    
    

@@ -48,6 +48,8 @@ void ColorButton::setName(QString name)
 void ColorButton::paintEvent(QPaintEvent *)
 {   
     QPainter p(this);
+    if (!p.isActive()) { qWarning("QPainter is not active (26)!"); return ;}
+
     p.setBrush(mColor);
     p.setPen(mColor);
     p.drawRect(0,0,width(),height());

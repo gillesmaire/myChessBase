@@ -128,7 +128,6 @@ void ReadPGN::endPgn()
     //QString req=QString("INSERT INTO %1 (%2) VALUES (%3)").arg(plus).arg(rec).arg(val);
     QString req=QString("INSERT INTO staging (ECO,%2) VALUES ('%1',%3)").arg(plus).arg(rec).arg(val);
     QSqlQuery query(req);
-   // qDebug()<<query.lastQuery()<<query.lastError().text();
     QString q;
     QMap<QString,QChar> list=Utils::ListPGNRecords();
     for (auto key:  list.keys() ){

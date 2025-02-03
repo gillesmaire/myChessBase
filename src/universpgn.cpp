@@ -1,6 +1,5 @@
 #include "universpgn.h"
 #include "ui_universpgn.h"
-#include "utils.h"
 
 #include <QDebug>
 #include <QSettings>

@@ -42,6 +42,7 @@
 #include "chessboard.h"
 #include "dialogpromotion.h"
 
+#include <iostream>
 #include "utils.h"
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
@@ -117,6 +118,7 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 {
     Movelist moves;
     movegen::legalmoves(moves, mBoard);
+    for ( auto m  :moves) std::cout<<"ok"<<m<<std::endl;
     QStringList moveList;
     for (const auto &move : moves) {
         auto mov=QString::fromStdString(uci::moveToUci(move));
@@ -129,9 +131,10 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 
 void ChessBoard::mouseMoveEvent (QMouseEvent *event)
 {
-if ( ! mClickable ) return ;
- QPainter painter(this);
- painter.drawRect(QRect(event->pos(),QSize(10,10)));
+// if ( ! mClickable ) return ;
+ // QPainter painter(this);
+ // if (!painter.isActive()) { qWarning("QPainter is not active (14)!"); return ;}
+ //painter.drawRect(QRect(event->pos(),QSize(10,10)));
 }   
 
 
@@ -175,8 +178,8 @@ QStringList ChessBoard::ListofPromotionMoves(QStringList possibleMoves)
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
-  mTypeMove=Normal;
-  if ( ! mClickable ) return; 
+    mTypeMove=Normal;
+    if ( ! mClickable ) return; 
     // cs = "e2"
     QPoint p=event->pos();
     int x=p.x();
@@ -184,9 +187,11 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     int nbcase=NumberCase(x,y);
     if ( nbcase < 0 || nbcase>=64) return;
     Square sq=Square(nbcase);
+    std::cout<<"square"<<sq<<std::endl;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
+    std::cout<<mBoard<<std::endl;
     if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
     if (isPromotion(mPossibleMoves))
@@ -239,15 +244,14 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           else if (mPromotion=='k') t=PieceType::KNIGHT;
           else t=PieceType::QUEEN;
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
-          mTypeMove=Normal;
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
        while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
        mBoard.makeMove(move);
-       Debug();
+       std::cout<<"board"<<std::endl<<mBoard<<std::endl;
        mMoveUCIList<<m;
-       
        emit MovesModified(mMoveSanList);
+
        mCurrent=mMoveUCIList.count()-1;
        setCursor(ChesBoardCursor::SetChessBoardCursor());
        mSquareToBePlayed=Square();
@@ -265,6 +269,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
 void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int w, int h, QColor squarecolor)
 {
+   if (!painter->isActive()) { qWarning("QPainter is not active (3)!");return ;}
     painter->setPen(squarecolor);
     painter->setBrush(squarecolor);
     painter->drawRect(x,y,w,h);
@@ -304,6 +309,7 @@ QColor ChessBoard::Median( QColor color1 , QColor color2 )
 
 void ChessBoard::DrawPossiblesMoves(QPainter *painter)
 {
+    if (!painter->isActive()) { qWarning("QPainter is not active (5)!"); return ;}
              QPen pen;
              pen.setWidth(0);
              QColor color(Median(mBlackSquareColor,mWhiteSquareColor));
@@ -315,18 +321,6 @@ void ChessBoard::DrawPossiblesMoves(QPainter *painter)
 }
 
 
-void ChessBoard::Debug()
-{       
-    std::cout <<"--------"<<std::endl;
-    for ( int line=7; line>=0; line--) 
-    {
-        for ( int col=0; col<=7; col++) {
-          std::cout << std::string(mBoard.at(Square(line*8+col)))   ;
-        }
-         std::cout <<std::endl;
-    }
-    std::cout <<"--------"<<std::endl;
-}
 
 void ChessBoard::goStart()
 {
@@ -353,7 +347,7 @@ void ChessBoard::goBack()
        if (mCurrent!=-1) mCurrent--;
        update();
     }
-    Debug();
+    std::cout<<"mboard"<<mBoard<<std::endl;
 }
 
 void ChessBoard::goNext()
@@ -396,6 +390,8 @@ void ChessBoard::paintEvent(QPaintEvent *)
 { 
     QSettings s;
     QPainter painter(this);
+    if (!painter.isActive()) { qWarning("QPainter is not active (6)!"); return ;}
+
     painter.setRenderHint(QPainter::Antialiasing);
     QColor squarecolor;
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
@@ -467,8 +463,27 @@ void ChessBoard::paintEvent(QPaintEvent *)
     DrawSideToPlay(&painter);
 }
 
+bool IsPromotion (const std::string& coup, std::string& caseDepart, std::string& caseArrivee) {
+    size_t pos = coup.find('=');
+    if (pos != std::string::npos) {
+        caseArrivee = coup.substr(0, 2); // Ex: "bxa8=R" → "a8"
+
+        // Trouver la case de départ (extraction du pion avant promotion)
+        if (coup.length() >= 5 && (coup[1] == 'x')) { // Capture promotion ex: "bxa8=R"
+            caseDepart = coup.substr(0, 1) + coup.substr(3, 1); // Ex: "bxa8=R" → "b7"
+        } else { // Promotion simple (sans capture)
+            caseDepart = coup.substr(0, 1) + "7"; // Ex: "b8=Q" → "b7"
+        }
+        return true;
+    }
+    return false;
+}
+
+
 void ChessBoard::DrawPiece( QPainter *painter)
 {
+     if (!painter->isActive()) { qWarning("QPainter is not active (8)!"); return ;}
+
  extern QMap<QString,QMap<QString,QChar>> Pieces; 
             int PieceSize= (mTileheight+mTilewidth)/2;
             QString family=Utils::getFontFamily(mCurrentFont);
@@ -528,6 +543,8 @@ void ChessBoard::DrawPiece( QPainter *painter)
 }
 void ChessBoard::DrawNumberedCase( QPainter *painter)
 {
+   if (!painter->isActive()) { qWarning("QPainter is not active (10)!"); return ;}
+
  if ( mNumberedCase ){
         int pas= mTilewidth;
         QFont f("Arial");
@@ -576,6 +593,8 @@ void ChessBoard::DrawNumberedCase( QPainter *painter)
 
 void ChessBoard::DrawSideToPlay( QPainter *painter)
 { 
+     if (!painter->isActive()) { qWarning("QPainter is not active (11)!"); return ;}
+
     painter->setBrush(mSideToPlayColor);
     painter->setPen(mSideToPlayColor);
     int sizetriangle=15;

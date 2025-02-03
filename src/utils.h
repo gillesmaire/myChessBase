@@ -131,7 +131,24 @@ public:
     static QString getUserSettingsDirectory();
     
     static void PrintChrono();
-};
     
+    ///
+    /// \brief PieceUTF8 this print knight and other figures by N B R Q K
+    /// \param piece :   N B R Q K
+    /// \param color :  discinct the utf8 for white an black pieces
+    /// \param casePosition : the string to transform for example e4 inchanged ... Nf3 transformed
+    /// \return 1. e2 e4 2. NF3 Nc6
+    ///
+    static QString PieceUTF8(QChar piece, chess::Color color);
+
+    ///
+    /// \brief PieceUTF8 this print knight and other figures by utf8 graphic
+    /// \param piece :   N B R Q K by the utf8 fig
+    /// \param color :  discinct the utf8 for white an black pieces
+    /// \param casePosition : the string to transform for example e4 inchanged ... Nf3 transformed
+    /// \return 
+    ///
+    static QString NumberSanUTF8Moves(QStringList list);
+};
 
 #endif // UTILS_H

@@ -2,7 +2,6 @@
 #define ECOTABLEGENERATION_H
 
  #include <chess.hpp>
- #include <QDebug>
  #include <QSqlQuery>
 
 ///

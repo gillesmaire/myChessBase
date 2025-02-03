@@ -29,7 +29,6 @@
 
 #include "chesboardcursor.h"
 #include <QPixmap>
-#include <QDebug>
 #include <QFont>
 #include <QPainter>
 #include <QFontDatabase>
@@ -51,6 +50,7 @@ QCursor ChesBoardCursor::getCursor( int widthtile, int heighttile,QString fontna
   QPixmap px(widthtile,heighttile);
   px.fill(Qt::transparent);
   QPainter p(&px);
+   if (!p.isActive()) { qWarning("QPainter is not active (1)!"); return QCursor();}
   QString family=Utils::getFontFamily(fontname);
   QFont font(family);
   font.setPixelSize((widthtile+heighttile)/10.0);

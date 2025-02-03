@@ -190,6 +190,25 @@ void Utils::RecordChessFonts()
     Pieces["OpenChessFont"]=P;
 }
 
+
+QString Utils::PieceUTF8(QChar piece, chess::Color color) {
+    QString pieceUTF8;
+
+    if (piece=='N')
+            pieceUTF8 = (color == chess::Color::underlying::WHITE) ? QString::fromUtf8("\u265E") : QString::fromUtf8("\u2658");
+    else if (piece=='R')
+            pieceUTF8 = (color == chess::Color::underlying::WHITE) ? QString::fromUtf8("\u265C") : QString::fromUtf8("\u2656");
+    else if  (piece=='B')
+            pieceUTF8 = (color == chess::Color::underlying::WHITE) ? QString::fromUtf8("\u265D") : QString::fromUtf8("\u2657");
+    else if (piece == 'Q')
+            pieceUTF8 = (color == chess::Color::underlying::WHITE) ? QString::fromUtf8("\u265B") : QString::fromUtf8("\u2655");
+    else if ( piece =='K')  
+            pieceUTF8 = (color == chess::Color::underlying::WHITE) ? QString::fromUtf8("\u265A") : QString::fromUtf8("\u2654");
+    else    pieceUTF8 = piece;
+    return pieceUTF8;
+}
+
+
 QString Utils::NumberSanMoves(QStringList list)
 {
  QString result;
@@ -206,7 +225,7 @@ QString Utils::NumberSanMoves(QStringList list)
       }
     else {
       black=move;
-      result+=white + " " + black ;
+      result+=white + " " + black;
       white="";
      }
     }
@@ -215,6 +234,37 @@ QString Utils::NumberSanMoves(QStringList list)
   return (result);
 }
 
+
+QString Utils::NumberSanUTF8Moves(QStringList list)
+{
+ QString result;
+ QString white;
+ QString black;
+ int i=0;
+ QString  first("");
+ for (auto move: list)
+    {
+     i++;
+    if ( i%2==1 ){
+      QChar p=move.at(0);
+      QString m=move.mid(1);
+      QString l=PieceUTF8(QChar(p),chess::Color::underlying::WHITE);
+      white=QString("%1%2. %3%4").arg(first).arg(i).arg(l).arg(move) ;
+      first= " ";
+      }
+    else {
+      black=move;
+      QChar p=move.at(0);
+      QString m=move.mid(1);
+      black=PieceUTF8(QChar(p),chess::Color::underlying::BLACK);
+      result+=white + " " + black+m  ;
+      white="";
+     }
+    }
+  if ( ! white.isEmpty()) 
+     result= result+ white;
+  return (result);
+}
 
 QMap<QString, QChar> Utils::ListPGNRecords()
 {
@@ -348,5 +398,5 @@ QString Utils::getUserSettingsDirectory() {
 void Utils::PrintChrono()
 {
     QDateTime d;
-    qDebug()<<d;
+    qDebug()<<"chrnono"<<d;
 }

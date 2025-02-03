@@ -33,7 +33,6 @@
 #include "ui_dialogpromotion.h"
 #include "utils.h"
 #include <QSettings>
-#include <QDebug>
 
 
 extern QMap<QString,QMap<QString,QChar>> Pieces;

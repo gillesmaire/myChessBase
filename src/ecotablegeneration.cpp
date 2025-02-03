@@ -89,8 +89,6 @@ void EcoTableGeneration::endPgn()
         .arg(q));
         mStagingTableCreated=true;
         QSqlQuery qqss(qss);
-        qDebug()<<qqss.lastQuery();
-        qDebug()<<qqss.lastError().text();
     }
     
     
