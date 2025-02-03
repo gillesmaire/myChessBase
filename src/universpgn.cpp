@@ -47,7 +47,7 @@ void FormCreatePGN::SetListMove(QString )
 
 QString FormCreatePGN::getListMove()
 {
-    // return ui->textEditMoves->toPlainText();
+    return ui->textEditMoves->toPlainText();
 }
 
 void FormCreatePGN::Reset()

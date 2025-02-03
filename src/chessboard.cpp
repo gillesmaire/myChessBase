@@ -118,7 +118,6 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 {
     Movelist moves;
     movegen::legalmoves(moves, mBoard);
-    for ( auto m  :moves) std::cout<<"ok"<<m<<std::endl;
     QStringList moveList;
     for (const auto &move : moves) {
         auto mov=QString::fromStdString(uci::moveToUci(move));
@@ -129,7 +128,7 @@ QStringList  ChessBoard::AuthorizedCase(QString m)
 }
 
 
-void ChessBoard::mouseMoveEvent (QMouseEvent *event)
+void ChessBoard::mouseMoveEvent (QMouseEvent *)
 {
 // if ( ! mClickable ) return ;
  // QPainter painter(this);
@@ -186,15 +185,20 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     int y=p.y();
     int nbcase=NumberCase(x,y);
     if ( nbcase < 0 || nbcase>=64) return;
+    
     Square sq=Square(nbcase);
-    std::cout<<"square"<<sq<<std::endl;
+ std::cout<<"square"<<sq<<std::endl;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
+ qDebug()<<mPossibleMoves;
     std::cout<<mBoard<<std::endl;
     if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
-    if (isPromotion(mPossibleMoves))
+    Piece piece=mBoard.at(sq);
+    std::cout<<"Piece:"<<piece<<std::endl;
+    
+    if ((piece == Piece::WHITEPAWN|| piece== Piece::BLACKPAWN) && isPromotion(mPossibleMoves))
     {
         mPossibleMoves=ListofPromotionMoves(mPossibleMoves);
         QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
@@ -203,13 +207,13 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
         mMouseStatus=MouseStatus::PressedNotReleased;
         mTypeMove=Promotion;
     }
-    else
-     if  ( !mPossibleMoves.isEmpty() ) // we change the cursor 
+    else if  ( !mPossibleMoves.isEmpty() ) // we change the cursor 
     {
         QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
         setCursor(cursor);
         mSquareToBePlayed=Square(sq.rank(),sq.file()); 
         mMouseStatus=MouseStatus::PressedNotReleased;
+        //mTypeMove=Normal;
     }
     update();
 }
