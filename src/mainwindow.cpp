@@ -35,12 +35,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QSettings s;
     ui->setupUi(this);
     ui->stackedWidgetButtonVsInfo->setCurrentIndex(0);
-    QSettings s;
+    ui->tabWidgetUNivers->setCurrentIndex(s.value("DefaultUnivers").toInt());
     ui->chessBoard->setNumberCase(s.value("ShowCaseNumbers").toBool());
     ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
-    connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
+    connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);       
+    connect (ui->tabWidgetUNivers,SIGNAL(currentChanged(int)),this,SLOT(SaveDefaultUnivers(int))) ;             // Llose this windows
  //   connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionMy_Preferences,&QAction::triggered,this,&MainWindow::MyPreferences);
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
@@ -59,8 +61,16 @@ MainWindow::MainWindow(QWidget *parent)
   //  connect (ui->chessBoard,SIGNAL(FEN(QString)),this,SLOT(majFen(QString)));
     connect (ui->widgetConfiguration,SIGNAL(askRefresh()),this,SLOT(RefreshFromConfiguration()));
     //connect( ui->Configuration,SIGNAL())
+    
   
 }   
+
+
+void MainWindow::SaveDefaultUnivers( int i )
+{   
+    QSettings s;
+    s.setValue("DefaultUnivers",i);
+}
 
 void MainWindow::ReadFen()
 {

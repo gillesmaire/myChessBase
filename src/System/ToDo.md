@@ -3,13 +3,9 @@
 ## Chessboard 
 
 - The FEN doesn't work
-
+- When change od univers the univers is stored for the future use
 
 ## Configuration 
-
-- ChessBoard Modification must be set on other windows
-	- Configuration is OK
-	- PGN edition is wrong (now)
 
 ## PGN Editor
 

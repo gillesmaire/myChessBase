@@ -25,6 +25,7 @@ public:
     void setDataBaseName(QString file);
     void IncrementCounter();
     bool getFlipBoard(){ return mFlipBoard ;}
+
 private slots:
     void Update();
     void ShoShortCuts();
@@ -32,6 +33,12 @@ private slots:
     void ShowVariation(QString ECO, QString opening, QString variation, QString ecoplus, QString moves);
     void ShowFen();
     void ReadFen();
+    ///
+    /// \brief SaveDefaultUnivers when Tab Widget is modifed the value is stored. At the next time the program will
+    ///        set thie univers.
+    /// \param i
+    ///
+    void SaveDefaultUnivers(int i);
 
     void majFen(QString str);
     ///
