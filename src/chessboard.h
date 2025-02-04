@@ -70,7 +70,7 @@ public:
     
     void  setFEN(QString fen);
     ///
-    /// \brief AuthorizedCase retuen the list of autorized cases
+    /// \brief AuthorizedCase return the list of autorized cases
     /// \param move the move to be played for example e2
     /// \return  d6 d5 is the case are unoccuped and no check is possible
     ///
@@ -327,6 +327,7 @@ public slots:
 signals:
     void LenghtAndColor( int , QColor);
     void MovesModified( QStringList );
+    void FEN(QString);
 protected:
     virtual void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;

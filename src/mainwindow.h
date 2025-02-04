@@ -33,6 +33,8 @@ private slots:
     void ShowFen();
     void ReadFen();
 
+    void majFen(QString str);
+
 private:
     Ui::MainWindow *ui; 
     QSqlDatabase *mConnection;

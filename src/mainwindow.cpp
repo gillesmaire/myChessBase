@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
     connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
-    connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
+ //   connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
     connect (ui->actionShow_cases_number,&QAction::triggered,this,&MainWindow::SaveCaseNumbers);
     connect (ui->actionCreate_a_Pgn_file,&QAction::triggered,this,&MainWindow::ActiveWidget);
@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
             this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
     connect (ui->pgnEditor,SIGNAL(showFen()),this,SLOT(ShowFen()));
+    connect (ui->chessBoard,SIGNAL(FEN(QString)),this,SLOT(majFen(QString)));
   
 }   
 
@@ -200,6 +201,7 @@ void MainWindow::Update()
 
 void MainWindow::ShowFen()
 {
+
    if ( ! mFENShown )  {
        mFENShown=true;
        mFEN=new QLineEdit(getFen());
@@ -213,6 +215,11 @@ void MainWindow::ShowFen()
     ui->statusbar->removeWidget(mFEN);
    }
     
+}
+
+void MainWindow::majFen(QString str)
+{
+qDebug()<<str;
 }
 
 void MainWindow::ShoShortCuts()

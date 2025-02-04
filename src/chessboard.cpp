@@ -187,18 +187,15 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     if ( nbcase < 0 || nbcase>=64) return;
     
     Square sq=Square(nbcase);
- std::cout<<"square"<<sq<<std::endl;
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
- qDebug()<<mPossibleMoves;
     std::cout<<mBoard<<std::endl;
     if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
-    Piece piece=mBoard.at(sq);
-    std::cout<<"Piece:"<<piece<<std::endl;
+    PieceType piecetype=mBoard.at<PieceType>(sq);
     
-    if ((piece == Piece::WHITEPAWN|| piece== Piece::BLACKPAWN) && isPromotion(mPossibleMoves))
+    if ( piecetype == PieceType::PAWN && isPromotion(mPossibleMoves))
     {
         mPossibleMoves=ListofPromotionMoves(mPossibleMoves);
         QCursor cursor = ChesBoardCursor::getCursor(mTilewidth,mTileheight,mCurrentFont,piececolor,sq.rank(),sq.file(),mBoard.sideToMove(),this);
@@ -235,7 +232,28 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
        //Move move=uci::uciToMove(mBoard,m.toStdString()); 
        Move move;
        if ( mTypeMove==Normal)
-          move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
+        {
+          if ( mBoard.at(mSquareToBePlayed) ==  Piece::WHITEKING ) {
+                if  (mSquareToBePlayed == Square::underlying::SQ_E1 
+                    &&   sq== Square::underlying::SQ_G1   )
+                         move= Move::make<Move::CASTLING>(Square::underlying::SQ_E1,Square::underlying::SQ_H1);
+                else if ( mSquareToBePlayed == Square::underlying::SQ_E1 
+                    &&   sq== Square::underlying::SQ_C1 )
+                         move= Move::make<Move::CASTLING>(Square::underlying::SQ_E1,Square::underlying::SQ_A1);
+                else move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
+            }
+           else if   ( mBoard.at(mSquareToBePlayed) ==  Piece::BLACKKING ) {
+                if  (mSquareToBePlayed == Square::underlying::SQ_E8 
+                    &&   sq== Square::underlying::SQ_G8   )
+                         move= Move::make<Move::CASTLING>(Square::underlying::SQ_E8,Square::underlying::SQ_H8);
+                else if ( mSquareToBePlayed == Square::underlying::SQ_E8 
+                     &&   sq== Square::underlying::SQ_C8 )
+                       move= Move::make<Move::CASTLING>(Square::underlying::SQ_E8,Square::underlying::SQ_A8);
+                else move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
+             }
+          else  
+              move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
+        }
        else if ( mTypeMove==Promotion )
        {
           DialogPromotion askPiece(mBoard.sideToMove(),this);
@@ -269,6 +287,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
       mPossibleMoves.clear();
       update();
      }
+     
 }
 
 void ChessBoard::DrawOneSquare(QPainter *painter,int x , int y, int w, int h, QColor squarecolor)
