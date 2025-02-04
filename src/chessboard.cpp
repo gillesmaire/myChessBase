@@ -195,6 +195,8 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
     PieceType piecetype=mBoard.at<PieceType>(sq);
     
+    //if ( piecetype == PieceType::PAWN && mPossibleMoves.containsDiagonal
+    
     if ( piecetype == PieceType::PAWN && isPromotion(mPossibleMoves))
     {
         mPossibleMoves=ListofPromotionMoves(mPossibleMoves);
@@ -250,8 +252,18 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
                      &&   sq== Square::underlying::SQ_C8 )
                        move= Move::make<Move::CASTLING>(Square::underlying::SQ_E8,Square::underlying::SQ_A8);
                 else move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
-             }
-          else  
+             }  
+           // pawn if square played is empty and col are diff... EN PASSANT
+           //else if ( (mBoard.at(mSquareToBePlayed) == Piece::WHITEPAWN 
+            //        || mBoard.at(mSquareToBePlayed) == Piece::BLACKPAWN ) && 
+            //        mBoard.//
+            else  if (  (mBoard.at(mSquareToBePlayed) == Piece::WHITEPAWN ||mBoard.at(mSquareToBePlayed) == Piece::BLACKPAWN ) 
+                    && (abs (int(sq.file())-int(mSquareToBePlayed.file()))==1 ) 
+                    && (abs (int(sq.rank())-int(mSquareToBePlayed.rank()))==1 )
+                    && mBoard.at(sq)==Piece::NONE )
+              move=Move::make<Move::ENPASSANT>(mSquareToBePlayed,sq);
+                    
+            else         
               move = Move::make<Move::NORMAL>( mSquareToBePlayed,sq);
         }
        else if ( mTypeMove==Promotion )

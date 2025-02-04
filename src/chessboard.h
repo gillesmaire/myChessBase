@@ -300,6 +300,12 @@ private:
     /// \param painter 
     ///
     void DrawSideToPlay(QPainter *painter);
+    
+    ///
+    /// \brief mEnPassant when mouse is pressed and pawn is selected if there are an enPassant 
+    /// possible move mEnPassant become true. This occurs on mousepress event and is done on mouserelease
+    ///
+    bool mEnPassant = false;
   
 public slots:
     void setCurrentFont( QString font );
