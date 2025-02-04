@@ -41,10 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->chessBoard->setNumberCase(s.value("ShowCaseNumbers").toBool());
     ui->actionShow_cases_number->setChecked(s.value("ShowCaseNumbers").toBool());
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);                     // Llose this windows
-    connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
+ //   connect (ui->actionLoad_Pgn_file,&QAction::triggered,this,&MainWindow::LoadPGNFile);        // Load PGN files into data base
     connect (ui->actionMy_Preferences,&QAction::triggered,this,&MainWindow::MyPreferences);
-    connect (ui->actionRemove_Database,&QAction::triggered,this,&MainWindow::SuppressDataBaseGames);   // Flush the database's tables
-    connect (ui->actionSupprimer_le_fichier_DataBase,&QAction::triggered,this,&MainWindow::SuppressDataBase); 
     connect (ui->actionFlip,&QAction::triggered,this,&MainWindow::FlipBoard);
  //   connect (ui->actionShow_Fen,&QAction::triggered,this,&MainWindow::ShowFen);
     connect (ui->actionShorcuts,&QAction::triggered,this,&MainWindow::ShoShortCuts);
@@ -55,10 +53,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect (ui->pushButtonNext,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goNext);
     connect (ui->pushButtonBack,&QPushButton::clicked,ui->chessBoard,&ChessBoard::goBack);
     connect (ui->chessBoard,SIGNAL(MovesModified(QStringList)),ui->CreationPGN,SLOT(GetListMoves(QStringList)));
-    connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
-            this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
+  //  connect (ui->PreferenceUnivers,SIGNAL(Informations(QString,QString,QString,QString,QString)),
+  //          this,SLOT(ShowVariation(QString,QString,QString,QString,QString)));
     connect (ui->pgnEditor,SIGNAL(showFen()),this,SLOT(ShowFen()));
-    connect (ui->chessBoard,SIGNAL(FEN(QString)),this,SLOT(majFen(QString)));
+  //  connect (ui->chessBoard,SIGNAL(FEN(QString)),this,SLOT(majFen(QString)));
+    connect (ui->widgetConfiguration,SIGNAL(askRefresh()),this,SLOT(RefreshFromConfiguration()));
+    //connect( ui->Configuration,SIGNAL())
   
 }   
 
@@ -194,11 +194,6 @@ void MainWindow::Update()
     
 }
 
-
-
-
-
-
 void MainWindow::ShowFen()
 {
 
@@ -258,4 +253,10 @@ void MainWindow::ShowVariation(QString ECO,QString opening,QString variation,QSt
     ui->stackedWidgetButtonVsInfo->setCurrentIndex(1);
     ui->pageInfo->setTitle(QString("ECO  %1 (%4) :  %2 - %3 ").arg(ECO).arg(opening).arg(variation).arg(ecoplus));
     ui->chessBoard->PlayListOfSANMove(moves.split(' '));
+}
+
+
+void MainWindow::RefreshFromConfiguration()
+{
+    qDebug()<<"connected to configuration";
 }

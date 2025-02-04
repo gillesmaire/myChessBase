@@ -22,6 +22,7 @@ QString InitBlackSquareColor="#33653B";
 QString InitWhitePieceColor="#FFD88B";
 QString InitBlackPieceColor="#04151D";
 QString InitSideToPlayColor="#0055ff";
+QString InitToPlayColor="#FF0000";
 QString InitPieceFont="Maya";
 QMap<QString,chess::PackedBoard> PackedBoards;
 QMap<QString,QMap<QString,QChar>> Pieces;

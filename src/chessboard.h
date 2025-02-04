@@ -50,6 +50,7 @@ public:
     void setBlackSquareColor( QColor col) {mBlackSquareColor=col; update();}
     void setWhitePieceColor( QColor col) {  mWhitePieceColor=col; update();}
     void setBlackPieceColor( QColor col) {  mBlackPieceColor=col; update(); }
+    void setSideToPlayColor(QColor col)  { mSideToPlayColor=col; update();}
     void setPosition( chess::Board board) { mBoard=board;};
     QStringList listOfTypeOfPieces();
     ///

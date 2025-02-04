@@ -34,6 +34,10 @@ private slots:
     void ReadFen();
 
     void majFen(QString str);
+    ///
+    /// \brief RefreshFromConfiguration refresh the mainWindow and other when configuration has changed something
+    ///
+    void RefreshFromConfiguration();
 
 private:
     Ui::MainWindow *ui; 

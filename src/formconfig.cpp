@@ -22,7 +22,9 @@ FormConfig::FormConfig(QWidget *parent)
     ui->pushButtonBlackSquareColor->setColor(s.value("BlackSquareColor",InitBlackSquareColor).toString());
     ui->pushButtonWhiteSquareColor->setName("WhiteSquareColor");
     ui->pushButtonWhiteSquareColor->setColor(s.value("WhiteSquareColor",InitWhiteSquareColor).toString());
+    ui->pushButtonSidetoPlayColor->setName("SideToPlayColor");
     ui->pushButtonSidetoPlayColor->setColor(s.value("SideToPlayColor",InitSideToPlayColor).toString());
+    
     ui->lineEditYourFirstname->setText(s.value("YourFirstname").toString());
     ui->lineEditYourName->setText(s.value("YourName").toString());
     ui->spinBoxYourElo->setDigitNumber(4);
@@ -65,6 +67,7 @@ void FormConfig::ChangeColor(QString string,QColor color)
     else if ( string == "WhiteSquareColor" )ui->widget->setWhiteSquareColor(color);
     else if ( string == "BlackPieceColor" ) ui->widget->setBlackPieceColor(color);
     else if ( string == "WhitePieceColor" ) ui->widget->setWhitePieceColor(color);
+    else if (string == "SideToPlayColor") ui->widget->setSideToPlayColor(color);
  
 }
 
