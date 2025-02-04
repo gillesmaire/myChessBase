@@ -81,20 +81,9 @@ int main(int argc, char *argv[])
      fontList["OpenChessFont"]=QFontDatabase::addApplicationFont(":/Fonts/OpenChessFont.ttf");
      
      
-    // Data base creation if not exists
-    CreationBase *b =  new CreationBase();
-    
-    extern  QStringList FavouriteOpenings;
-    FavouriteOpenings=Utils::ListFavouriteOpenings();
-    
-    // Date of first use 
-    
-    // list of PackedPoint and name of 
-    Utils::InitializePackedBoards();
+   
     
     MainWindow w;
-    w.setDataBaseConnector(b->getConnection());
-    w.setDataBaseName(b->getDataBaseFileName());
     w.show();
     return a.exec();
 }

@@ -340,9 +340,9 @@ public slots:
     
     
 signals:
-    void LenghtAndColor( int , QColor);
-    void MovesModified( QStringList );
-    void FEN(QString);
+ //   void LenghtAndColorFromChessboard( int , QColor);
+    void MovesModifiedFromChessBoard( QStringList );
+    void FENFromChessBoard(QString);
 protected:
     virtual void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;

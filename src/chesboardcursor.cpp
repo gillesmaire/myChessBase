@@ -66,14 +66,15 @@ QCursor ChesBoardCursor::getCursor( int widthtile, int heighttile,QString fontna
               whiter.setRedF(piececolor.redF()*coeff);
               whiter.setBlueF(piececolor.blueF()*coeff);
               whiter.setGreenF(piececolor.greenF()*coeff);
-              int shiftw=widthtile*0.1;
-              int shifth=heighttile*0.1;
-              int biggerh=widthtile+shifth;
-              font.setPixelSize(biggerh);
+              // int shiftw=widthtile*0.1;
+              // int shifth=heighttile*0.1;
+              // int biggerh=widthtile+shifth;
+              font.setPixelSize(heighttile+4);
               p.setFont(font);
               p.setBrush(whiter);
               p.setPen(whiter);
-              p.drawText(QRectF(-shiftw/2,-shifth/2,widthtile+shiftw*2,heighttile+shifth*2),QString(c));
+              //p.drawText(QRectF(-shiftw/2,-shifth/2,widthtile+shiftw*2,heighttile+shifth*2),QString(c));
+              p.drawText(QRectF(-2,-2,widthtile+2,heighttile+2),QString(c));
             }
   else 
             {
@@ -89,7 +90,7 @@ QCursor ChesBoardCursor::getCursor( int widthtile, int heighttile,QString fontna
               p.setFont(font);
               p.setBrush(darker);
               p.setPen(darker);
-              p.drawText(QRectF(-shiftw/2,-shifth/2,widthtile+shiftw*2,heighttile+shifth*2),QString(c));
+             // p.drawText(QRectF(-shiftw/3,-shifth/1.5,widthtile+shiftw*3,heighttile+shifth*1.5),QString(c));
             }
   
   font.setPixelSize(heighttile);
@@ -99,7 +100,7 @@ QCursor ChesBoardCursor::getCursor( int widthtile, int heighttile,QString fontna
   p.setPen(pen);
   p.setBrush(brush);
   //p.drawText(0,px.height()/2,c);
-   p.drawText(QRectF(0,-0,widthtile,heighttile),c);
+   p.drawText(QRectF(0,0,widthtile,heighttile),c);
   QPixmap pm (QString(":/System/closehand.png"));
   p.drawPixmap(widthtile/4,0,widthtile/2.3,heighttile/2.3,pm);
   p.end();

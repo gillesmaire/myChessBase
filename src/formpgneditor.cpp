@@ -18,17 +18,17 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
     connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
     connect (ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
-    connect (ui->Board,SIGNAL(MovesModified(QStringList)),this,SLOT(GetListMoves(QStringList)));
     connect (ui->pushButtonAddNag,&QPushButton::clicked,this,&FormPGNEditor::AddNag);
     connect (ui->pushButtonDeleteNag,&QPushButton::clicked,this,&FormPGNEditor::DelNag);
     connect (ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
     connect (ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
+    
+    connect (ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
     ui->comboBoxNags->addItems(Nag::getNagListNumbered());
     ui->textEditMoves->setReadOnly(true);
     ui->textEditMoves->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
-
 }
 
 
@@ -42,9 +42,7 @@ void FormPGNEditor::SelectDateFromCalendar()
     CalendarDialog dialog(this);
     dialog.exec();
     QDate date=dialog.selectedDate();
-    ui->dateEdit->setDate(date);
-    
-    
+    ui->dateEdit->setDate(date);   
 }
 
 void FormPGNEditor::Go(int i)

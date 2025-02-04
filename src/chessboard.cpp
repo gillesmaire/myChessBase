@@ -69,7 +69,7 @@ void ChessBoard::setCorrection(qreal x)
 
 bool ChessBoard::flipped() { return mFlip; }
 
-void ChessBoard::askReloadConfiguration() {}
+void ChessBoard::askReloadConfiguration() {update();}
 
 QStringList ChessBoard::listOfTypeOfPieces()
 {
@@ -284,9 +284,10 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
        while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
        mBoard.makeMove(move);
-       std::cout<<"board"<<std::endl<<mBoard<<std::endl;
        mMoveUCIList<<m;
-       emit MovesModified(mMoveSanList);
+       emit MovesModifiedFromChessBoard(mMoveSanList);
+       qDebug()<<QString::fromStdString(mBoard.getFen());
+       emit FENFromChessBoard(QString::fromStdString(mBoard.getFen()));
 
        mCurrent=mMoveUCIList.count()-1;
        setCursor(ChesBoardCursor::SetChessBoardCursor());

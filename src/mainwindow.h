@@ -8,6 +8,7 @@
 #include <dialogprogressbarimport.h>
 #include <formconfig.h>
 #include <QFutureWatcher>
+#include <QLabel>
 
 #include <QLineEdit>
 QT_BEGIN_NAMESPACE
@@ -21,67 +22,24 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void setDataBaseConnector(QSqlDatabase *connection);
-    void setDataBaseName(QString file);
-    void IncrementCounter();
-    bool getFlipBoard(){ return mFlipBoard ;}
+
 
 private slots:
-    void Update();
-    void ShoShortCuts();
-    void SaveCaseNumbers();
-    void ShowVariation(QString ECO, QString opening, QString variation, QString ecoplus, QString moves);
-    void ShowFen();
-    void ReadFen();
+  
     ///
     /// \brief SaveDefaultUnivers when Tab Widget is modifed the value is stored. At the next time the program will
     ///        set thie univers.
     /// \param i
     ///
     void SaveDefaultUnivers(int i);
+    void MyPreferences();
 
-    void majFen(QString str);
-    ///
-    /// \brief RefreshFromConfiguration refresh the mainWindow and other when configuration has changed something
-    ///
-    void RefreshFromConfiguration();
+    
 
 private:
     Ui::MainWindow *ui; 
-    QSqlDatabase *mConnection;
-    QString mDataBaseFile;
-    int Converted=0;
-    bool mFlipBoard=false;
-    void LoadPGNFile();
     QFutureWatcher<void> mWatcher;
-    void SuppressDataBaseGames();
-    void SuppressDataBase();
-    void FlipBoard();
-    FormCounterPage *mFormCounterPageptr;
-    FormBoardPage *mFormBoardPageptr;
-    DialogProgressBarImport *mProgressBar;
-    FormConfig *mFormConfig;
-    void Configuration();
-
-    QString getFen();
-    bool mFENShown=false;
-    QLineEdit *mFEN;
-    ///
-    /// \brief ActiveWidget set the Stacked Widget in the correspondant widget
-    ///
-    void ActiveWidget();
-    ///
-    /// \brief goStart called when the button go start is clicked. We need to inform chesssBoard and PGNEditor
-    ///
-    void goStart();
-    ///
-    /// \brief goBackcalled when the button go back is clicked. We need to inform chesssBoard and PGNEditor
-    ///
-    void goBack();
-    void MyPreferences();
-
 
 };
-
 
 #endif // MAINWINDOW_H

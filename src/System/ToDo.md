@@ -3,7 +3,6 @@
 ## Chessboard 
 
 - The FEN doesn't work
-- When change od univers the univers is stored for the future use
 
 ## Configuration 
 

@@ -21,7 +21,6 @@ SOURCES += \
     colorbutton.cpp \
     creationbase.cpp \
     customsqlcolumnproxymodel.cpp \
-    dialogprogressbarimport.cpp \
     dialogpromotion.cpp \
     dialogshortcuts.cpp \
     ecotablegeneration.cpp \
@@ -29,8 +28,6 @@ SOURCES += \
     formconfig.cpp \
     formnavigationbutton.cpp \
     formpgneditor.cpp \
-    formtitle.cpp \
-    formuniversmypreferences.cpp \
     limitedtextedit.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -50,7 +47,6 @@ HEADERS += \
     colorbutton.h \
     creationbase.h \
     customsqlcolumnproxymodel.h \
-    dialogprogressbarimport.h \
     dialogpromotion.h \
     dialogshortcuts.h \
     ecotablegeneration.h \
@@ -58,8 +54,6 @@ HEADERS += \
     formconfig.h \
     formnavigationbutton.h \
     formpgneditor.h \
-    formtitle.h \
-    formuniversmypreferences.h \
     limitedtextedit.h \
     mainwindow.h \
     mytableview.h \
@@ -69,14 +63,11 @@ HEADERS += \
     utils.h
 
 FORMS += \
-    dialogprogressbarimport.ui \
     dialogpromotion.ui \
     dialogshortcuts.ui \
     formconfig.ui \
     formnavigationbutton.ui \
     formpgneditor.ui \
-    formtitle.ui \
-    formuniversmypreferences.ui \
     mainwindow.ui \
     universpgn.ui
 
