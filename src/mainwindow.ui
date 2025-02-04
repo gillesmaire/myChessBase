@@ -118,6 +118,7 @@ mquin@sancristobal.podernet.com.mx</string>
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -131,23 +132,10 @@ mquin@sancristobal.podernet.com.mx</string>
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionPGN_working"/>
-    <addaction name="actionDataBase_Working"/>
-    <addaction name="actionLoad_Pgn_file"/>
-    <addaction name="actionCreate_a_Pgn_file"/>
     <addaction name="actionE_xit"/>
    </widget>
-   <widget class="QMenu" name="menuMaintenance">
-    <property name="title">
-     <string>Maintenance</string>
-    </property>
-    <addaction name="actionRemove_Database"/>
-    <addaction name="actionSupprimer_le_fichier_DataBase"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuMaintenance"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionLoad_Pgn_file">
    <property name="text">
     <string>Load &amp;Pgn file</string>

@@ -31,7 +31,6 @@ private slots:
     /// \param i
     ///
     void SaveDefaultUnivers(int i);
-    void MyPreferences();
 
     
 

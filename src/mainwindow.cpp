@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings s;
     ui->setupUi(this);
     ui->tabWidgetUnivers->setCurrentIndex(s.value("DefaultUnivers").toInt());
+    connect(ui->tabWidgetUnivers,SIGNAL(currentChanged(int)),this,SLOT(SaveDefaultUnivers(int)));
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);       
  }   
 
@@ -42,20 +43,12 @@ void MainWindow::SaveDefaultUnivers( int i )
 }
 
 
-
-
-
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
 
-
-void MainWindow::MyPreferences()
-{
-   
-}
 
 
 
