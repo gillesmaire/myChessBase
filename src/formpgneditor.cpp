@@ -5,37 +5,60 @@
 #include <QSettings>
 #include "calendardialog.h"
 #include "nag.h"
+
 FormPGNEditor::FormPGNEditor(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::FormPGNEditor)
+    : QWidget(parent),ui(new Ui::FormPGNEditor)
 {
     ui->setupUi(this);
     ui->comboBoxResult->setCurrentText("?");
     connect(ui->pushButtonReset,&QPushButton::clicked,this,&FormPGNEditor::Reset);
     connect(ui->pushButtonBlackYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillBlack);
     connect(ui->pushButtonWhiteYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillWhite);
-    connect (ui->widgetNavigation,SIGNAL(button(int)),this,SLOT(Go(int)));
-    connect (ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
-    connect (ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
-    connect (ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
-    connect (ui->pushButtonAddNag,&QPushButton::clicked,this,&FormPGNEditor::AddNag);
-    connect (ui->pushButtonDeleteNag,&QPushButton::clicked,this,&FormPGNEditor::DelNag);
-    connect (ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
-    connect (ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
+    connect(ui->widgetNavigation,SIGNAL(button(int)),this,SLOT(Go(int)));
+    connect(ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
+    connect(ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
+    connect(ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
+    connect(ui->pushButtonAddNag,&QPushButton::clicked,this,&FormPGNEditor::AddNag);
+    connect(ui->pushButtonDeleteNag,&QPushButton::clicked,this,&FormPGNEditor::DelNag);
+    connect(ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
+    connect(ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
+    connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
+    connect (ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
+    connect (ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
+    connect (ui->pushButtonFENReset,SIGNAL(pressed()),ui->lineEditFEN, SLOT(clear()));
     
-    connect (ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
     ui->comboBoxNags->addItems(Nag::getNagListNumbered());
     ui->textEditMoves->setReadOnly(true);
     ui->textEditMoves->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+    FENShown=true;
+    showFEN();
+    ui->lineEditFEN->setText("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
+void FormPGNEditor::MAJFEN(QString fen)
+{
+    ui->lineEditFEN->setText(fen);
+}
+
+void FormPGNEditor::MAJBoardWithFen()
+{
+    ui->Board->setFEN(ui->lineEditFEN->text());
+}
 
 void FormPGNEditor::GetListMoves( QStringList list)
 {
     ui->textEditMoves->setText(Utils::NumberSanMoves(list));
 }
+
+void FormPGNEditor::showFEN() 
+{
+    FENShown=!FENShown;
+    ui->lineEditFEN->setVisible(FENShown);
+    ui->pushButtonFENReset->setVisible(FENShown);
+}
+
 void FormPGNEditor::SelectDateFromCalendar()
 {
     
@@ -53,7 +76,7 @@ void FormPGNEditor::Go(int i)
     else if (i == FormNavigationButton::Next ) ui->Board->goNext();
     else if (i== FormNavigationButton::Reverse) ui->Board->flipBoard(!ui->Board->flipped());
     else if (i== FormNavigationButton::NumberCase) ui->Board->setNumberCase(!ui->Board->casesNumbered());
-    else  if (i== FormNavigationButton::FEN){ emit showFen();}
+    else  if (i== FormNavigationButton::FEN){  showFEN();}
     
 }
 
@@ -84,11 +107,6 @@ void FormPGNEditor::EraseWhitePlayer()
     ui->spinBoxWhiteElo->setValue(0);
     ui->spinBoxWhiteFideID->setValue(0);
     ui->comboBoxBlackTitle->setCurrentIndex(0);
-}
-
-void FormPGNEditor::setFen(QString FEN) 
-{
-    ui->Board->setFEN(FEN);
 }
 
 void FormPGNEditor::AskRefresh() {ui->Board->askReloadConfiguration();}
@@ -215,3 +233,4 @@ void FormPGNEditor::DelComment()
         ui->textEditMoves->setTextCursor(cursor);
     }
 }
+

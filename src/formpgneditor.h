@@ -22,13 +22,9 @@ public:
     QString getListMove();
     void EraseBlackPlayer();
     void EraseWhitePlayer();
+    bool FENShown=false;
     
 public slots:
-    ///
-    /// \brief setFen Show FEN on ChessBoard
-    /// \param FEN a valid or Invalid FEN to show on the Board
-    ///
-    void setFen(QString FEN);
     
     ///
     /// \brief AskRefresh slot to ask to ChessBoard to refresh all this init parameters
@@ -50,7 +46,12 @@ private slots:
     
     void GetListMoves(QStringList list);
 
-   
+
+    void showFEN();
+
+    void MAJFEN(QString FEN);
+
+    void MAJBoardWithFen();
 
 private:
     Ui::FormPGNEditor *ui;
@@ -85,12 +86,7 @@ private:
     /// \brief DelComment del the comment around tu cursor position
     ///
     void DelComment();
-signals:
-    ///
-    /// \brief showFen signal sent to show FEN
-    /// 
-    ///
-    void showFen();
 };
 
 #endif // FORMPGNEDITOR_H
+

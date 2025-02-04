@@ -29,7 +29,6 @@ SOURCES += \
     mainwindow.cpp \
     mytableview.cpp \
     nag.cpp \
-    universpgn.cpp \
     utils.cpp
 
 HEADERS += \
@@ -49,7 +48,6 @@ HEADERS += \
     mainwindow.h \
     mytableview.h \
     nag.h \
-    universpgn.h \
     utils.h
 
 FORMS += \
@@ -58,8 +56,8 @@ FORMS += \
     formconfig.ui \
     formnavigationbutton.ui \
     formpgneditor.ui \
-    mainwindow.ui \
-    universpgn.ui
+    mainwindow.ui 
+
 
 TRANSLATIONS += \
     myChessBase_en_US.ts

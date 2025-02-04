@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DCHESS_NO_EXCEPTIONS -DQT_NO_DEBUG -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB
+DEFINES       = -DCHESS_NO_EXCEPTIONS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-CXXFLAGS      = -pipe -O2 -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I. -I./chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++
+CXXFLAGS      = -pipe -Wno-trigraphs -O2 -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
+INCPATH       = -I. -I./chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake6
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = myChessBase1.0.0
-DISTDIR = /home/gilles/Developpements/myChessBase/src/.tmp/myChessBase1.0.0
+DISTDIR = /home/gilles/Developpements/myChessbase/src/.tmp/myChessBase1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu
-LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt6Svg.so /usr/lib/x86_64-linux-gnu/libQt6Widgets.so /usr/lib/x86_64-linux-gnu/libQt6Gui.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libQt6Sql.so /usr/lib/x86_64-linux-gnu/libQt6Concurrent.so /usr/lib/x86_64-linux-gnu/libQt6Core.so -lpthread -lGLX -lOpenGL   
+LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt6Widgets.so /usr/lib/x86_64-linux-gnu/libQt6Gui.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libQt6Sql.so /usr/lib/x86_64-linux-gnu/libQt6Concurrent.so /usr/lib/x86_64-linux-gnu/libQt6Core.so -lpthread -lGLX -lOpenGL   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,56 +52,79 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = chessboard.cpp \
+SOURCES       = calendardialog.cpp \
+		chesboardcursor.cpp \
+		chessboard.cpp \
+		chessstackedwidget.cpp \
 		colorbutton.cpp \
-		creationbase.cpp \
-		dialogabout.cpp \
-		dialoginfo.cpp \
-		dialogprogressbarimport.cpp \
-		dialogconfiguration.cpp \
-		ecotablegeneration.cpp \
-		formmainwidget.cpp \
-		formshorcut.cpp \
+		dialogpromotion.cpp \
+		dialogshortcuts.cpp \
+		filledspinbox.cpp \
+		formconfig.cpp \
+		formnavigationbutton.cpp \
+		formpgneditor.cpp \
+		limitedtextedit.cpp \
 		main.cpp \
 		mainwindow.cpp \
-		myvisitor.cpp \
+		mytableview.cpp \
+		nag.cpp \
+		universpgn.cpp \
 		utils.cpp qrc_System.cpp \
 		qrc_Fonts.cpp \
 		qrc_qmake_qmake_qm_files.cpp \
+		moc_BooleanCheckBoxDelegate.cpp \
+		moc_calendardialog.cpp \
+		moc_chessboard.cpp \
 		moc_colorbutton.cpp \
-		moc_dialogabout.cpp \
-		moc_dialoginfo.cpp \
-		moc_dialogprogressbarimport.cpp \
-		moc_dialogconfiguration.cpp \
-		moc_formmainwidget.cpp \
-		moc_formshorcut.cpp \
-		moc_mainwindow.cpp
-OBJECTS       = chessboard.o \
+		moc_dialogpromotion.cpp \
+		moc_dialogshortcuts.cpp \
+		moc_filledspinbox.cpp \
+		moc_formconfig.cpp \
+		moc_formnavigationbutton.cpp \
+		moc_formpgneditor.cpp \
+		moc_limitedtextedit.cpp \
+		moc_mainwindow.cpp \
+		moc_mytableview.cpp \
+		moc_universpgn.cpp
+OBJECTS       = calendardialog.o \
+		chesboardcursor.o \
+		chessboard.o \
+		chessstackedwidget.o \
 		colorbutton.o \
-		creationbase.o \
-		dialogabout.o \
-		dialoginfo.o \
-		dialogprogressbarimport.o \
-		dialogconfiguration.o \
-		ecotablegeneration.o \
-		formmainwidget.o \
-		formshorcut.o \
+		dialogpromotion.o \
+		dialogshortcuts.o \
+		filledspinbox.o \
+		formconfig.o \
+		formnavigationbutton.o \
+		formpgneditor.o \
+		limitedtextedit.o \
 		main.o \
 		mainwindow.o \
-		myvisitor.o \
+		mytableview.o \
+		nag.o \
+		universpgn.o \
 		utils.o \
 		qrc_System.o \
 		qrc_Fonts.o \
 		qrc_qmake_qmake_qm_files.o \
+		moc_BooleanCheckBoxDelegate.o \
+		moc_calendardialog.o \
+		moc_chessboard.o \
 		moc_colorbutton.o \
-		moc_dialogabout.o \
-		moc_dialoginfo.o \
-		moc_dialogprogressbarimport.o \
-		moc_dialogconfiguration.o \
-		moc_formmainwidget.o \
-		moc_formshorcut.o \
-		moc_mainwindow.o
-DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
+		moc_dialogpromotion.o \
+		moc_dialogshortcuts.o \
+		moc_filledspinbox.o \
+		moc_formconfig.o \
+		moc_formnavigationbutton.o \
+		moc_formpgneditor.o \
+		moc_limitedtextedit.o \
+		moc_mainwindow.o \
+		moc_mytableview.o \
+		moc_universpgn.o
+DIST          = Ideas.md \
+		System/ToDo.md \
+		System/cursor.png \
+		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/linux.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/sanitize.conf \
@@ -128,8 +151,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_input_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_kms_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_linguist.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimedia.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_opengl.pri \
@@ -138,11 +159,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_openglwidgets_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_spatialaudio.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svg.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svgwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_uiplugin.pri \
@@ -177,31 +195,40 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
-		myChessBase.pro chessboard.h \
+		myChessBase.pro BooleanCheckBoxDelegate.h \
+		calendardialog.h \
+		chesboardcursor.h \
+		chessboard.h \
+		chessstackedwidget.h \
 		colorbutton.h \
-		creationbase.h \
-		dialogabout.h \
-		dialoginfo.h \
-		dialogprogressbarimport.h \
-		dialogconfiguration.h \
-		ecotablegeneration.h \
-		formmainwidget.h \
-		formshorcut.h \
+		dialogpromotion.h \
+		dialogshortcuts.h \
+		filledspinbox.h \
+		formconfig.h \
+		formnavigationbutton.h \
+		formpgneditor.h \
+		limitedtextedit.h \
 		mainwindow.h \
-		myvisitor.h \
-		utils.h chessboard.cpp \
+		mytableview.h \
+		nag.h \
+		universpgn.h \
+		utils.h calendardialog.cpp \
+		chesboardcursor.cpp \
+		chessboard.cpp \
+		chessstackedwidget.cpp \
 		colorbutton.cpp \
-		creationbase.cpp \
-		dialogabout.cpp \
-		dialoginfo.cpp \
-		dialogprogressbarimport.cpp \
-		dialogconfiguration.cpp \
-		ecotablegeneration.cpp \
-		formmainwidget.cpp \
-		formshorcut.cpp \
+		dialogpromotion.cpp \
+		dialogshortcuts.cpp \
+		filledspinbox.cpp \
+		formconfig.cpp \
+		formnavigationbutton.cpp \
+		formpgneditor.cpp \
+		limitedtextedit.cpp \
 		main.cpp \
 		mainwindow.cpp \
-		myvisitor.cpp \
+		mytableview.cpp \
+		nag.cpp \
+		universpgn.cpp \
 		utils.cpp
 QMAKE_TARGET  = myChessBase
 DESTDIR       = 
@@ -211,7 +238,7 @@ TARGET        = myChessBase
 first: all
 ####### Build rules
 
-myChessBase: ui_dialogabout.h ui_dialoginfo.h ui_dialogprogressbarimport.h ui_dialogconfiguration.h ui_formmainwidget.h ui_formshorcut.h ui_mainwindow.h $(OBJECTS)  
+myChessBase: ui_dialogpromotion.h ui_dialogshortcuts.h ui_formconfig.h ui_formnavigationbutton.h ui_formpgneditor.h ui_mainwindow.h ui_universpgn.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
@@ -241,8 +268,6 @@ Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_input_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_kms_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_linguist.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimedia.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_opengl.pri \
@@ -251,11 +276,8 @@ Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_openglwidgets_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_spatialaudio.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql_private.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svg.pri \
-		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svgwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_uiplugin.pri \
@@ -294,7 +316,6 @@ Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.
 		System.qrc \
 		Fonts.qrc \
 		qmake_qmake_qm_files.qrc \
-		/usr/lib/x86_64-linux-gnu/libQt6Svg.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Sql.prl \
@@ -328,8 +349,6 @@ Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_input_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_kms_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_linguist.pri:
-/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimedia.pri:
-/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_multimediawidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_network_private.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_opengl.pri:
@@ -338,11 +357,8 @@ Makefile: myChessBase.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_openglwidgets_private.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_printsupport_private.pri:
-/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_spatialaudio.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_sql_private.pri:
-/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svg.pri:
-/usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_svgwidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_testlib_private.pri:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/modules/qt_lib_uiplugin.pri:
@@ -381,7 +397,6 @@ myChessBase.pro:
 System.qrc:
 Fonts.qrc:
 qmake_qmake_qm_files.qrc:
-/usr/lib/x86_64-linux-gnu/libQt6Svg.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Sql.prl:
@@ -404,9 +419,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents myChessBase_en_US.ts $(DISTDIR)/
 	$(COPY_FILE) --parents System.qrc Fonts.qrc qmake_qmake_qm_files.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents chessboard.h colorbutton.h creationbase.h dialogabout.h dialoginfo.h dialogprogressbarimport.h dialogconfiguration.h ecotablegeneration.h formmainwidget.h formshorcut.h mainwindow.h myvisitor.h utils.h $(DISTDIR)/
-	$(COPY_FILE) --parents chessboard.cpp colorbutton.cpp creationbase.cpp dialogabout.cpp dialoginfo.cpp dialogprogressbarimport.cpp dialogconfiguration.cpp ecotablegeneration.cpp formmainwidget.cpp formshorcut.cpp main.cpp mainwindow.cpp myvisitor.cpp utils.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents dialogabout.ui dialoginfo.ui dialogprogressbarimport.ui dialogconfiguration.ui formmainwidget.ui formshorcut.ui mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents BooleanCheckBoxDelegate.h calendardialog.h chesboardcursor.h chessboard.h chessstackedwidget.h colorbutton.h dialogpromotion.h dialogshortcuts.h filledspinbox.h formconfig.h formnavigationbutton.h formpgneditor.h limitedtextedit.h mainwindow.h mytableview.h nag.h universpgn.h utils.h $(DISTDIR)/
+	$(COPY_FILE) --parents calendardialog.cpp chesboardcursor.cpp chessboard.cpp chessstackedwidget.cpp colorbutton.cpp dialogpromotion.cpp dialogshortcuts.cpp filledspinbox.cpp formconfig.cpp formnavigationbutton.cpp formpgneditor.cpp limitedtextedit.cpp main.cpp mainwindow.cpp mytableview.cpp nag.cpp universpgn.cpp utils.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents dialogpromotion.ui dialogshortcuts.ui formconfig.ui formnavigationbutton.ui formpgneditor.ui mainwindow.ui universpgn.ui $(DISTDIR)/
 	$(COPY_FILE) --parents myChessBase_en_US.ts $(DISTDIR)/
 
 
@@ -442,20 +457,25 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_System.cpp qrc_Fonts.cpp qrc_qmake_qmake_qm_files.cpp
 qrc_System.cpp: System.qrc \
 		/usr/lib/qt6/libexec/rcc \
-		System/eco.pgn
+		System/closehand.png \
+		System/eco.pgn \
+		System/mainfermee.png \
+		System/mainindex.png \
+		System/openhand.png \
+		System/cursor.png
 	/usr/lib/qt6/libexec/rcc -name System System.qrc -o qrc_System.cpp
 
 qrc_Fonts.cpp: Fonts.qrc \
 		/usr/lib/qt6/libexec/rcc \
+		Fonts/Magnetic.ttf \
+		Fonts/Chess-7.ttf \
+		Fonts/Cases.ttf \
 		Fonts/Alpha.ttf \
-		Fonts/MARRFONT.TTF \
-		Fonts/LEIPFONT.TTF \
-		Fonts/CHEQ_TT.TTF \
+		Fonts/Cheq.ttf \
+		Fonts/Marroquin.ttf \
+		Fonts/Maya.ttf \
 		Fonts/OpenChessFont.ttf \
-		Fonts/Chess-7.TTF \
-		Fonts/MAGNFONT.TTF \
-		Fonts/MAYAFONT.TTF \
-		Fonts/CASEFONT.TTF
+		Fonts/Leipzig.ttf
 	/usr/lib/qt6/libexec/rcc -name Fonts Fonts.qrc -o qrc_Fonts.cpp
 
 qrc_qmake_qmake_qm_files.cpp: qmake_qmake_qm_files.qrc \
@@ -467,94 +487,132 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
+	g++ -pipe -Wno-trigraphs -O2 -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_colorbutton.cpp moc_dialogabout.cpp moc_dialoginfo.cpp moc_dialogprogressbarimport.cpp moc_dialogconfiguration.cpp moc_formmainwidget.cpp moc_formshorcut.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_BooleanCheckBoxDelegate.cpp moc_calendardialog.cpp moc_chessboard.cpp moc_colorbutton.cpp moc_dialogpromotion.cpp moc_dialogshortcuts.cpp moc_filledspinbox.cpp moc_formconfig.cpp moc_formnavigationbutton.cpp moc_formpgneditor.cpp moc_limitedtextedit.cpp moc_mainwindow.cpp moc_mytableview.cpp moc_universpgn.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_colorbutton.cpp moc_dialogabout.cpp moc_dialoginfo.cpp moc_dialogprogressbarimport.cpp moc_dialogconfiguration.cpp moc_formmainwidget.cpp moc_formshorcut.cpp moc_mainwindow.cpp
+	-$(DEL_FILE) moc_BooleanCheckBoxDelegate.cpp moc_calendardialog.cpp moc_chessboard.cpp moc_colorbutton.cpp moc_dialogpromotion.cpp moc_dialogshortcuts.cpp moc_filledspinbox.cpp moc_formconfig.cpp moc_formnavigationbutton.cpp moc_formpgneditor.cpp moc_limitedtextedit.cpp moc_mainwindow.cpp moc_mytableview.cpp moc_universpgn.cpp
+moc_BooleanCheckBoxDelegate.cpp: BooleanCheckBoxDelegate.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include BooleanCheckBoxDelegate.h -o moc_BooleanCheckBoxDelegate.cpp
+
+moc_calendardialog.cpp: calendardialog.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include calendardialog.h -o moc_calendardialog.cpp
+
+moc_chessboard.cpp: chessboard.h \
+		chess.hpp \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include chessboard.h -o moc_chessboard.cpp
+
 moc_colorbutton.cpp: colorbutton.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include colorbutton.h -o moc_colorbutton.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include colorbutton.h -o moc_colorbutton.cpp
 
-moc_dialogabout.cpp: dialogabout.h \
+moc_dialogpromotion.cpp: dialogpromotion.h \
+		chess.hpp \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialogabout.h -o moc_dialogabout.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialogpromotion.h -o moc_dialogpromotion.cpp
 
-moc_dialoginfo.cpp: dialoginfo.h \
+moc_dialogshortcuts.cpp: dialogshortcuts.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialoginfo.h -o moc_dialoginfo.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialogshortcuts.h -o moc_dialogshortcuts.cpp
 
-moc_dialogprogressbarimport.cpp: dialogprogressbarimport.h \
+moc_filledspinbox.cpp: filledspinbox.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialogprogressbarimport.h -o moc_dialogprogressbarimport.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include filledspinbox.h -o moc_filledspinbox.cpp
 
-moc_dialogconfiguration.cpp: dialogconfiguration.h \
+moc_formconfig.cpp: formconfig.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dialogconfiguration.h -o moc_dialogconfiguration.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formconfig.h -o moc_formconfig.cpp
 
-moc_formmainwidget.cpp: formmainwidget.h \
+moc_formnavigationbutton.cpp: formnavigationbutton.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formmainwidget.h -o moc_formmainwidget.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formnavigationbutton.h -o moc_formnavigationbutton.cpp
 
-moc_formshorcut.cpp: formshorcut.h \
+moc_formpgneditor.cpp: formpgneditor.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formshorcut.h -o moc_formshorcut.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formpgneditor.h -o moc_formpgneditor.cpp
+
+moc_limitedtextedit.cpp: limitedtextedit.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include limitedtextedit.h -o moc_limitedtextedit.cpp
 
 moc_mainwindow.cpp: mainwindow.h \
 		formboardpage.h \
 		formcounterpage.h \
-		dialogprogressbarimport.h \
-		dialogconfiguration.h \
+		formconfig.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessBase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessBase/src -I/home/gilles/Developpements/myChessBase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtSvg -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+
+moc_mytableview.cpp: mytableview.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mytableview.h -o moc_mytableview.cpp
+
+moc_universpgn.cpp: universpgn.h \
+		chessstackedwidget.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gilles/Developpements/myChessbase/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gilles/Developpements/myChessbase/src -I/home/gilles/Developpements/myChessbase/src/chess-library/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtConcurrent -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include universpgn.h -o moc_universpgn.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_dialogabout.h ui_dialoginfo.h ui_dialogprogressbarimport.h ui_dialogconfiguration.h ui_formmainwidget.h ui_formshorcut.h ui_mainwindow.h
+compiler_uic_make_all: ui_dialogpromotion.h ui_dialogshortcuts.h ui_formconfig.h ui_formnavigationbutton.h ui_formpgneditor.h ui_mainwindow.h ui_universpgn.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_dialogabout.h ui_dialoginfo.h ui_dialogprogressbarimport.h ui_dialogconfiguration.h ui_formmainwidget.h ui_formshorcut.h ui_mainwindow.h
-ui_dialogabout.h: dialogabout.ui \
+	-$(DEL_FILE) ui_dialogpromotion.h ui_dialogshortcuts.h ui_formconfig.h ui_formnavigationbutton.h ui_formpgneditor.h ui_mainwindow.h ui_universpgn.h
+ui_dialogpromotion.h: dialogpromotion.ui \
 		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic dialogabout.ui -o ui_dialogabout.h
+	/usr/lib/qt6/libexec/uic dialogpromotion.ui -o ui_dialogpromotion.h
 
-ui_dialoginfo.h: dialoginfo.ui \
+ui_dialogshortcuts.h: dialogshortcuts.ui \
 		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic dialoginfo.ui -o ui_dialoginfo.h
+	/usr/lib/qt6/libexec/uic dialogshortcuts.ui -o ui_dialogshortcuts.h
 
-ui_dialogprogressbarimport.h: dialogprogressbarimport.ui \
-		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic dialogprogressbarimport.ui -o ui_dialogprogressbarimport.h
-
-ui_dialogconfiguration.h: dialogconfiguration.ui \
+ui_formconfig.h: formconfig.ui \
 		/usr/lib/qt6/libexec/uic \
 		chessboard.h \
+		filledspinbox.h \
 		colorbutton.h \
 		chess.hpp
-	/usr/lib/qt6/libexec/uic dialogconfiguration.ui -o ui_dialogconfiguration.h
+	/usr/lib/qt6/libexec/uic formconfig.ui -o ui_formconfig.h
 
-ui_formmainwidget.h: formmainwidget.ui \
+ui_formnavigationbutton.h: formnavigationbutton.ui \
 		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic formmainwidget.ui -o ui_formmainwidget.h
+	/usr/lib/qt6/libexec/uic formnavigationbutton.ui -o ui_formnavigationbutton.h
 
-ui_formshorcut.h: formshorcut.ui \
-		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic formshorcut.ui -o ui_formshorcut.h
+ui_formpgneditor.h: formpgneditor.ui \
+		/usr/lib/qt6/libexec/uic \
+		chessboard.h \
+		filledspinbox.h \
+		formnavigationbutton.h \
+		limitedtextedit.h \
+		chess.hpp
+	/usr/lib/qt6/libexec/uic formpgneditor.ui -o ui_formpgneditor.h
 
 ui_mainwindow.h: mainwindow.ui \
 		/usr/lib/qt6/libexec/uic \
-		chessboard.h \
-		chess.hpp
+		formconfig.h \
+		formpgneditor.h
 	/usr/lib/qt6/libexec/uic mainwindow.ui -o ui_mainwindow.h
+
+ui_universpgn.h: universpgn.ui \
+		/usr/lib/qt6/libexec/uic
+	/usr/lib/qt6/libexec/uic universpgn.ui -o ui_universpgn.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -566,86 +624,88 @@ compiler_clean: compiler_lrelease_clean compiler_rcc_clean compiler_moc_predefs_
 
 ####### Compile
 
-chessboard.o: chessboard.cpp chessboard.h \
-		chess.hpp
+calendardialog.o: calendardialog.cpp calendardialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o calendardialog.o calendardialog.cpp
+
+chesboardcursor.o: chesboardcursor.cpp chesboardcursor.h \
+		chessboard.h \
+		chess.hpp \
+		utils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chesboardcursor.o chesboardcursor.cpp
+
+chessboard.o: chessboard.cpp chesboardcursor.h \
+		chessboard.h \
+		chess.hpp \
+		dialogpromotion.h \
+		utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chessboard.o chessboard.cpp
+
+chessstackedwidget.o: chessstackedwidget.cpp chessstackedwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chessstackedwidget.o chessstackedwidget.cpp
 
 colorbutton.o: colorbutton.cpp colorbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o colorbutton.o colorbutton.cpp
 
-creationbase.o: creationbase.cpp creationbase.h \
-		ecotablegeneration.h \
+dialogpromotion.o: dialogpromotion.cpp dialogpromotion.h \
 		chess.hpp \
+		ui_dialogpromotion.h \
 		utils.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o creationbase.o creationbase.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogpromotion.o dialogpromotion.cpp
 
-dialogabout.o: dialogabout.cpp dialogabout.h \
-		ui_dialogabout.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogabout.o dialogabout.cpp
+dialogshortcuts.o: dialogshortcuts.cpp dialogshortcuts.h \
+		ui_dialogshortcuts.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogshortcuts.o dialogshortcuts.cpp
 
-dialoginfo.o: dialoginfo.cpp dialoginfo.h \
-		ui_dialoginfo.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialoginfo.o dialoginfo.cpp
+filledspinbox.o: filledspinbox.cpp filledspinbox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filledspinbox.o filledspinbox.cpp
 
-dialogprogressbarimport.o: dialogprogressbarimport.cpp dialogprogressbarimport.h \
-		ui_dialogprogressbarimport.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogprogressbarimport.o dialogprogressbarimport.cpp
+formconfig.o: formconfig.cpp formconfig.h \
+		ui_formconfig.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formconfig.o formconfig.cpp
 
-dialogconfiguration.o: dialogconfiguration.cpp dialogconfiguration.h \
-		ui_dialogconfiguration.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogconfiguration.o dialogconfiguration.cpp
+formnavigationbutton.o: formnavigationbutton.cpp formnavigationbutton.h \
+		ui_formnavigationbutton.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formnavigationbutton.o formnavigationbutton.cpp
 
-ecotablegeneration.o: ecotablegeneration.cpp ecotablegeneration.h \
+formpgneditor.o: formpgneditor.cpp formpgneditor.h \
+		ui_formpgneditor.h \
+		utils.h \
 		chess.hpp \
-		utils.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ecotablegeneration.o ecotablegeneration.cpp
+		calendardialog.h \
+		nag.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formpgneditor.o formpgneditor.cpp
 
-formmainwidget.o: formmainwidget.cpp formmainwidget.h \
-		ui_formmainwidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formmainwidget.o formmainwidget.cpp
-
-formshorcut.o: formshorcut.cpp formshorcut.h \
-		ui_formshorcut.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formshorcut.o formshorcut.cpp
+limitedtextedit.o: limitedtextedit.cpp limitedtextedit.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o limitedtextedit.o limitedtextedit.cpp
 
 main.o: main.cpp mainwindow.h \
 		formboardpage.h \
 		formcounterpage.h \
-		dialogprogressbarimport.h \
-		dialogconfiguration.h \
+		formconfig.h \
 		chess.hpp \
-		creationbase.h \
 		utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
 		formboardpage.h \
 		formcounterpage.h \
-		dialogprogressbarimport.h \
-		dialogconfiguration.h \
-		ui_mainwindow.h \
-		chess.hpp \
-		myvisitor.h \
-		ecotablegeneration.h \
-		utils.h \
-		dialoginfo.h \
-		dialogabout.h \
-		formmainwidget.h
+		formconfig.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
-myvisitor.o: myvisitor.cpp myvisitor.h \
-		chess.hpp \
-		mainwindow.h \
-		formboardpage.h \
-		formcounterpage.h \
-		dialogprogressbarimport.h \
-		dialogconfiguration.h \
-		utils.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myvisitor.o myvisitor.cpp
+mytableview.o: mytableview.cpp mytableview.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mytableview.o mytableview.cpp
+
+nag.o: nag.cpp nag.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o nag.o nag.cpp
+
+universpgn.o: universpgn.cpp universpgn.h \
+		chessstackedwidget.h \
+		ui_universpgn.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o universpgn.o universpgn.cpp
 
 utils.o: utils.cpp utils.h \
-		chess.hpp \
-		ecotablegeneration.h
+		chess.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o utils.o utils.cpp
 
 qrc_System.o: qrc_System.cpp 
@@ -657,29 +717,47 @@ qrc_Fonts.o: qrc_Fonts.cpp
 qrc_qmake_qmake_qm_files.o: qrc_qmake_qmake_qm_files.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qmake_qmake_qm_files.o qrc_qmake_qmake_qm_files.cpp
 
+moc_BooleanCheckBoxDelegate.o: moc_BooleanCheckBoxDelegate.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BooleanCheckBoxDelegate.o moc_BooleanCheckBoxDelegate.cpp
+
+moc_calendardialog.o: moc_calendardialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_calendardialog.o moc_calendardialog.cpp
+
+moc_chessboard.o: moc_chessboard.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_chessboard.o moc_chessboard.cpp
+
 moc_colorbutton.o: moc_colorbutton.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_colorbutton.o moc_colorbutton.cpp
 
-moc_dialogabout.o: moc_dialogabout.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogabout.o moc_dialogabout.cpp
+moc_dialogpromotion.o: moc_dialogpromotion.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogpromotion.o moc_dialogpromotion.cpp
 
-moc_dialoginfo.o: moc_dialoginfo.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialoginfo.o moc_dialoginfo.cpp
+moc_dialogshortcuts.o: moc_dialogshortcuts.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogshortcuts.o moc_dialogshortcuts.cpp
 
-moc_dialogprogressbarimport.o: moc_dialogprogressbarimport.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogprogressbarimport.o moc_dialogprogressbarimport.cpp
+moc_filledspinbox.o: moc_filledspinbox.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_filledspinbox.o moc_filledspinbox.cpp
 
-moc_dialogconfiguration.o: moc_dialogconfiguration.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogconfiguration.o moc_dialogconfiguration.cpp
+moc_formconfig.o: moc_formconfig.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formconfig.o moc_formconfig.cpp
 
-moc_formmainwidget.o: moc_formmainwidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formmainwidget.o moc_formmainwidget.cpp
+moc_formnavigationbutton.o: moc_formnavigationbutton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formnavigationbutton.o moc_formnavigationbutton.cpp
 
-moc_formshorcut.o: moc_formshorcut.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formshorcut.o moc_formshorcut.cpp
+moc_formpgneditor.o: moc_formpgneditor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formpgneditor.o moc_formpgneditor.cpp
+
+moc_limitedtextedit.o: moc_limitedtextedit.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_limitedtextedit.o moc_limitedtextedit.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_mytableview.o: moc_mytableview.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mytableview.o moc_mytableview.cpp
+
+moc_universpgn.o: moc_universpgn.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_universpgn.o moc_universpgn.cpp
 
 ####### Install
 
