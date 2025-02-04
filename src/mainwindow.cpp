@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QSettings s;
     ui->setupUi(this);
-    ui->tabWidgetUNivers->setCurrentIndex(s.value("DefaultUnivers").toInt());
+    ui->tabWidgetUnivers->setCurrentIndex(s.value("DefaultUnivers").toInt());
     connect (ui->actionE_xit,&QAction::triggered,this,&MainWindow::close);       
  }   
 

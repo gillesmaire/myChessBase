@@ -12,7 +12,6 @@
 #include <QFontDatabase>
 #include <QMap>
 #include <chess.hpp>
-#include "creationbase.h"
 #include "utils.h"
 #include <QAtomicInt>
 

@@ -19,12 +19,12 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <widget class="QTabWidget" name="tabWidgetUNivers">
+     <widget class="QTabWidget" name="tabWidgetUnivers">
       <property name="tabPosition">
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabLearningMode">
        <attribute name="title">

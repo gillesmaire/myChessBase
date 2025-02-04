@@ -36,7 +36,6 @@
 #include <QSqlError>
 #include <QDir>
 #include <QFontDatabase>
-#include <ecotablegeneration.h>
 
 #include <chess.hpp>
 

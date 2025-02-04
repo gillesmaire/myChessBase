@@ -5,7 +5,6 @@
 #include <QSqlDatabase>
 #include <formboardpage.h>
 #include <formcounterpage.h>
-#include <dialogprogressbarimport.h>
 #include <formconfig.h>
 #include <QFutureWatcher>
 #include <QLabel>

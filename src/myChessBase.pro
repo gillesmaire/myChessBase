@@ -14,16 +14,12 @@ DEFINES += CHESS_NO_EXCEPTIONS
 
 SOURCES += \
     calendardialog.cpp \
-    checkboxdelegate.cpp \
     chesboardcursor.cpp \
     chessboard.cpp \
     chessstackedwidget.cpp \
     colorbutton.cpp \
-    creationbase.cpp \
-    customsqlcolumnproxymodel.cpp \
     dialogpromotion.cpp \
     dialogshortcuts.cpp \
-    ecotablegeneration.cpp \
     filledspinbox.cpp \
     formconfig.cpp \
     formnavigationbutton.cpp \
@@ -33,23 +29,18 @@ SOURCES += \
     mainwindow.cpp \
     mytableview.cpp \
     nag.cpp \
-    readpgn.cpp \
     universpgn.cpp \
     utils.cpp
 
 HEADERS += \
     BooleanCheckBoxDelegate.h \
     calendardialog.h \
-    checkboxdelegate.h \
     chesboardcursor.h \
     chessboard.h \
     chessstackedwidget.h \
     colorbutton.h \
-    creationbase.h \
-    customsqlcolumnproxymodel.h \
     dialogpromotion.h \
     dialogshortcuts.h \
-    ecotablegeneration.h \
     filledspinbox.h \
     formconfig.h \
     formnavigationbutton.h \
@@ -58,7 +49,6 @@ HEADERS += \
     mainwindow.h \
     mytableview.h \
     nag.h \
-    readpgn.h \
     universpgn.h \
     utils.h
 
