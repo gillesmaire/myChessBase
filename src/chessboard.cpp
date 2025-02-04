@@ -69,6 +69,8 @@ void ChessBoard::setCorrection(qreal x)
 
 bool ChessBoard::flipped() { return mFlip; }
 
+void ChessBoard::askReloadConfiguration() {}
+
 QStringList ChessBoard::listOfTypeOfPieces()
 {
     return (mFontList);

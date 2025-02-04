@@ -116,6 +116,14 @@ public:
     /// \return return true if columns A H and lines  1 8 are displayed
     ///
     bool casesNumbered();
+    
+    ///
+    /// \brief askReloadConfiguration when the Config change the board is informed 
+    ///        to reload all configuration informations
+    /// 
+    ///
+    void askReloadConfiguration();
+    
 private:
     void RecordChessFonts();
     ///

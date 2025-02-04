@@ -22,12 +22,18 @@ public:
     QString getListMove();
     void EraseBlackPlayer();
     void EraseWhitePlayer();
+    
 public slots:
     ///
     /// \brief setFen Show FEN on ChessBoard
     /// \param FEN a valid or Invalid FEN to show on the Board
     ///
     void setFen(QString FEN);
+    
+    ///
+    /// \brief AskRefresh slot to ask to ChessBoard to refresh all this init parameters
+    ///
+    void AskRefresh();
     
 private slots:
     ///

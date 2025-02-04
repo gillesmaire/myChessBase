@@ -93,6 +93,8 @@ void FormPGNEditor::setFen(QString FEN)
     ui->Board->setFEN(FEN);
 }
 
+void FormPGNEditor::AskRefresh() {ui->Board->askReloadConfiguration();}
+
 void FormPGNEditor::SetListMove(QString listmove)
 {
     ui->textEditMoves->clear();

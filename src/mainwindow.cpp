@@ -258,5 +258,5 @@ void MainWindow::ShowVariation(QString ECO,QString opening,QString variation,QSt
 
 void MainWindow::RefreshFromConfiguration()
 {
-    qDebug()<<"connected to configuration";
+    ui->pgnEditor->AskRefresh();
 }
