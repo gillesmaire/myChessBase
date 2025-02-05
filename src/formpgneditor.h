@@ -68,7 +68,6 @@ private slots:
 private:
 
 
-
 struct GameData {
     QString whiteFirstname;
     QString whiteName;
@@ -86,8 +85,9 @@ struct GameData {
     QString round;
     QString ecoCode;
     QString result;
-    QStringList moves;
+    QString moves;
 };
+
   
     Ui::FormPGNEditor *ui;
     

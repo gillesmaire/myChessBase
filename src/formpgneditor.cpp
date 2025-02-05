@@ -263,7 +263,7 @@ void FormPGNEditor::DelComment()
 
 FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
 {
-    GameData gameData;
+     GameData gameData;
     QRegularExpression regex("\\[([^\"]+) \"([^\"]+)\"]");
     QRegularExpressionMatchIterator matches = regex.globalMatch(pgnText);
     QMap<QString, QString> fields;
@@ -294,15 +294,13 @@ FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
     gameData.ecoCode = fields.value("ECO", "");
     gameData.result = fields.value("Result", "");
 
-    // Extraction des coups
-    QRegularExpression movesRegex("\n\n(.*)");
+    // Extraction des coups avec commentaires et variantes
+    QRegularExpression movesRegex("\\n\\n(.*)", QRegularExpression::DotMatchesEverythingOption);
     QRegularExpressionMatch movesMatch = movesRegex.match(pgnText);
     if (movesMatch.hasMatch()) {
-        QString movesText = movesMatch.captured(1);
-        movesText.remove(QRegularExpression("\d+\\.")).replace("  ", " ");
-        gameData.moves = movesText.split(" ", Qt::SkipEmptyParts);
+        gameData.moves = movesMatch.captured(1).trimmed();
     }
-
+    
     return gameData;
 }
 
@@ -313,13 +311,27 @@ void FormPGNEditor::Paste()
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
     GameData game = parsePGN(clipboard->text());
-    ui->lineEditWhiteFirstName->setText(game.whiteFirstname);
-    ui->lineEditWhiteName->setText(game.whiteName);
-    ui->lineEditBlackFirstName->setText( game.blackFirstname);
-    ui->lineEditBlackName->setText( game.blackName);
-    ui->lineEditECO->setText(game.ecoCode);
-    ui->lineEditEvent->setText(game.event);
-    ui->lineEditRound->setText(game.round);
-    ui->lineEditSite->setText(game.site);
-    ui->textEditMoves->setPlainText(game.moves.join(" "));
+    if ( game.whiteFirstname.isEmpty() && !game.whiteName.isEmpty() && game.whiteName.contains(',')) {
+         QStringList g=game.whiteName.split(',');
+         game.whiteName=g.first().trimmed();
+         g.pop_front();
+         game.whiteFirstname=g.join(' ').trimmed();
+      }
+    ui->lineEditWhiteName->setText(game.whiteName.trimmed());
+    ui->lineEditWhiteFirstName->setText(game.whiteFirstname.trimmed());
+    if ( game.blackFirstname.isEmpty() && !game.blackName.isEmpty() && game.blackName.contains(',')) {
+         QStringList g=game.blackName.trimmed().split(',');
+         game.blackName=g.first().trimmed();
+         g.pop_front();
+         game.blackFirstname=g.join(' ').trimmed();
+      }
+    ui->lineEditBlackName->setText(game.blackName.trimmed());
+    ui->lineEditBlackFirstName->setText(game.blackFirstname.trimmed());
+    
+    ui->lineEditECO->setText(game.ecoCode.trimmed());
+    ui->lineEditEvent->setText(game.event.trimmed());
+    ui->lineEditRound->setText(game.round.trimmed());
+    ui->lineEditSite->setText(game.site.trimmed());   
+    ui->textEditMoves->setPlainText(game.moves.trimmed());
+    ui->comboBoxResult->setCurrentText(game.result.trimmed());
 }
