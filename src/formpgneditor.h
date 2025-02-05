@@ -62,8 +62,33 @@ private slots:
     ///         linedit FEN to allow to fill
     ///
     void Clear();
+    
+    void Paste();
 
 private:
+
+
+
+struct GameData {
+    QString whiteFirstname;
+    QString whiteName;
+    int whiteElo = 0;
+    QString whiteFideID;
+    QString whiteTitle;
+    QString blackFirstname;
+    QString blackName;
+    int blackElo = 0;
+    QString blackFideID;
+    QString blackTitle;
+    QString site;
+    QString event;
+    QString date;
+    QString round;
+    QString ecoCode;
+    QString result;
+    QStringList moves;
+};
+  
     Ui::FormPGNEditor *ui;
     
     void Reset();
@@ -101,6 +126,12 @@ private:
     ///        to be restore with button restore
     ///
     QString mFENSaved;
+    
+    
+    GameData parsePGN(const QString &pgnText);
+
+    
+    
 };
 
 #endif // FORMPGNEDITOR_H

@@ -1,11 +1,14 @@
 #include "formpgneditor.h"
 #include "ui_formpgneditor.h"
 #include "utils.h"
-#include <QDate>
-#include <QSettings>
 #include "calendardialog.h"
 #include "nag.h"
+
 #include "QRegularExpression"
+#include <QClipboard>
+#include <QDate>
+#include <QSettings>
+#include <QRegularExpression>
 
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent),ui(new Ui::FormPGNEditor)
@@ -23,6 +26,7 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->pushButtonDeleteNag,&QPushButton::clicked,this,&FormPGNEditor::DelNag);
     connect(ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
     connect(ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
+    connect(ui->pushButtonPastePGN,&QPushButton::clicked,this,&FormPGNEditor::Paste);
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     connect (ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
     connect (ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
@@ -49,7 +53,6 @@ void FormPGNEditor::Clear()
 
 void FormPGNEditor::LastFen()
 {   
-    mFENSaved;
     ui->lineEditFEN->setText(mFENSaved);
 }
 
@@ -60,7 +63,6 @@ void FormPGNEditor::MAJFEN(QString fen)
 
 void FormPGNEditor::MAJBoardWithFen()
 {
-    mFENSaved=ui->lineEditFEN->text();
     QString fen=ui->lineEditFEN->text();
     QRegularExpression fenRegex(R"(^\s*([rnbqkpRNBQKP1-8]{1,8}/){7}[rnbqkpRNBQKP1-8]{1,8} [wb] (-|[KQkq]+) (-|[a-h][36]) \d+ \d+\s*$)");
     if  ( ! fenRegex.match(fen).hasMatch()) {
@@ -259,3 +261,65 @@ void FormPGNEditor::DelComment()
     }
 }
 
+FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
+{
+    GameData gameData;
+    QRegularExpression regex("\\[([^\"]+) \"([^\"]+)\"]");
+    QRegularExpressionMatchIterator matches = regex.globalMatch(pgnText);
+    QMap<QString, QString> fields;
+
+    while (matches.hasNext()) {
+        QRegularExpressionMatch match = matches.next();
+        if (match.hasMatch()) {
+            fields[match.captured(1)] = match.captured(2);
+        }
+    }
+
+    gameData.whiteName = fields.value("White", "");
+    gameData.whiteFirstname = fields.value("WhiteFirstName", "");
+    gameData.whiteElo = fields.value("WhiteElo", "0").toInt();
+    gameData.whiteFideID = fields.value("WhiteFideId", "");
+    gameData.whiteTitle = fields.value("WhiteTitle", "");
+
+    gameData.blackName = fields.value("Black", "");
+    gameData.blackFirstname = fields.value("BlackFirstName", "");
+    gameData.blackElo = fields.value("BlackElo", "0").toInt();
+    gameData.blackFideID = fields.value("BlackFideId", "");
+    gameData.blackTitle = fields.value("BlackTitle", "");
+
+    gameData.site = fields.value("Site", "");
+    gameData.event = fields.value("Event", "");
+    gameData.date = fields.value("Date", "");
+    gameData.round = fields.value("Round", "");
+    gameData.ecoCode = fields.value("ECO", "");
+    gameData.result = fields.value("Result", "");
+
+    // Extraction des coups
+    QRegularExpression movesRegex("\n\n(.*)");
+    QRegularExpressionMatch movesMatch = movesRegex.match(pgnText);
+    if (movesMatch.hasMatch()) {
+        QString movesText = movesMatch.captured(1);
+        movesText.remove(QRegularExpression("\d+\\.")).replace("  ", " ");
+        gameData.moves = movesText.split(" ", Qt::SkipEmptyParts);
+    }
+
+    return gameData;
+}
+
+///
+/// \brief Paste paste a PGN in the Editor
+///
+void FormPGNEditor::Paste() 
+{
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    GameData game = parsePGN(clipboard->text());
+    ui->lineEditWhiteFirstName->setText(game.whiteFirstname);
+    ui->lineEditWhiteName->setText(game.whiteName);
+    ui->lineEditBlackFirstName->setText( game.blackFirstname);
+    ui->lineEditBlackName->setText( game.blackName);
+    ui->lineEditECO->setText(game.ecoCode);
+    ui->lineEditEvent->setText(game.event);
+    ui->lineEditRound->setText(game.round);
+    ui->lineEditSite->setText(game.site);
+    ui->textEditMoves->setPlainText(game.moves.join(" "));
+}
