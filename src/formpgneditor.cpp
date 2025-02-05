@@ -5,6 +5,7 @@
 #include <QSettings>
 #include "calendardialog.h"
 #include "nag.h"
+#include "QRegularExpression"
 
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent),ui(new Ui::FormPGNEditor)
@@ -25,7 +26,8 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     connect (ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
     connect (ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
-    connect (ui->pushButtonFENReset,SIGNAL(pressed()),ui->lineEditFEN, SLOT(clear()));
+    connect (ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
+    connect (ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
     
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
@@ -35,15 +37,37 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     FENShown=true;
     showFEN();
     ui->lineEditFEN->setText("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    mFENSaved=ui->lineEditFEN->text();
+}
+
+void FormPGNEditor::Clear()
+{
+    mFENSaved=ui->lineEditFEN->text();
+    ui->lineEditFEN->clear();
+}
+
+
+void FormPGNEditor::LastFen()
+{   
+    mFENSaved;
+    ui->lineEditFEN->setText(mFENSaved);
 }
 
 void FormPGNEditor::MAJFEN(QString fen)
 {
-    ui->lineEditFEN->setText(fen);
+  ui->lineEditFEN->setText(fen);
 }
 
 void FormPGNEditor::MAJBoardWithFen()
 {
+    mFENSaved=ui->lineEditFEN->text();
+    QString fen=ui->lineEditFEN->text();
+    QRegularExpression fenRegex(R"(^\s*([rnbqkpRNBQKP1-8]{1,8}/){7}[rnbqkpRNBQKP1-8]{1,8} [wb] (-|[KQkq]+) (-|[a-h][36]) \d+ \d+\s*$)");
+    if  ( ! fenRegex.match(fen).hasMatch()) {
+        ui->lineEditFEN->setText("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    }
+    else ui->lineEditFEN->setText(fen);
+
     ui->Board->setFEN(ui->lineEditFEN->text());
 }
 
@@ -57,6 +81,7 @@ void FormPGNEditor::showFEN()
     FENShown=!FENShown;
     ui->lineEditFEN->setVisible(FENShown);
     ui->pushButtonFENReset->setVisible(FENShown);
+    ui->pushButtonFENLast->setVisible(FENShown);
 }
 
 void FormPGNEditor::SelectDateFromCalendar()

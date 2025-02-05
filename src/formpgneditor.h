@@ -52,6 +52,16 @@ private slots:
     void MAJFEN(QString FEN);
 
     void MAJBoardWithFen();
+    ///
+    /// \brief LastFen set the last FEN 
+    ///
+    void LastFen();
+    
+    ///
+    /// \brief Clear save the value to be able to restaure it and raz the 
+    ///         linedit FEN to allow to fill
+    ///
+    void Clear();
 
 private:
     Ui::FormPGNEditor *ui;
@@ -86,6 +96,11 @@ private:
     /// \brief DelComment del the comment around tu cursor position
     ///
     void DelComment();
+    ///
+    /// \brief mFENSaved when FEN is shown we save the FEN in mFENSaved 
+    ///        to be restore with button restore
+    ///
+    QString mFENSaved;
 };
 
 #endif // FORMPGNEDITOR_H
