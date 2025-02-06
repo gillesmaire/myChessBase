@@ -265,26 +265,41 @@ QString Utils::NumberSanUTF8Moves(QStringList list)
   return (result);
 }
 
-QMap<QString, QChar> Utils::ListPGNRecords()
+QString Utils::deduceMove(chess::Board &board, QString shortmove)
 {
-    QMap<QString,QChar>  list;
-    
-    list["Black"]='T';
-    list["BlackElo"]='I';
-    list["BlackFideId"]='I';
-    list["BlackTitle"]='T';
-    list["Date"]='T';
-    list["ECO"]='T';
-    list["Event"]='T';
-    list["Result"]='T';
-    list["Round"]='T';
-    list["Site"]='T';
-    list["White"]='T';
-    list["WhiteElo"]='I';
-    list["WhiteFideId"]='I';
-    list["WhiteTitle"]='T';
-    return (list);
+    chess::Movelist moves;
+    chess::movegen::legalmoves(moves, board);
+    for (const auto &move : moves) {
+        std::string m = chess::uci::moveToUci(move);
+        std::string m2 = chess::uci::moveToSan(board, move);
+        if (QString::fromStdString(m2) == shortmove) {
+            board.makeMove(move);
+            return QString::fromStdString(m);
+        }
+    }
+    return QString("error");
 }
+
+// QMap<QString, QChar> Utils::ListPGNRecords()
+// {
+//     QMap<QString,QChar>  list;
+    
+//     list["Black"]='T';
+//     list["BlackElo"]='I';
+//     list["BlackFideId"]='I';
+//     list["BlackTitle"]='T';
+//     list["Date"]='T';
+//     list["ECO"]='T';
+//     list["Event"]='T';
+//     list["Result"]='T';
+//     list["Round"]='T';
+//     list["Site"]='T';
+//     list["White"]='T';
+//     list["WhiteElo"]='I';
+//     list["WhiteFideId"]='I';
+//     list["WhiteTitle"]='T';
+//     return (list);
+// }
 
 QString Utils::getFileNameDataBase()
 {

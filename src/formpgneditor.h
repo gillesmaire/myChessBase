@@ -64,6 +64,17 @@ private slots:
     void Clear();
     
     void Paste();
+    
+    ///
+    /// \brief MakeListVariantComments from content of PGN editor produces 2 lists 
+    ///        1 - list of QMap indexed by move containing corresponding FEN
+    ///        2 - list of QMap indexed by moce containing corresponding Comment
+    /// \param pgn PGN who can contains variants and comments
+    /// \param variants : reference on list of move with FEN
+    /// \param cmments : refernce on list on move with comment or nag 
+    ///
+    
+void MakeListVariantComments(const QString &pgn, QList<QMap<QString, QString>> &variants, QList<QMap<QString, QString>> &comments, QList<QMap<QString, QString>> &nags);
 
 private:
 
@@ -87,6 +98,11 @@ struct GameData {
     QString result;
     QString moves;
 };
+
+QList <QMap<QString,QString>> mVariants;
+QList <QMap<QString,QString>> mComments;
+QList <QMap <QString,QString>> mNags;
+
 
   
     Ui::FormPGNEditor *ui;

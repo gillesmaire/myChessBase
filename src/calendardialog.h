@@ -51,9 +51,15 @@ public:
     /// \return  return the Date selected by the users
     ///
     QDate selectedDate() const;
+    bool status();
+private slots:
+    void accept() override;
+    void reject() override;
 
 private:
     QCalendarWidget* calendarWidget;
+    QPushButton *abortButton;
+    bool mResult;
 };
 
 #endif // CALENDARDIALOG_H

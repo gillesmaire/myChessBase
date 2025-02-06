@@ -45,11 +45,11 @@ public:
     /// is T for Text, I for integer. The PB (packet bit) the Name of opening, the name of variant are not included here.
     /// \return 
     ///
-    static QMap<QString, QChar> ListPGNRecords();
+    //static QMap<QString, QChar> ListPGNRecords();
     ///
-    /// \brief getFileNameDataBase calculate the DataBase Name ie /home/user/.config/myChessBase.db
-    /// \return 
-    ///
+    // /// \brief getFileNameDataBase calculate the DataBase Name ie /home/user/.config/myChessBase.db
+    // /// \return 
+    // ///
     static QString getFileNameDataBase();
     ///
     /// \brief view2QString convert std::view to QString
@@ -109,7 +109,7 @@ public:
  //   static std::u16string StringViewToUtf16(const std::string_view &str_view);
 
     ///
-    /// \brief ECONumber return the number of ECO in the tabel ECO
+    /// \brief ECONumber return the number of ECO in the label ECO
     /// \return 
     ///
     static int ECONumber();
@@ -149,6 +149,16 @@ public:
     /// \return 
     ///
     static QString NumberSanUTF8Moves(QStringList list);
-};
+    
+    
+    ///
+    /// \brief deduceMove for a move like e4 and the Board is the correct 
+    ///        position, return the e2e4 move in QString format
+    /// \param board : the board positionned in the e2e4 stt
+    /// \param shortmove
+    /// \return  the move if no error or the QString "error" if error
+    ///
+    static QString deduceMove(chess::Board  &board, QString shortmove);
 
+};
 #endif // UTILS_H

@@ -35,13 +35,24 @@ CalendarDialog::CalendarDialog(QWidget *parent)
 {
     setWindowTitle(tr("Select a date or current date :"));
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
     calendarWidget = new QCalendarWidget(this);
+    abortButton= new QPushButton(this);
+    abortButton->setText(tr("Abort"));
     layout->addWidget(calendarWidget);
+    layout->addWidget(abortButton);
     connect(calendarWidget, &QCalendarWidget::clicked, this, &CalendarDialog::accept);
+    connect(abortButton, &QPushButton::clicked, this, &CalendarDialog::reject);
 }
+
 
 QDate CalendarDialog::selectedDate() const
 {
     return calendarWidget->selectedDate();
 }
+
+bool CalendarDialog::status() {return mResult;}
+
+void CalendarDialog::accept() {mResult=true;done(Accepted);}
+void CalendarDialog::reject() {mResult=false;done(Rejected); }
+

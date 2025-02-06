@@ -9,6 +9,7 @@
 #include <QDate>
 #include <QSettings>
 #include <QRegularExpression>
+#include "chess.hpp"
 
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent),ui(new Ui::FormPGNEditor)
@@ -92,7 +93,7 @@ void FormPGNEditor::SelectDateFromCalendar()
     CalendarDialog dialog(this);
     dialog.exec();
     QDate date=dialog.selectedDate();
-    ui->dateEdit->setDate(date);   
+    if ( dialog.status()) ui->dateEdit->setDate(date);   
 }
 
 void FormPGNEditor::Go(int i)
@@ -334,4 +335,61 @@ void FormPGNEditor::Paste()
     ui->lineEditSite->setText(game.site.trimmed());   
     ui->textEditMoves->setPlainText(game.moves.trimmed());
     ui->comboBoxResult->setCurrentText(game.result.trimmed());
+    QStringList D=game.date.split('.');
+    bool OK;
+    qDebug()<<D;
+    if (D.count()==3)
+    {
+        QDate dd(D.at(0).toInt(&OK),D.at(1).toInt(&OK),D.at(2).toInt(&OK));
+        ui->dateEdit->setDate(dd);
+    }
+}
+
+void FormPGNEditor::MakeListVariantComments(const QString &pgn,
+                                            QList<QMap<QString, QString> > &variants,
+                                            QList<QMap<QString, QString> > &comments,
+                                            QList<QMap<QString, QString> > &nags)
+{
+    
+    QRegularExpression variantRegex("\\(([^()]+)\\)");
+    QRegularExpression commentRegex("\\{([^{}]+)\\}");
+    QRegularExpression nagRegex("\\$(\\d+)");
+    QRegularExpression moveNumberRegex("\\b\\d+\\."); // Supprimer les numéros de coups
+
+    QString cleanPgn = pgn;
+    cleanPgn.remove(moveNumberRegex);
+
+    QStringList moves = cleanPgn.split(" ", Qt::SkipEmptyParts);
+    
+    QString currentFEN =constants::STARTPOS ; // Initialisation du FEN
+    Board b(constants::STARTPOS);
+    for (const QString &move : moves) {
+        QMap<QString, QString> variantEntry, commentEntry, nagEntry;
+
+        QRegularExpressionMatch variantMatch = variantRegex.match(move);
+        if (variantMatch.hasMatch()) {
+            variantEntry["variant"] = variantMatch.captured(1).trimmed();
+        }
+
+        QRegularExpressionMatch commentMatch = commentRegex.match(move);
+        if (commentMatch.hasMatch()) {
+            commentEntry["comment"] = commentMatch.captured(1).trimmed();
+        }
+
+        QRegularExpressionMatch nagMatch = nagRegex.match(move);
+        if (nagMatch.hasMatch()) {
+            nagEntry["nag"] = nagMatch.captured(1).trimmed();
+        }
+
+        if (!move.contains("{") && !move.contains("(")
+            && !move.contains("$")) {
+            Utils::deduceMove(b,move);
+            currentFEN =QString::fromStdString(b.getFen());
+        }
+        variantEntry["FEN"] = currentFEN;
+
+        variants.append(variantEntry);
+        comments.append(commentEntry);
+        nags.append(nagEntry);
+    }
 }

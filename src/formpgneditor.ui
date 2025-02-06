@@ -458,7 +458,21 @@
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout">
                  <item>
-                  <widget class="QDateEdit" name="dateEdit"/>
+                  <widget class="QDateEdit" name="dateEdit">
+                   <property name="displayFormat">
+                    <string>yyyy/MM/dd</string>
+                   </property>
+                   <property name="timeSpec">
+                    <enum>Qt::UTC</enum>
+                   </property>
+                   <property name="date">
+                    <date>
+                     <year>1753</year>
+                     <month>1</month>
+                     <day>15</day>
+                    </date>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QToolButton" name="toolButtonCalendar">
