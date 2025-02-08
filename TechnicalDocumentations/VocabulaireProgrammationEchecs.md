@@ -65,8 +65,6 @@ On ne note que la case d'arrivée : e4 Cf6. C'est la notation utilisée par les 
 de partie.
 
 
-
-
 Le SAN pour système algébrique de notation est la notation d'un coup 
 soit sous forme case de départ case d'arrivée par exemple e2 e4 
 La forme SAN abrégée est e4

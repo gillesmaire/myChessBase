@@ -77,6 +77,8 @@ void FormPGNEditor::MAJBoardWithFen()
 void FormPGNEditor::GetListMoves( QStringList list)
 {
     ui->textEditMoves->setText(Utils::NumberSanMoves(list));
+    // MakeListVariantComments(list.join(' '), mVariants,mComments,mNags);
+    // qDebug()<<mVariants<<mComments<<mNags;
 }
 
 void FormPGNEditor::showFEN() 
