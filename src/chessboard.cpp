@@ -233,6 +233,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     if ( mPossibleMoves.contains(cs)) 
      {
        QString m=QString::fromStdString(std::string(mSquareToBePlayed))+cs;
+       
        //Move move=uci::uciToMove(mBoard,m.toStdString()); 
        Move move;
        if ( mTypeMove==Normal)
@@ -282,11 +283,8 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
-       while ( mCurrent+1!=mMoveSanList.count()) { mMoveSanList.removeLast();}
        mBoard.makeMove(move);
-       mMoveSanList<<m;
        emit MovesModifiedFromChessBoard(mMoveSanList);
-       //qDebug()<<QString::fromStdString(mBoard.getFen());
        emit FENFromChessBoard(QString::fromStdString(mBoard.getFen()));
     
        mCurrent=mMoveSanList.count()-1;
@@ -373,9 +371,9 @@ void ChessBoard::goBack()
     if (mMoveSanList.isEmpty()) return;
     if (mCurrent==-1)  return;
     mCurrent--;
-    QStringList movesan;
     mBoard=Board(constants::STARTPOS);
     for (int i=0; i<=mCurrent;i++) {
+    qDebug()<<mMoveSanList;
         Move m=uci::parseSan(mBoard,(mMoveSanList.at(i)).toStdString());
         mBoard.makeMove(m);
       }    
