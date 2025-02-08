@@ -268,7 +268,6 @@ private:
     enum MouseStatus {PressedNotReleased,  PressedReleased, NotPressed} mMouseStatus=NotPressed;
     ///
     /// When you play a game in one of analyze modes or in pgn editing you can walk inside the list of moves
-    QStringList mMoveUCIList;
     QStringList mMoveSanList;
     ///
     /// \brief mCurrent the current element in mMoveList. If not move is played mCurrent=-1 at first mCurrent=0 after mCurrent=1

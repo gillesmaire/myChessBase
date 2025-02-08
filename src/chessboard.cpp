@@ -282,14 +282,14 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
-       while ( mCurrent+1!=mMoveUCIList.count()) {mMoveUCIList.removeLast(); mMoveSanList.removeLast();}
+       while ( mCurrent+1!=mMoveSanList.count()) { mMoveSanList.removeLast();}
        mBoard.makeMove(move);
-       mMoveUCIList<<m;
+       mMoveSanList<<m;
        emit MovesModifiedFromChessBoard(mMoveSanList);
        //qDebug()<<QString::fromStdString(mBoard.getFen());
        emit FENFromChessBoard(QString::fromStdString(mBoard.getFen()));
     
-       mCurrent=mMoveUCIList.count()-1;
+       mCurrent=mMoveSanList.count()-1;
        setCursor(ChesBoardCursor::SetChessBoardCursor());
        mSquareToBePlayed=Square();
        mPossibleMoves.clear();
