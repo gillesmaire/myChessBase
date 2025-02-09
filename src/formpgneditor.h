@@ -75,10 +75,14 @@ private slots:
     ///
     
 void MakeListVariantComments(const QString &pgn, QList<QMap<QString, QString>> &variants, QList<QMap<QString, QString>> &comments, QList<QMap<QString, QString>> &nags);
+    
+    ///
+    /// \brief setBold set Bold in the editor the I th move ( number of moves are skipped)
+    /// \param i num number on move
+    ///
+void setBold(int i);
 
 private:
-
-
 struct GameData {
     QString whiteFirstname;
     QString whiteName;

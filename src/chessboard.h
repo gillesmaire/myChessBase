@@ -314,7 +314,11 @@ private:
     /// possible move mEnPassant become true. This occurs on mousepress event and is done on mouserelease
     ///
     bool mEnPassant = false;
-  
+    
+    ///
+    /// \brief setBold set Bold the curent move in the list of move
+    /// 
+    void setBold();
 public slots:
     void setCurrentFont( QString font );
     /* to see the chesseboard from black side set reversed to true by default it is on false*/
@@ -342,6 +346,7 @@ signals:
  //   void LenghtAndColorFromChessboard( int , QColor);
     void MovesModifiedFromChessBoard( QStringList );
     void FENFromChessBoard(QString);
+    void SetCursor(int);
 protected:
     virtual void resizeEvent(QResizeEvent *e) override ;
     virtual void mousePressEvent(QMouseEvent *event) override;

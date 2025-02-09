@@ -57,7 +57,6 @@ ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
   QCursor cbcursor = ChesBoardCursor::SetChessBoardCursor();
   setCursor(cbcursor);
   mXcorrection= s.value("XShift",1).toDouble();
-  
 }
 
 
@@ -283,11 +282,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
+       qDebug()<<"mMovesanlist"<<mMoveSanList;
        mBoard.makeMove(move);
        emit MovesModifiedFromChessBoard(mMoveSanList);
        emit FENFromChessBoard(QString::fromStdString(mBoard.getFen()));
     
        mCurrent=mMoveSanList.count()-1;
+       emit SetCursor(mCurrent);
        setCursor(ChesBoardCursor::SetChessBoardCursor());
        mSquareToBePlayed=Square();
        mPossibleMoves.clear();
@@ -705,3 +706,8 @@ void ChessBoard::setNumberCase(bool on)
     mNumberedCase=on;
     repaint();
 }
+
+
+
+
+   

@@ -33,6 +33,7 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect (ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
     connect (ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
     connect (ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
+    connect (ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
     
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
@@ -395,3 +396,26 @@ void FormPGNEditor::MakeListVariantComments(const QString &pgn,
         nags.append(nagEntry);
     }
 }
+
+
+void FormPGNEditor::setBold( int i) {
+    QString text = ui->textEditMoves->toPlainText();
+    QRegularExpression regex(R"(\b\d+\.\s*)"); 
+    QStringList words = text.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts); // Sépare les mots
+    QList<int> positions;
+    int pos = 0;
+    for (const QString &word : words) {
+        if (!regex.match(word).hasMatch()) { 
+            positions.append(pos);
+        }
+        pos += word.length() + 1; 
+    }
+    if (i <= 0 || i > positions.size()) return; 
+    QTextCursor cursor = ui->textEditMoves->textCursor();
+    cursor.setPosition(positions[i - 1]); 
+    cursor.movePosition(QTextCursor::NextWord, QTextCursor::KeepAnchor); // Sélectionner le mot
+    QTextCharFormat format;
+    format.setFontWeight(QFont::Bold);
+    cursor.mergeCharFormat(format);
+ }
+    

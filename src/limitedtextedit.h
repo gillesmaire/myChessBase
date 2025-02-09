@@ -40,8 +40,6 @@ class LimitedTextEdit : public QTextEdit {
 public:
     explicit LimitedTextEdit(QWidget* parent = nullptr) 
         : QTextEdit(parent), maxCharactersPerLine(80) {}
-
-
     void keyPressEvent(QKeyEvent* event) override {
         QTextCursor cursor = textCursor();
         QString text = cursor.block().text();
@@ -67,8 +65,6 @@ public:
         QTextCursor cursor = textCursor();
         QStringList lines = text.split(QChar(0x2029));
         QString result;
-
-        // Limite chaque ligne à maxCharactersPerLine caractères
         for (QString& line : lines) {
             if (line.length() > maxCharactersPerLine) {
                 result += line.left(maxCharactersPerLine) + "\n";
@@ -76,16 +72,14 @@ public:
                 result += line + "\n";
             }
         }
-
-        // Insère le texte modifié
         QTextEdit::insertPlainText(result.trimmed());
-
-        // Restaure la position du curseur après insertion
         cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
         setTextCursor(cursor);
     }
 
 private:
     int maxCharactersPerLine; // Limitation des caractères par ligne
+private slots:
+    void SetCursor(int i);
 };
 #endif // LIMITEDTEXTEDIT_H

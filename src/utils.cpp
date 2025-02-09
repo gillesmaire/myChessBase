@@ -243,13 +243,14 @@ QString Utils::NumberSanUTF8Moves(QStringList list)
  QString  first("");
  for (auto move: list)
     {
-     i++;
+
     if ( i%2==1 ){
       QChar p=move.at(0);
       QString m=move.mid(1);
       QString l=PieceUTF8(QChar(p),chess::Color::underlying::WHITE);
       white=QString("%1%2. %3%4").arg(first).arg(i).arg(l).arg(move) ;
       first= " ";
+      i++;
       }
     else {
       black=move;
