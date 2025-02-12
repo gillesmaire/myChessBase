@@ -184,6 +184,19 @@ QStringList mListNav;
     /// \brief posHilight is the start position of Hilight text in moves textedit
     ///
     int mPosHilight=0;
+    ///
+    /// \brief SignToChar convert 0-0 to 0_0 and other + = symbol
+    /// \param list
+    /// \return 
+    ///
+    QStringList SignToChar(QStringList list);
+    
+    ///
+    /// \brief CharToSign reverse
+    /// \param list
+    /// \return 
+    ///
+    QStringList CharToSign(QStringList list);
 };
 #endif // FORMPGNEDITOR_H
 
