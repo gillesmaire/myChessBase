@@ -84,6 +84,8 @@ QStringList  FormPGNEditor::SignToChar(QStringList list){
         e.replace("-","–");
         e.replace("=","＝");
         e.replace("+","＋");
+        e.replace("*","✱");
+        e.replace("/","⁄");
         ret<<e;
       }
     return ret;
@@ -97,6 +99,8 @@ QStringList FormPGNEditor::CharToSign(QStringList list){
         e.replace("–","-");
         e.replace("＝","=");
         e.replace("＋","-");
+        e.replace("✱","*");
+        e.replace("⁄","/");
         ret<<e;
       }
     return ret;
