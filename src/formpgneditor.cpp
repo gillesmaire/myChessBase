@@ -3,7 +3,6 @@
 #include "utils.h"
 #include "calendardialog.h"
 #include "nag.h"
-#include "extcursor.h"
 #include "QRegularExpression"
 #include <QClipboard>
 #include <QDate>
@@ -118,7 +117,7 @@ void FormPGNEditor::GetListMoves( QStringList list)
 
 void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition pos)
 {   QTextCharFormat format;
-    ExtCursor cursor(textEdit->document());
+    QTextCursor cursor(textEdit->document());
     cursor.select(QTextCursor::Document);
     format.setFontWeight(QFont::Normal);
     cursor.mergeCharFormat(format);

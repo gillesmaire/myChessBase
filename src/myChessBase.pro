@@ -20,7 +20,6 @@ SOURCES += \
     colorbutton.cpp \
     dialogpromotion.cpp \
     dialogshortcuts.cpp \
-    extcursor.cpp \
     filledspinbox.cpp \
     formconfig.cpp \
     formnavigationbutton.cpp \
@@ -41,7 +40,6 @@ HEADERS += \
     colorbutton.h \
     dialogpromotion.h \
     dialogshortcuts.h \
-    extcursor.h \
     filledspinbox.h \
     formconfig.h \
     formnavigationbutton.h \
