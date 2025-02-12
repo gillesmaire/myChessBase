@@ -3,13 +3,14 @@
 #include "utils.h"
 #include "calendardialog.h"
 #include "nag.h"
-
+#include "extcursor.h"
 #include "QRegularExpression"
 #include <QClipboard>
 #include <QDate>
 #include <QSettings>
 #include <QRegularExpression>
 #include "chess.hpp"
+
 
 FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent),ui(new Ui::FormPGNEditor)
@@ -87,7 +88,7 @@ void FormPGNEditor::GetListMoves( QStringList list)
 
 void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition pos)
 {   QTextCharFormat format;
-    QTextCursor cursor(textEdit->document());
+    ExtCursor cursor(textEdit->document());
     cursor.select(QTextCursor::Document);
     format.setFontWeight(QFont::Normal);
     cursor.mergeCharFormat(format);
@@ -150,11 +151,11 @@ void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition p
     }
     else if (pos==BEFORE)
     {
+      qDebug()<<cursor.position()<<QTextCursor::Start;
         if (cursor.position()!= QTextCursor::Start) {
             // 2. Nf3 Nf6 or 2. Nf3
             QRegularExpression re("\\.");
             cursor.select(QTextCursor::WordUnderCursor);
-            //  ^e5 or  2.
             cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,2);
             cursor.select(QTextCursor::WordUnderCursor);
             if (cursor.selectedText().contains(re))
@@ -170,6 +171,309 @@ void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition p
     }
     mPosHilight=cursor.position();
 }
+
+//Last
+// void FormPGNEditor::Hilight(QTextEdit *textEdit, FormPGNEditor::HilightPosition pos) {
+//     QTextCharFormat format;
+//     QTextCursor cursor(textEdit->document());
+
+//     cursor.select(QTextCursor::Document);
+//     format.setFontWeight(QFont::Normal);
+//     cursor.mergeCharFormat(format);
+
+//     // Positionner le curseur à la position de surbrillance
+//     cursor.setPosition(mPosHilight);
+
+//     // Définir les caractères valides pour un coup d'échecs
+//     QString wordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-#=()";
+
+//     auto selectCustomWord = [&]() {
+//         // Trouvez le début du mot
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+//         }
+
+//         // Trouvez la fin du mot
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+//         }
+//     };
+
+//     auto moveToNextCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du prochain mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && !wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//     };
+
+//     auto moveToPreviousCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du mot personnalisé précédent
+//         while (cursor.position() > 0 && !wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé précédent
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//     };
+
+//     switch (pos) {
+//         case LAST: {
+//             int count = 0;
+//             while (!cursor.atEnd()) {
+//                 cursor.movePosition(QTextCursor::NextCharacter);
+//                 QChar c = cursor.document()->characterAt(cursor.position());
+//                 if (c == '(') {
+//                     count++;
+//                 } else if (c == ')') {
+//                     if (count == 0) {
+//                         break; // Parenthèse fermante trouvée
+//                     }
+//                     count--;
+//                 }
+//             }
+//             selectCustomWord();
+//             if (cursor.selectedText().isEmpty()) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//             }
+//             selectChessMove(textEdit);
+//             format.setFontWeight(QFont::Bold);
+//             cursor.mergeCharFormat(format);
+//             break;
+//         }
+//         case FIRST:
+//             cursor.movePosition(QTextCursor::Start);
+//             selectCustomWord();
+//             break;
+//         case AFTER:
+//             if (cursor.position() != QTextCursor::End) {
+//                 moveToNextCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//         case BEFORE:
+//             if (cursor.position() != QTextCursor::Start) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//     }
+
+//     // Mettre à jour la position du curseur dans le QTextEdit
+//     textEdit->setTextCursor(cursor);
+
+//     mPosHilight = cursor.position();
+// }
+// void FormPGNEditor::Hilight(QTextEdit *textEdit, FormPGNEditor::HilightPosition pos) {
+//     QTextCharFormat format;
+//     QTextCursor cursor(textEdit->document());
+
+//     // Réinitialiser le format du document
+//     cursor.select(QTextCursor::Document);
+//     format.setFontWeight(QFont::Normal);
+//     cursor.mergeCharFormat(format);
+
+//     // Positionner le curseur à la position de surbrillance
+//     cursor.setPosition(mPosHilight);
+
+//     // Définir les caractères valides pour un coup d'échecs
+//     QString wordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-#=()";
+
+//     auto selectCustomWord = [&]() {
+//         // Trouvez le début du mot
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+//         }
+
+//         // Trouvez la fin du mot
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+//         }
+//     };
+
+//     auto moveToNextCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du prochain mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && !wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//     };
+
+//     auto moveToPreviousCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du mot personnalisé précédent
+//         while (cursor.position() > 0 && !wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé précédent
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//     };
+
+//     switch (pos) {
+//         case LAST: {
+//             int count = 0;
+//             while (!cursor.atEnd()) {
+//                 cursor.movePosition(QTextCursor::NextCharacter);
+//                 QChar c = cursor.document()->characterAt(cursor.position());
+//                 if (c == '(') {
+//                     count++;
+//                 } else if (c == ')') {
+//                     if (count == 0) {
+//                         break; // Parenthèse fermante trouvée
+//                     }
+//                     count--;
+//                 }
+//             }
+//             selectCustomWord();
+//             if (cursor.selectedText().isEmpty()) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//             }
+//             selectChessMove(textEdit);
+//             format.setFontWeight(QFont::Bold);
+//             cursor.mergeCharFormat(format);
+//             break;
+//         }
+//         case FIRST:
+//             cursor.movePosition(QTextCursor::Start);
+//             break;
+//         case AFTER:
+//             if (cursor.position() != QTextCursor::End) {
+//                 moveToNextCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//         case BEFORE:
+//             if (cursor.position() != QTextCursor::Start) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//     }
+
+//     // Assurez-vous que le curseur est visible
+//     textEdit->setTextCursor(cursor);
+//     textEdit->ensureCursorVisible();
+
+//     mPosHilight = cursor.position();
+// }
+// void FormPGNEditor::Hilight(QTextEdit *textEdit, FormPGNEditor::HilightPosition pos) {
+//     QTextCharFormat format;
+//     QTextCursor cursor(textEdit->document());
+
+//     // Réinitialiser le format du document
+//     cursor.select(QTextCursor::Document);
+//     format.setFontWeight(QFont::Normal);
+//     cursor.mergeCharFormat(format);
+
+//     // Positionner le curseur à la position de surbrillance
+//     cursor.setPosition(mPosHilight);
+
+//     // Définir les caractères valides pour un coup d'échecs
+//     QString wordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-#=()";
+
+//     auto selectCustomWord = [&]() {
+//         // Trouvez le début du mot
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+//         }
+
+//         // Trouvez la fin du mot
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+//         }
+//     };
+
+//     auto moveToNextCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du prochain mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && !wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé
+//         while (cursor.position() < cursor.document()->characterCount() && wordCharacters.contains(cursor.document()->characterAt(cursor.position()))) {
+//             cursor.movePosition(QTextCursor::Right);
+//         }
+//     };
+
+//     auto moveToPreviousCustomWord = [&]() {
+//         // Déplacez le curseur jusqu'au début du mot personnalisé précédent
+//         while (cursor.position() > 0 && !wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//         // Déplacez le curseur jusqu'à la fin du mot personnalisé précédent
+//         while (cursor.position() > 0 && wordCharacters.contains(cursor.document()->characterAt(cursor.position() - 1))) {
+//             cursor.movePosition(QTextCursor::Left);
+//         }
+//     };
+
+//     switch (pos) {
+//         case LAST: {
+//             int count = 0;
+//             while (!cursor.atEnd()) {
+//                 cursor.movePosition(QTextCursor::NextCharacter);
+//                 QChar c = cursor.document()->characterAt(cursor.position());
+//                 if (c == '(') {
+//                     count++;
+//                 } else if (c == ')') {
+//                     if (count == 0) {
+//                         break; // Parenthèse fermante trouvée
+//                     }
+//                     count--;
+//                 }
+//             }
+//             selectCustomWord();
+//             if (cursor.selectedText().isEmpty()) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//             }
+//             selectChessMove(textEdit);
+//             format.setFontWeight(QFont::Bold);
+//             cursor.mergeCharFormat(format);
+//             break;
+//         }
+//         case FIRST:
+//             cursor.movePosition(QTextCursor::Start);
+//             break;
+//         case AFTER:
+//             if (cursor.position() != QTextCursor::End) {
+//                 moveToNextCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//         case BEFORE:
+//             if (cursor.position() != QTextCursor::Start) {
+//                 moveToPreviousCustomWord();
+//                 selectCustomWord();
+//                 format.setFontWeight(QFont::Bold);
+//                 cursor.mergeCharFormat(format);
+//             }
+//             break;
+//     }
+
+//     mPosHilight = cursor.position();
+// }
+
+
+
 
 void FormPGNEditor::selectChessMove(QTextEdit* textEdit) {
     QTextCursor cursor = textEdit->textCursor();
