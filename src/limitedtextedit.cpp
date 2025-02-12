@@ -35,7 +35,6 @@
 void LimitedTextEdit::SetCursor(int i) {
   
     
-    qDebug()<<"i value asked: "<<i<<i/2<<i%2;
     
     // QString text = toPlainText();
     // QRegularExpression regex(R"(\d+\. )"); // Détecte les numéros de coups (ex: 1., 2., 3.)
@@ -55,7 +54,6 @@ void LimitedTextEdit::SetCursor(int i) {
     //     moveCount++;
 
     //     if (moveCount == i) {
-    //     qDebug()<<pos;
     //        // cursor.setPosition(pos, QTextCursor::MoveAnchor);
     //         cursor.setPosition(pos);
     //         cursor.setPosition(QTextCursor::NextWord, QTextCursor::KeepAnchor);

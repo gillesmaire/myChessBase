@@ -42,7 +42,6 @@
 #include "chessboard.h"
 #include "dialogpromotion.h"
 
-#include <iostream>
 #include "utils.h"
 
 ChessBoard::ChessBoard(QWidget *parent ):QWidget(parent)
@@ -191,7 +190,6 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     QString cs=QString::fromStdString(std::string(sq));
     // AuthorizedCase = "e3 e4" we want hilight them
     mPossibleMoves =AuthorizedCase(cs);
-    std::cout<<mBoard<<std::endl;
     if(mPossibleMoves.isEmpty()) return;
     QColor piececolor=( mBoard.sideToMove()==Color::underlying::WHITE )?mWhitePieceColor:mBlackPieceColor;
     PieceType piecetype=mBoard.at<PieceType>(sq);
@@ -282,7 +280,6 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
           move = Move::make<Move::PROMOTION>( mSquareToBePlayed,sq,t);
        }
        mMoveSanList<<QString::fromStdString(uci::moveToSan(mBoard,move));
-       qDebug()<<"mMovesanlist"<<mMoveSanList;
        mBoard.makeMove(move);
        emit MovesModifiedFromChessBoard(mMoveSanList);
        emit FENFromChessBoard(QString::fromStdString(mBoard.getFen()));
@@ -374,7 +371,6 @@ void ChessBoard::goBack()
     mCurrent--;
     mBoard=Board(constants::STARTPOS);
     for (int i=0; i<=mCurrent;i++) {
-    qDebug()<<mMoveSanList;
         Move m=uci::parseSan(mBoard,(mMoveSanList.at(i)).toStdString());
         mBoard.makeMove(m);
       }    

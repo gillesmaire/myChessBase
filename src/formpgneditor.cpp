@@ -28,12 +28,12 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
     connect(ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
     connect(ui->pushButtonPastePGN,&QPushButton::clicked,this,&FormPGNEditor::Paste);
+    connect(ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
+    connect(ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
+    connect(ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
+    connect(ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
-    connect (ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
-    connect (ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
-    connect (ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
-    connect (ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
-    connect (ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
+    connect(ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
     
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
@@ -56,6 +56,7 @@ void FormPGNEditor::Clear()
 void FormPGNEditor::LastFen()
 {   
     ui->lineEditFEN->setText(mFENSaved);
+    
 }
 
 void FormPGNEditor::MAJFEN(QString fen)
@@ -78,8 +79,123 @@ void FormPGNEditor::MAJBoardWithFen()
 void FormPGNEditor::GetListMoves( QStringList list)
 {
     ui->textEditMoves->setText(Utils::NumberSanMoves(list));
+    QApplication::processEvents();  
+    Hilight(ui->textEditMoves,LAST);
+    
     // MakeListVariantComments(list.join(' '), mVariants,mComments,mNags);
-    // qDebug()<<mVariants<<mComments<<mNags;
+}
+
+void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition pos)
+{   QTextCharFormat format;
+    QTextCursor cursor(textEdit->document());
+    cursor.select(QTextCursor::Document);
+    format.setFontWeight(QFont::Normal);
+    cursor.mergeCharFormat(format);
+    cursor.setPosition(mPosHilight);
+    cursor.select(QTextCursor::WordUnderCursor);
+    cursor.movePosition(QTextCursor::PreviousWord);
+    if ( pos == LAST) {
+        int count = 0;
+        while (!cursor.atEnd()) {
+            cursor.movePosition(QTextCursor::NextCharacter);
+            QChar c = cursor.document()->characterAt(cursor.position());
+            if (c == '(') {
+                count++;
+            } else if (c == ')') {
+                if (count == 0) {
+                    break; // Parenthèse fermante trouvée
+                }
+            count--;
+            }
+        }
+        cursor.select(QTextCursor::WordUnderCursor);
+        if (cursor.selectedText().isEmpty()) {
+            //cursor.movePosition(QTextCursor::WordLeft);
+            cursor.movePosition(QTextCursor::WordLeft,QTextCursor::KeepAnchor,2);
+            qDebug()<<cursor.position();
+            cursor.select(QTextCursor::WordUnderCursor);
+            qDebug()<<cursor.position();
+           }
+        selectChessMove(textEdit);
+        QTextCharFormat format;
+        format.setFontWeight(QFont::Bold);
+        cursor.mergeCharFormat(format);
+        cursor.movePosition(QTextCursor::PreviousWord);
+    }
+    else if (pos==FIRST)
+        cursor.movePosition(QTextCursor::Start);
+    else if ( pos==AFTER)
+    {
+        if ( cursor.position() != QTextCursor::End) {
+            cursor.select(QTextCursor::WordUnderCursor);
+            bool integer;
+            cursor.selectedText().toInt(&integer);
+            if ( integer) cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,1);
+            else if ( cursor.selectedText()== " ") 
+                cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,3);
+            else { cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,1);
+                   cursor.select(QTextCursor::WordUnderCursor);
+                   QString selected2Text = cursor.selectedText();
+                   cursor.selectedText().toInt(&integer);
+                   if ( integer) 
+                        cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,1);
+                   else cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,0);
+                    //cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor,1)
+             }
+            cursor.select(QTextCursor::WordUnderCursor);
+            QTextCharFormat format;
+            format.setFontWeight(QFont::Bold);
+            cursor.mergeCharFormat(format);
+        }
+    }
+    else if (pos==BEFORE)
+    {
+        if (cursor.position()!= QTextCursor::Start) {
+            // 2. Nf3 Nf6 or 2. Nf3
+            QRegularExpression re("\\.");
+            cursor.select(QTextCursor::WordUnderCursor);
+            //  ^e5 or  2.
+            cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,2);
+            cursor.select(QTextCursor::WordUnderCursor);
+            if (cursor.selectedText().contains(re))
+                cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,3);
+            else 
+                cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,1);
+            cursor.select(QTextCursor::WordUnderCursor); // e5           
+            QTextCharFormat format;
+            format.setFontWeight(QFont::Bold);
+            cursor.mergeCharFormat(format);
+        }
+        
+    }
+    mPosHilight=cursor.position();
+}
+
+void FormPGNEditor::selectChessMove(QTextEdit* textEdit) {
+    QTextCursor cursor = textEdit->textCursor();
+    if (!cursor.hasSelection()) {
+        // Grow the selection on left side while there is a valid car
+        
+        while (cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor)) {
+            QChar c = cursor.selectedText().at(0);
+            if (!c.isLetterOrNumber() && c != '-' && c != '+' && c != '#' && c != '=') {
+                cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor); // Revenir à la dernière position valide
+               
+                break;
+            }
+             
+        }
+        // Grow the selection on right side while there is a valid car
+        while (cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor)) {
+            QChar c = cursor.selectedText().right(1).at(0);
+            if (!c.isLetterOrNumber() && c != '-' && c != '+' && c != '#' && c != '=') {
+                cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+               
+                break;
+            }
+             
+        }
+    }
 }
 
 void FormPGNEditor::showFEN() 
@@ -101,14 +217,14 @@ void FormPGNEditor::SelectDateFromCalendar()
 
 void FormPGNEditor::Go(int i)
 {
-    if ( i == FormNavigationButton::First ) ui->Board->goStart();
-    else if (i == FormNavigationButton::Last ) ui->Board->goEnd();
-    else if (i == FormNavigationButton::Before ) ui->Board->goBack();
-    else if (i == FormNavigationButton::Next ) ui->Board->goNext();
+    if ( i == FormNavigationButton::First ) {ui->Board->goStart();Hilight(ui->textEditMoves,FIRST);}
+    else if (i == FormNavigationButton::Last ) {ui->Board->goEnd();Hilight(ui->textEditMoves,LAST);}
+    else if (i == FormNavigationButton::Before ) { ui->Board->goBack(); Hilight(ui->textEditMoves,BEFORE);}
+    else if (i == FormNavigationButton::Next ) { ui->Board->goNext();Hilight(ui->textEditMoves,AFTER);}
     else if (i== FormNavigationButton::Reverse) ui->Board->flipBoard(!ui->Board->flipped());
     else if (i== FormNavigationButton::NumberCase) ui->Board->setNumberCase(!ui->Board->casesNumbered());
     else  if (i== FormNavigationButton::FEN){  showFEN();}
-    
+
 }
 
 FormPGNEditor::~FormPGNEditor()
@@ -206,7 +322,6 @@ void FormPGNEditor::AddNag()
     if (str.isEmpty()) return ; 
     QTextCursor cursor = ui->textEditMoves->textCursor();
     int pos=cursor.position();
-    qDebug()<<"addnag"<<ui->textEditMoves->document()->characterAt(pos);
     if ( pos > 0 &&  ui->textEditMoves->document()->characterAt(pos) == QChar(0x2029)  ) {  
         cursor.movePosition(QTextCursor::Right);
         cursor.insertText(" ");
@@ -223,7 +338,6 @@ void FormPGNEditor::DelNag()
         cursor.select(QTextCursor::WordUnderCursor); 
         if (!cursor.selectedText().isEmpty()) 
            {
-           qDebug()<<"delnag"<<cursor.selectedText();
                 cursor.removeSelectedText();
            }
     }
@@ -264,6 +378,7 @@ void FormPGNEditor::DelComment()
         ui->textEditMoves->setTextCursor(cursor);
     }
 }
+
 
 FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
 {
@@ -340,7 +455,6 @@ void FormPGNEditor::Paste()
     ui->comboBoxResult->setCurrentText(game.result.trimmed());
     QStringList D=game.date.split('.');
     bool OK;
-    qDebug()<<D;
     if (D.count()==3)
     {
         QDate dd(D.at(0).toInt(&OK),D.at(1).toInt(&OK),D.at(2).toInt(&OK));

@@ -34,7 +34,6 @@ void FormNavigationButton::dispatch()
 
 void FormNavigationButton::resizeEvent(QResizeEvent *e) 
 {
-    qDebug()<<"Nav "<<e->size();
 }
 
 FormNavigationButton::~FormNavigationButton()

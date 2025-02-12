@@ -2,6 +2,7 @@
 #define FORMPGNEDITOR_H
 
 #include <QWidget>
+#include <QTextEdit>
 
 namespace Ui {
 class FormPGNEditor;
@@ -11,7 +12,10 @@ class FormPGNEditor : public QWidget
 {
     Q_OBJECT
 
+enum HilightPosition{FIRST,BEFORE,AFTER,LAST};
+
 public:
+
     explicit FormPGNEditor(QWidget *parent = nullptr);
     void SetListMove(QString listmove);
     ~FormPGNEditor();
@@ -101,6 +105,8 @@ struct GameData {
     QString ecoCode;
     QString result;
     QString moves;
+    
+    int PositionHilight=0;
 };
 
 QList <QMap<QString,QString>> mVariants;
@@ -108,7 +114,13 @@ QList <QMap<QString,QString>> mComments;
 QList <QMap <QString,QString>> mNags;
 
 
-  
+///
+/// \brief mListNav mListNav is a list of move when we navigate int game with the button < or << 
+/// It is a subet of the game
+//
+///
+QStringList mListNav;
+
     Ui::FormPGNEditor *ui;
     
     void Reset();
@@ -147,12 +159,31 @@ QList <QMap <QString,QString>> mNags;
     ///
     QString mFENSaved;
     
+    ///
+    /// \brief Hilight Hilight the position number move on the QTextEdit t and in the variant variant number
+    /// \param t : the texedit pointer
+    /// \param position : position can be  FIRST, NEXT, BEFORE. LAST
+    /// 
+    ///
+     void Hilight(QTextEdit *te, FormPGNEditor::HilightPosition pos);
     
+    ///
+    /// \brief parsePGN buggy function given by chatGPT cazy but usefull for functions.
+    /// \param pgnText
+    /// \return 
+    ///
     GameData parsePGN(const QString &pgnText);
-
     
+    ///
+    /// \brief selectChessMove extend word selection for - + and 
+    /// \param textEdit
+    ///
+    void selectChessMove(QTextEdit *textEdit);
     
+    ///
+    /// \brief posHilight is the start position of Hilight text in moves textedit
+    ///
+    int mPosHilight=0;
 };
-
 #endif // FORMPGNEDITOR_H
 
