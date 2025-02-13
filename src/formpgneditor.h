@@ -67,6 +67,11 @@ private slots:
     ///
     void Clear();
     
+    ///
+    /// \brief  Paste this function read all the PGN records and fill the editor. 
+    ///         The moves are copied on the Text editor but result is removed and
+    ///         stored in result combobox
+    ///
     void Paste();
     
     ///
@@ -197,6 +202,13 @@ QStringList mListNav;
     /// \return 
     ///
     QStringList CharToSign(QStringList list);
+    
+    ///
+    /// \brief RemoveResult : remove " 1-0" " 0-1" and " 1/2-1/2" frome the game moves
+    /// \param moves list of moves 
+    /// \return the list of moves without result
+    ///
+    QString RemoveResult(QString moves);
 };
 #endif // FORMPGNEDITOR_H
 

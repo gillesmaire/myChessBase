@@ -468,16 +468,18 @@ FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
     return gameData;
 }
 
-///
-/// \brief Paste paste a PGN in the Editor
-///
+QString FormPGNEditor::RemoveResult( QString moves)
+{
+       return moves.remove(QRegularExpression(" *0-1")).remove(QRegularExpression(" *1/2-1/2")).remove(QRegularExpression(" *1-0"));
+}
+
 void FormPGNEditor::Paste() 
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
     GameData game = parsePGN(clipboard->text());
     if ( game.whiteFirstname.isEmpty() && !game.whiteName.isEmpty() && game.whiteName.contains(',')) {
          QStringList g=game.whiteName.split(',');
-         game.whiteName=g.first().trimmed();
+         game.whiteName=(g.first().trimmed());
          g.pop_front();
          game.whiteFirstname=g.join(' ').trimmed();
       }
@@ -496,7 +498,7 @@ void FormPGNEditor::Paste()
     ui->lineEditEvent->setText(game.event.trimmed());
     ui->lineEditRound->setText(game.round.trimmed());
     ui->lineEditSite->setText(game.site.trimmed());   
-    ui->textEditMoves->setPlainText(game.moves.trimmed());
+    ui->textEditMoves->setPlainText(RemoveResult(game.moves.trimmed()));
     ui->comboBoxResult->setCurrentText(game.result.trimmed());
     QStringList D=game.date.split('.');
     bool OK;
