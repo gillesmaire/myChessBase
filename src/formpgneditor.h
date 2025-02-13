@@ -27,9 +27,22 @@ public:
     void EraseBlackPlayer();
     void EraseWhitePlayer();
     bool FENShown=false;
-    
+    ///
+    /// \brief  RemoveVariantsComments remove all the variants and comments from game moves
+    /// \param  moves 
+    /// \return the string with all the moves/
+    ///
+    static QString KeepMovesOnly(QString moves);
+    ///
+    /// \brief  RemoveResult : remove " 1-0" " 0-1" and " 1/2-1/2" frome the game moves
+    /// \param  moves list of moves . Don't use for a PGN with player names etc but 
+    ///         just used for the moves part
+    /// \return the list of moves without result
+    ///
+    static QString RemoveResult(QString moves);
+
 public slots:
-    
+
     ///
     /// \brief AskRefresh slot to ask to ChessBoard to refresh all this init parameters
     ///
@@ -203,12 +216,7 @@ QStringList mListNav;
     ///
     QStringList CharToSign(QStringList list);
     
-    ///
-    /// \brief RemoveResult : remove " 1-0" " 0-1" and " 1/2-1/2" frome the game moves
-    /// \param moves list of moves 
-    /// \return the list of moves without result
-    ///
-    QString RemoveResult(QString moves);
+
 };
 #endif // FORMPGNEDITOR_H
 

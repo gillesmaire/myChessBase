@@ -308,6 +308,7 @@ void FormPGNEditor::SetListMove(QString listmove)
     ui->textEditMoves->clear();
     //ui->textEditMoves->setText(Utils::NumberSanMoves(listmove.split(" ")));
     ui->textEditMoves->setText(Utils::NumberSanMoves(listmove.split(" ")));
+    ui->Board->setListMoves(listmove.split(" "));
     
 }
 
@@ -327,7 +328,7 @@ void FormPGNEditor::Reset()
   ui->lineEditWhiteFirstName->clear();
   ui->lineEditWhiteName->clear();
   ui->spinBoxWhiteElo->setValue(0);
-   ui->comboBoxWhiteTitle->setCurrentIndex(0);
+  ui->comboBoxWhiteTitle->setCurrentIndex(0);
  
   
   ui->textEditMoves->clear();
@@ -415,7 +416,6 @@ void FormPGNEditor::DelComment()
             break;
         }
     }
-
     if (start != -1 && end != -1 && start < end) {
         content.remove(start, end - start + 1); 
         ui->textEditMoves->setPlainText(content); 
@@ -438,7 +438,6 @@ FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
             fields[match.captured(1)] = match.captured(2);
         }
     }
-
     gameData.whiteName = fields.value("White", "");
     gameData.whiteFirstname = fields.value("WhiteFirstName", "");
     gameData.whiteElo = fields.value("WhiteElo", "0").toInt();
@@ -457,14 +456,12 @@ FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
     gameData.round = fields.value("Round", "");
     gameData.ecoCode = fields.value("ECO", "");
     gameData.result = fields.value("Result", "");
-
     // Extraction des coups avec commentaires et variantes
     QRegularExpression movesRegex("\\n\\n(.*)", QRegularExpression::DotMatchesEverythingOption);
     QRegularExpressionMatch movesMatch = movesRegex.match(pgnText);
     if (movesMatch.hasMatch()) {
         gameData.moves = movesMatch.captured(1).trimmed();
     }
-    
     return gameData;
 }
 
@@ -472,6 +469,21 @@ QString FormPGNEditor::RemoveResult( QString moves)
 {
        return moves.remove(QRegularExpression(" *0-1")).remove(QRegularExpression(" *1/2-1/2")).remove(QRegularExpression(" *1-0"));
 }
+
+QString FormPGNEditor::KeepMovesOnly( QString moves)
+{
+  return  moves.remove(QRegularExpression("\\{[^}]*\\}"))
+                    .remove(QRegularExpression("\\([^)]*\\)"))
+                    .remove(QRegularExpression("\\$[0-9]+"))
+                    .remove("!")
+                    .remove("?")
+                    .remove("!!")
+                    .remove("!?")
+                    .remove(QRegularExpression("[0-9]+\\.\\.\\."))
+                    .remove(QRegularExpression("[0-9]+\\."))
+                    .simplified();
+    
+} 
 
 void FormPGNEditor::Paste() 
 {
@@ -502,11 +514,20 @@ void FormPGNEditor::Paste()
     ui->comboBoxResult->setCurrentText(game.result.trimmed());
     QStringList D=game.date.split('.');
     bool OK;
-    if (D.count()==3)
-    {
+    if (D.count()==3) {
         QDate dd(D.at(0).toInt(&OK),D.at(1).toInt(&OK),D.at(2).toInt(&OK));
         ui->dateEdit->setDate(dd);
     }
+    ui->Board->setFEN();
+    QString lm=KeepMovesOnly(ui->textEditMoves->toPlainText());
+   // Movelist moves;
+    for ( auto m : lm.split(' ') ) {  
+        Move move=chess::uci::parseSan(ui->Board->getBoard(),m.toStdString().c_str());
+        ui->Board->getBoard().makeMove(move);
+    }
+    ui->Board->setListMoves(lm.split(' '));
+    ui->Board->goStart();
+    Hilight(ui->textEditMoves,FIRST);
 }
 
 void FormPGNEditor::MakeListVariantComments(const QString &pgn,
@@ -514,7 +535,6 @@ void FormPGNEditor::MakeListVariantComments(const QString &pgn,
                                             QList<QMap<QString, QString> > &comments,
                                             QList<QMap<QString, QString> > &nags)
 {
-    
     QRegularExpression variantRegex("\\(([^()]+)\\)");
     QRegularExpression commentRegex("\\{([^{}]+)\\}");
     QRegularExpression nagRegex("\\$(\\d+)");
@@ -525,7 +545,7 @@ void FormPGNEditor::MakeListVariantComments(const QString &pgn,
 
     QStringList moves = cleanPgn.split(" ", Qt::SkipEmptyParts);
     
-    QString currentFEN =constants::STARTPOS ; // Initialisation du FEN
+    QString currentFEN =constants::STARTPOS ; 
     Board b(constants::STARTPOS);
     for (const QString &move : moves) {
         QMap<QString, QString> variantEntry, commentEntry, nagEntry;

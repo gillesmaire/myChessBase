@@ -69,26 +69,37 @@ bool ChessBoard::flipped() { return mFlip; }
 
 void ChessBoard::askReloadConfiguration() {update();}
 
-QStringList ChessBoard::listOfTypeOfPieces()
+Board &ChessBoard::getBoard(){
+    return mBoard;
+}
+
+void ChessBoard::setListMoves(QStringList list) {
+    mMoveSanList=list;
+}
+
+
+QStringList ChessBoard::getListMoves()
 {
+    return mMoveSanList;
+}
+QStringList ChessBoard::listOfTypeOfPieces(){
     return (mFontList);
 }
 
-void ChessBoard::flipBoard(bool flip)
-{
+void ChessBoard::flipBoard(bool flip){
     mFlip = flip;
     update();
 }
 
-QString ChessBoard::getFEN()
-{
+QString ChessBoard::getFEN(){
     return QString::fromStdString(mBoard.getFen());
 }
 
-void ChessBoard::setFEN(QString fen) {mBoard.setFen(fen.toStdString());update();}
+void ChessBoard::setFEN(QString fen) {
+mBoard.setFen(fen.toStdString());update();
+}
 
-void ChessBoard::resizeEvent(QResizeEvent *event)
-{
+void ChessBoard::resizeEvent(QResizeEvent *event){
    extern QString InitWhiteSquareColor;
    extern QString InitBlackSquareColor;
    extern QString InitWhitePieceColor;
@@ -114,8 +125,7 @@ void ChessBoard::resizeEvent(QResizeEvent *event)
 }
 
 
-QStringList  ChessBoard::AuthorizedCase(QString m)
-{
+QStringList  ChessBoard::AuthorizedCase(QString m){
     Movelist moves;
     movegen::legalmoves(moves, mBoard);
     QStringList moveList;
@@ -362,6 +372,7 @@ void ChessBoard::goStart()
     mBoard=b;
     mCurrent=-1;
     update();
+    qDebug()<<"gostart"<<mMoveSanList;
 }
 
 void ChessBoard::goBack()

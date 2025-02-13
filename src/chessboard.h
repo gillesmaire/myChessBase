@@ -69,7 +69,7 @@ public:
     /// 
     ///
     
-    void  setFEN(QString fen);
+    void  setFEN(QString fen=chess::constants::STARTPOS);
     ///
     /// \brief AuthorizedCase return the list of autorized cases
     /// \param move the move to be played for example e2
@@ -124,6 +124,21 @@ public:
     ///
     void askReloadConfiguration();
     
+    ///
+    /// \brief getBoard allow to export mBoard
+    /// \return 
+    ///
+    Board &getBoard();
+    
+    ///
+    /// \brief setListMoves allows to set the internal list of moves
+    /// \param list of moves separed by white char
+    ///
+    void setListMoves(QStringList list);
+
+    
+    QStringList getListMoves();
+
 private:
     void RecordChessFonts();
     ///
