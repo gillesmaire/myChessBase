@@ -98,7 +98,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Show FEN of position in the status bar. You can also enter a FEN in the status bar.</string>
+            <string>Show FEN of position.  You can also enter a FEN in the LineEdit</string>
            </property>
            <property name="statusTip">
             <string/>
@@ -166,7 +166,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="PushButtonPlay">
+          <widget class="QPushButton" name="pushButtonPlay">
            <property name="maximumSize">
             <size>
              <width>40</width>
@@ -174,13 +174,13 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Play all the moves from begining to end</string>
+            <string>Show the game with a tempo</string>
            </property>
            <property name="statusTip">
             <string/>
            </property>
            <property name="text">
-            <string>=&gt;</string>
+            <string>▶</string>
            </property>
           </widget>
          </item>

@@ -13,6 +13,7 @@ class FormPGNEditor : public QWidget
     Q_OBJECT
 
 enum HilightPosition{FIRST,BEFORE,AFTER,LAST};
+enum StackedWidgetSubNavigation{PLAYSHOW,FENSHOW,NOSHOW};
 
 public:
 
@@ -95,6 +96,7 @@ private slots:
     /// \param variants : reference on list of move with FEN
     /// \param cmments : refernce on list on move with comment or nag 
     ///
+    /// 
     
 void MakeListVariantComments(const QString &pgn, QList<QMap<QString, QString>> &variants, QList<QMap<QString, QString>> &comments, QList<QMap<QString, QString>> &nags);
     
@@ -103,6 +105,11 @@ void MakeListVariantComments(const QString &pgn, QList<QMap<QString, QString>> &
     /// \param i num number on move
     ///
 void setBold(int i);
+
+    ///
+    /// \brief QuitPlayMode erase the play mode
+    ///
+void QuitStacked();
 
 private:
 struct GameData {
@@ -216,7 +223,12 @@ QStringList mListNav;
     ///
     QStringList CharToSign(QStringList list);
     
-
+    ///
+    /// \brief MimeOK test if a file is a PGN 
+    /// \param text
+    /// \return  true if MIME has 1. e4 or 1. d5 etc...
+    ///
+    bool MimeOK(QString text);
 };
 #endif // FORMPGNEDITOR_H
 

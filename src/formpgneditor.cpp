@@ -5,6 +5,7 @@
 #include "nag.h"
 #include "QRegularExpression"
 #include <QClipboard>
+#include <QMimeData>
 #include <QDate>
 #include <QSettings>
 #include <QRegularExpression>
@@ -34,6 +35,7 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     connect(ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
+    connect (ui->pushButtonQuitStacked,SIGNAL(clicked()),this,SLOT(QuitStacked()));
     
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
@@ -44,6 +46,7 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     showFEN();
     ui->lineEditFEN->setText("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     mFENSaved=ui->lineEditFEN->text();
+    ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
 }
 
 void FormPGNEditor::Clear()
@@ -117,6 +120,7 @@ void FormPGNEditor::GetListMoves( QStringList list)
 
 void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition pos)
 {   QTextCharFormat format;
+   
     QTextCursor cursor(textEdit->document());
     cursor.select(QTextCursor::Document);
     format.setFontWeight(QFont::Normal);
@@ -246,9 +250,10 @@ void FormPGNEditor::selectChessMove(QTextEdit* textEdit) {
 void FormPGNEditor::showFEN() 
 {
     FENShown=!FENShown;
-    ui->lineEditFEN->setVisible(FENShown);
-    ui->pushButtonFENReset->setVisible(FENShown);
-    ui->pushButtonFENLast->setVisible(FENShown);
+    if ( FENShown)
+       ui->stackedWidgetSubNavigation->setCurrentIndex(FENSHOW);
+    else
+        ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
 }
 
 void FormPGNEditor::SelectDateFromCalendar()
@@ -269,7 +274,8 @@ void FormPGNEditor::Go(int i)
     else if (i== FormNavigationButton::Reverse) ui->Board->flipBoard(!ui->Board->flipped());
     else if (i== FormNavigationButton::NumberCase) ui->Board->setNumberCase(!ui->Board->casesNumbered());
     else  if (i== FormNavigationButton::FEN){  showFEN();}
-
+    else  if (i== FormNavigationButton::Play){  ui->stackedWidgetSubNavigation->setCurrentIndex(PLAYSHOW);  }
+    qDebug()<<"GO"<<i;
 }
 
 FormPGNEditor::~FormPGNEditor()
@@ -427,7 +433,7 @@ void FormPGNEditor::DelComment()
 
 FormPGNEditor::GameData FormPGNEditor::parsePGN(const QString &pgnText)
 {
-     GameData gameData;
+    GameData gameData;
     QRegularExpression regex("\\[([^\"]+) \"([^\"]+)\"]");
     QRegularExpressionMatchIterator matches = regex.globalMatch(pgnText);
     QMap<QString, QString> fields;
@@ -485,10 +491,24 @@ QString FormPGNEditor::KeepMovesOnly( QString moves)
     
 } 
 
+
+bool FormPGNEditor::MimeOK(QString text){
+    if (text.contains("1. e4") || text.contains("1. d4") || text.contains("1. Nf3") || text.contains("1. c4") ||
+        text.contains("1. a4") || text.contains("1. a3") || text.contains("1. b3")  || text.contains("1. b4") ||
+        text.contains("1. c3") || text.contains("1. d3") || text.contains("1. e3")  || text.contains("1. f4") ||
+        text.contains("1. f3") || text.contains("1. g4") || text.contains("1. g3")  || text.contains("1. h4") ||
+        text.contains("1. h3") || text.contains("1. Nh3") || text.contains("1. Na3")  || text.contains("1. Nc3"))
+        return true;
+    return(false);
+}
+
 void FormPGNEditor::Paste() 
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
-    GameData game = parsePGN(clipboard->text());
+    
+    QString gameCopied=clipboard->mimeData()->text(); 
+    if ( ! MimeOK(gameCopied) ) return;
+    FormPGNEditor::GameData  game = parsePGN(gameCopied);
     if ( game.whiteFirstname.isEmpty() && !game.whiteName.isEmpty() && game.whiteName.contains(',')) {
          QStringList g=game.whiteName.split(',');
          game.whiteName=(g.first().trimmed());
@@ -599,4 +619,8 @@ void FormPGNEditor::setBold( int i) {
     format.setFontWeight(QFont::Bold);
     cursor.mergeCharFormat(format);
  }
-    
+
+ void FormPGNEditor::QuitStacked() {
+  ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
+  qDebug()<<"ok qio pl";
+ }

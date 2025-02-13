@@ -14,6 +14,7 @@ FormNavigationButton::FormNavigationButton(QWidget *parent)
     connect (ui->pushButtonReverse,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonNumberCase,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonFEN,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
+    connect (ui->pushButtonPlay,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
 }
 
 
