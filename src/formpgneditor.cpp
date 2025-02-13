@@ -188,10 +188,10 @@ void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition p
         if (cursor.position()!= QTextCursor::Start) {
             // 2. Nf3 Nf6 or 2. Nf3
             QRegularExpression re("\\.");
+            //cursor.select(QTextCursor::WordUnderCursor);
+            cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,1);
             cursor.select(QTextCursor::WordUnderCursor);
-            cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,2);
-            cursor.select(QTextCursor::WordUnderCursor);
-            if (cursor.selectedText() != ".") 
+            if (cursor.selectedText() == ".") 
             {
             if (cursor.selectedText().contains(re))
                 cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,3);
@@ -199,10 +199,11 @@ void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition p
                 cursor.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor,1);
             cursor.select(QTextCursor::WordUnderCursor); // e5   
             selectChessMove(textEdit);
+           
+           }
             QTextCharFormat format;
             format.setFontWeight(QFont::Bold);
             cursor.mergeCharFormat(format);
-           }
         }
         
     }
