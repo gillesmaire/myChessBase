@@ -1,6 +1,8 @@
 #include "formnavigationbutton.h"
 #include "ui_formnavigationbutton.h"
 #include <QResizeEvent>
+#include <QTimer>
+#include <QSettings>
 
 FormNavigationButton::FormNavigationButton(QWidget *parent)
     : QWidget(parent)
@@ -15,6 +17,10 @@ FormNavigationButton::FormNavigationButton(QWidget *parent)
     connect (ui->pushButtonNumberCase,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonFEN,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
     connect (ui->pushButtonPlay,&QPushButton::clicked,this,&FormNavigationButton::dispatch);
+    mTimer = new QTimer(this);
+    connect(mTimer, &QTimer::timeout, this,&FormNavigationButton::AutoPlay);
+  
+
 }
 
 
@@ -24,7 +30,7 @@ void FormNavigationButton::dispatch()
    if (  origin.endsWith("First")) emit button(Action::First) ;
    else if ( origin.endsWith("Last") ) emit button(Action::Last) ;
    else if ( origin.endsWith("Next") ) emit button(Action::Next) ;
-   else if ( origin.endsWith("Play") ) emit button(Action::Play) ;
+   else if ( origin.endsWith("Play") ) AutoPlay();
    else if ( origin.endsWith("Before") ) emit button(Action::Before) ;
    else if ( origin.endsWith("Reverse") ) emit button(Action::Reverse) ;
    else if ( origin.endsWith("NumberCase") ) emit button(Action::NumberCase) ;
@@ -33,8 +39,20 @@ void FormNavigationButton::dispatch()
    else emit button(Action::First);
 }
 
-void FormNavigationButton::resizeEvent(QResizeEvent *e) 
+void FormNavigationButton::modePause(bool mode)
 {
+    if ( mode )
+       mTimer->stop();
+    else 
+       mTimer->start(50*(speed+1));
+}
+
+void FormNavigationButton::resizeEvent(QResizeEvent *) 
+{
+}
+
+void FormNavigationButton::SetUnsetPlayButton( bool empty) {
+    ui->pushButtonPlay->setEnabled(!empty);
 }
 
 FormNavigationButton::~FormNavigationButton()
@@ -42,3 +60,17 @@ FormNavigationButton::~FormNavigationButton()
     delete ui;
 }
 
+void FormNavigationButton::AutoPlay()
+{
+    QSettings s;
+    emit button(Action::Play);
+    emit button(Action::Next);  
+    int spm=250*(s.value("SpeedMove",4).toInt()+1);
+    mTimer->start(spm);
+}
+
+void FormNavigationButton::ChangeSpeed(int speed)
+{
+    mTimer->stop();
+    mTimer->start(250*(speed+1));
+}

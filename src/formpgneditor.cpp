@@ -16,7 +16,9 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     : QWidget(parent),ui(new Ui::FormPGNEditor)
 {
     ui->setupUi(this);
+    QSettings s ;
     ui->comboBoxResult->setCurrentText("?");
+    ui->dialSpeedMoves->setValue(s.value("SpeedMove",50).toInt());
     connect(ui->pushButtonReset,&QPushButton::clicked,this,&FormPGNEditor::Reset);
     connect(ui->pushButtonBlackYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillBlack);
     connect(ui->pushButtonWhiteYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillWhite);
@@ -29,13 +31,19 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
     connect(ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
     connect(ui->pushButtonPastePGN,&QPushButton::clicked,this,&FormPGNEditor::Paste);
+    connect ( ui->dialSpeedMoves,SIGNAL(valueChanged(int)),ui->widgetNavigation,SLOT(ChangeSpeed(int)));
+    connect ( ui->dialSpeedMoves,SIGNAL(valueChanged(int)),this,SLOT(ChangeSpeed(int)));
+    connect (ui->pushButtonSaveSpeedMove,SIGNAL(clicked()),this,SLOT(SpeedSave()));
+    connect (ui->pushButtonPause,SIGNAL(clicked()),this,SLOT(PlayModePause()));
     connect(ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
+    connect (ui->textEditMoves,SIGNAL(IsEmpty(bool)),ui->widgetNavigation,SLOT(SetUnsetPlayButton(bool)));
     connect(ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
     connect(ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
     connect(ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
     connect(ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
     connect (ui->pushButtonQuitStacked,SIGNAL(clicked()),this,SLOT(QuitStacked()));
+    
     
     ui->spinBoxBlackElo->setDigitNumber(4);
     ui->spinBoxWhiteElo->setDigitNumber(4);
@@ -53,6 +61,29 @@ void FormPGNEditor::Clear()
 {
     mFENSaved=ui->lineEditFEN->text();
     ui->lineEditFEN->clear();
+}
+
+void FormPGNEditor::SpeedSave()
+{
+    QSettings s;
+    s.setValue("SpeedMove",ui->dialSpeedMoves->value());
+}
+
+
+void FormPGNEditor::PlayModePause()
+{
+    if ( ui->pushButtonPause->text()=="⏸" )
+      {
+        ui->pushButtonPause->setText("▶") ;
+        ui->widgetNavigation->modePause(true);
+        
+      }
+    else  
+      {
+        ui->pushButtonPause->setText("⏸");
+        ui->widgetNavigation->modePause(false);
+      }
+    
 }
 
 
@@ -79,38 +110,54 @@ void FormPGNEditor::MAJBoardWithFen()
     ui->Board->setFEN(ui->lineEditFEN->text());
 }
 
-QStringList  FormPGNEditor::SignToChar(QStringList list){
+
+
+
+QString FormPGNEditor::CharToSign(QString e)
+{
+    e.replace("-","–");
+    e.replace("=","＝");
+    e.replace("+","＋");
+    e.replace("*","✱");
+    e.replace("/","⁄");
+    
+    return e;
+}
+
+QStringList  FormPGNEditor::CharToSign(QStringList list){
     QStringList ret;
     for ( auto e:list)
       {
-        e.replace("-","–");
-        e.replace("=","＝");
-        e.replace("+","＋");
-        e.replace("*","✱");
-        e.replace("/","⁄");
+        e=CharToSign(e);
         ret<<e;
       }
     return ret;
 }
 
+QString FormPGNEditor::SignToChar(QString e)
+{
+    e.replace("–","-");
+    e.replace("＝","=");
+    e.replace("＋","-");
+    e.replace("✱","*");
+    e.replace("⁄","/");
+    return e;
+}
 
-QStringList FormPGNEditor::CharToSign(QStringList list){
+
+QStringList FormPGNEditor::SignToChar(QStringList list){
     QStringList ret;
     for ( auto e:list)
       {
-        e.replace("–","-");
-        e.replace("＝","=");
-        e.replace("＋","-");
-        e.replace("✱","*");
-        e.replace("⁄","/");
+        e=SignToChar(e);
         ret<<e;
       }
     return ret;
-    return ret;
 }
+
 void FormPGNEditor::GetListMoves( QStringList list)
 {
-    ui->textEditMoves->setText(Utils::NumberSanMoves(SignToChar(list)));
+    ui->textEditMoves->setText(Utils::NumberSanMoves(CharToSign(list)));
     
     QApplication::processEvents();  
     Hilight(ui->textEditMoves,LAST);
@@ -146,9 +193,7 @@ void FormPGNEditor::Hilight(QTextEdit *textEdit,FormPGNEditor::HilightPosition p
         if (cursor.selectedText().isEmpty()) {
             //cursor.movePosition(QTextCursor::WordLeft);
             cursor.movePosition(QTextCursor::WordLeft,QTextCursor::KeepAnchor,2);
-            qDebug()<<cursor.position();
             cursor.select(QTextCursor::WordUnderCursor);
-            qDebug()<<cursor.position();
            }
         selectChessMove(textEdit);
         QTextCharFormat format;
@@ -275,7 +320,6 @@ void FormPGNEditor::Go(int i)
     else if (i== FormNavigationButton::NumberCase) ui->Board->setNumberCase(!ui->Board->casesNumbered());
     else  if (i== FormNavigationButton::FEN){  showFEN();}
     else  if (i== FormNavigationButton::Play){  ui->stackedWidgetSubNavigation->setCurrentIndex(PLAYSHOW);  }
-    qDebug()<<"GO"<<i;
 }
 
 FormPGNEditor::~FormPGNEditor()
@@ -525,12 +569,10 @@ void FormPGNEditor::Paste()
       }
     ui->lineEditBlackName->setText(game.blackName.trimmed());
     ui->lineEditBlackFirstName->setText(game.blackFirstname.trimmed());
-    
     ui->lineEditECO->setText(game.ecoCode.trimmed());
     ui->lineEditEvent->setText(game.event.trimmed());
     ui->lineEditRound->setText(game.round.trimmed());
     ui->lineEditSite->setText(game.site.trimmed());   
-    ui->textEditMoves->setPlainText(RemoveResult(game.moves.trimmed()));
     ui->comboBoxResult->setCurrentText(game.result.trimmed());
     QStringList D=game.date.split('.');
     bool OK;
@@ -538,8 +580,13 @@ void FormPGNEditor::Paste()
         QDate dd(D.at(0).toInt(&OK),D.at(1).toInt(&OK),D.at(2).toInt(&OK));
         ui->dateEdit->setDate(dd);
     }
-    ui->Board->setFEN();
-    QString lm=KeepMovesOnly(ui->textEditMoves->toPlainText());
+    ui->Board->setFEN(); 
+    
+    
+    QString moves=RemoveResult(game.moves.trimmed());
+    moves=moves.remove('\r');
+    moves.replace('\n',' ');
+    QString lm=KeepMovesOnly(moves);
    // Movelist moves;
     for ( auto m : lm.split(' ') ) {  
         Move move=chess::uci::parseSan(ui->Board->getBoard(),m.toStdString().c_str());
@@ -547,6 +594,9 @@ void FormPGNEditor::Paste()
     }
     ui->Board->setListMoves(lm.split(' '));
     ui->Board->goStart();
+    
+    
+    ui->textEditMoves->setPlainText(CharToSign(moves));
     Hilight(ui->textEditMoves,FIRST);
 }
 
@@ -622,5 +672,9 @@ void FormPGNEditor::setBold( int i) {
 
  void FormPGNEditor::QuitStacked() {
   ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
-  qDebug()<<"ok qio pl";
  }
+
+void FormPGNEditor::ChangeSpeed(int value)
+{
+    ui->spinBoxSecPerMove->setValue((250*value+1)/1000);
+}

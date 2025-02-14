@@ -111,6 +111,21 @@ void setBold(int i);
     ///
 void QuitStacked();
 
+///
+/// \brief SpeedSave save the value of Speed for automatics moves 
+///
+void SpeedSave();
+
+///
+/// \brief PlayModePause ask pause 
+///
+void PlayModePause();
+
+///
+/// \brief ChangeSpeed
+/// \param value
+///
+void ChangeSpeed(int value);
 private:
 struct GameData {
     QString whiteFirstname;
@@ -210,18 +225,33 @@ QStringList mListNav;
     ///
     int mPosHilight=0;
     ///
-    /// \brief SignToChar convert 0-0 to 0_0 and other + = symbol
+    /// \brief CharToSign convert 0-0 to 0_0 and other + = symbol
+    ///        it is important to don't see - as a separator in QCursor methods
     /// \param list
-    /// \return 
+    /// \return the QStringList converted
+    ///
+    QStringList CharToSign(QStringList list);
+    
+    ///
+    /// \brief SignToChar reverse
+    /// \param list
+    /// \return the stringlist converted
     ///
     QStringList SignToChar(QStringList list);
     
+    
     ///
-    /// \brief CharToSign reverse
-    /// \param list
+    /// \brief CharToSign convert all - to _ 
+    /// \param s
     /// \return 
     ///
-    QStringList CharToSign(QStringList list);
+    QString CharToSign(QString s);
+    
+    ///
+    /// \brief SignToChar conver _ to - 
+    /// \return the string converted
+    ///
+    QString SignToChar(QString);
     
     ///
     /// \brief MimeOK test if a file is a PGN 

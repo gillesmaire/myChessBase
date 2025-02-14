@@ -372,7 +372,6 @@ void ChessBoard::goStart()
     mBoard=b;
     mCurrent=-1;
     update();
-    qDebug()<<"gostart"<<mMoveSanList;
 }
 
 void ChessBoard::goBack()

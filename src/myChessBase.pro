@@ -77,5 +77,6 @@ RESOURCES += \
 
 DISTFILES += \
     Ideas.md \
+    System/Technicalnotes.md \
     System/ToDo.md \
     System/cursor.png

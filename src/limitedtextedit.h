@@ -38,48 +38,17 @@ class LimitedTextEdit : public QTextEdit {
     Q_OBJECT
 
 public:
-    explicit LimitedTextEdit(QWidget* parent = nullptr) 
-        : QTextEdit(parent), maxCharactersPerLine(80) {}
-    void keyPressEvent(QKeyEvent* event) override {
-        QTextCursor cursor = textCursor();
-        QString text = cursor.block().text();
+    explicit LimitedTextEdit(QWidget* parent = nullptr);
+    void keyPressEvent(QKeyEvent* event) override;
 
-        // Gestion des espaces (autorisé même en fin de ligne)
-        if (event->key() == Qt::Key_Space) {
-            // Vérifie la limite uniquement si on dépasse maxCharactersPerLine
-            if (text.length() < maxCharactersPerLine || cursor.position() < cursor.block().length()) {
-                QTextEdit::keyPressEvent(event);
-            }
-            return;
-        }
-
-        // Autorise les autres caractères tant que la ligne est sous la limite
-        if (text.length() < maxCharactersPerLine) {
-            QTextEdit::keyPressEvent(event);
-        } else {
-            event->ignore(); // Ignore l'entrée si la limite est atteinte
-        }
-    }
-
-    void insertPlainText(const QString& text)  {
-        QTextCursor cursor = textCursor();
-        QStringList lines = text.split(QChar(0x2029));
-        QString result;
-        for (QString& line : lines) {
-            if (line.length() > maxCharactersPerLine) {
-                result += line.left(maxCharactersPerLine) + "\n";
-            } else {
-                result += line + "\n";
-            }
-        }
-        QTextEdit::insertPlainText(result.trimmed());
-        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
-        setTextCursor(cursor);
-    }
+    void insertPlainText(const QString& text);
 
 private:
     int maxCharactersPerLine; // Limitation des caractères par ligne
 private slots:
     void SetCursor(int i);
+    void Empty();
+signals:
+    void IsEmpty(bool empty);
 };
 #endif // LIMITEDTEXTEDIT_H
