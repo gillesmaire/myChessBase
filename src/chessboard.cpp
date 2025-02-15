@@ -323,14 +323,23 @@ int ChessBoard::NumberCase( int x, int y)
 {
     int sizeHNumberedCase=mNumberedCase?mHSizeBoard/16:0;
     int sizeVNumberedCase=mNumberedCase?mVSizeBoard/16:0;
-    int w=size().width();
-    int h=w;
+    int w, h;    
+    if (size().width()*mXcorrection > size().height() ){
+        w=size().height()*mXcorrection;
+        h=size().height();
+    }
+    else{   
+        w=size().width();
+        h=size().width()/mXcorrection;
+    }
+    int sizeVCase=(h-2*sizeVNumberedCase)/8;
     int sizeHCase=(w-2*sizeHNumberedCase)/8;
-    int sizeVCase=(h-2*sizeVNumberedCase)/(8*mXcorrection);
-    x=x-sizeHNumberedCase;
-    y=y-sizeVNumberedCase;
-    int line= y/(sizeVCase);
+
+    int line= y/sizeVCase;
     int col= x/sizeHCase;
+    
+  //  qDebug()<<"x="<<x<<"y="<<y<<"w="<<w<<"h="<<h<<"col="<<col<<"line="<<line;
+    
     int square;
     if ( col > 7 || col < 0 ) square=64;
     if ( line > 7 || line < 0 ) square=64;

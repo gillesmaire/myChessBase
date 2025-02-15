@@ -186,7 +186,7 @@ private:
     QColor mSideToPlayColor;
     
     qreal mXcorrection;
-    qreal mYcorrection;
+    //qreal mYcorrection;
     ///
     /// \brief mTileSize is the size of a Square
     ///
