@@ -44,7 +44,7 @@ void FormNavigationButton::modePause(bool mode)
     if ( mode )
        mTimer->stop();
     else 
-       mTimer->start(50*(speed+1));
+       mTimer->start(250*(speed+1));
 }
 
 void FormNavigationButton::resizeEvent(QResizeEvent *) 
@@ -66,6 +66,7 @@ void FormNavigationButton::AutoPlay()
     emit button(Action::Play);
     emit button(Action::Next);  
     int spm=250*(s.value("SpeedMove",4).toInt()+1);
+    emit speedToDisplay(spm/1000);
     mTimer->start(spm);
 }
 

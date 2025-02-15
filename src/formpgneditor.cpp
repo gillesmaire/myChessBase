@@ -17,12 +17,16 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
 {
     ui->setupUi(this);
     QSettings s ;
+    
+    mTimerMove = new QTimer(this);
+    mTimerMove->start(1000);
     ui->comboBoxResult->setCurrentText("?");
     ui->dialSpeedMoves->setValue(s.value("SpeedMove",50).toInt());
     connect(ui->pushButtonReset,&QPushButton::clicked,this,&FormPGNEditor::Reset);
     connect(ui->pushButtonBlackYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillBlack);
     connect(ui->pushButtonWhiteYou,&QPushButton::clicked,this,&FormPGNEditor::FormAutoFillWhite);
     connect(ui->widgetNavigation,SIGNAL(button(int)),this,SLOT(Go(int)));
+    connect(ui->widgetNavigation,SIGNAL(speedToDisplay(int)),ui->spinBoxSecPerMove,SLOT(setValue(int)));
     connect(ui->pushButtonEraseWhitePlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseWhitePlayer);
     connect(ui->pushButtonEraseBlackPlayer,&QPushButton::clicked,this,&FormPGNEditor::EraseBlackPlayer);
     connect(ui->toolButtonCalendar,&QToolButton::clicked,this,&FormPGNEditor::SelectDateFromCalendar);
@@ -31,18 +35,20 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     connect(ui->pushButtonAddComment,&QPushButton::clicked,this,&FormPGNEditor::AddComment);
     connect(ui->pushButtonDeleteComment,&QPushButton::clicked,this,&FormPGNEditor::DelComment);
     connect(ui->pushButtonPastePGN,&QPushButton::clicked,this,&FormPGNEditor::Paste);
-    connect ( ui->dialSpeedMoves,SIGNAL(valueChanged(int)),ui->widgetNavigation,SLOT(ChangeSpeed(int)));
-    connect ( ui->dialSpeedMoves,SIGNAL(valueChanged(int)),this,SLOT(ChangeSpeed(int)));
-    connect (ui->pushButtonSaveSpeedMove,SIGNAL(clicked()),this,SLOT(SpeedSave()));
-    connect (ui->pushButtonPause,SIGNAL(clicked()),this,SLOT(PlayModePause()));
+    connect(ui->dialSpeedMoves,SIGNAL(valueChanged(int)),ui->widgetNavigation,SLOT(ChangeSpeed(int)));
+    connect(ui->dialSpeedMoves,SIGNAL(valueChanged(int)),this,SLOT(ChangeSpeed(int)));
+    connect(ui->pushButtonSaveSpeedMove,SIGNAL(clicked()),this,SLOT(SpeedSave()));
+    connect(ui->pushButtonPause,SIGNAL(clicked()),this,SLOT(PlayModePause()));
     connect(ui->lineEditFEN,SIGNAL(returnPressed()),this,SLOT(MAJBoardWithFen()));
-    connect (ui->textEditMoves,SIGNAL(IsEmpty(bool)),ui->widgetNavigation,SLOT(SetUnsetPlayButton(bool)));
+    connect(ui->textEditMoves,SIGNAL(IsEmpty(bool)),ui->widgetNavigation,SLOT(SetUnsetPlayButton(bool)));
     connect(ui->pushButtonFENReset,SIGNAL(pressed()),this, SLOT(Clear()));
     connect(ui->pushButtonFENLast,SIGNAL(pressed()),this, SLOT(LastFen()));
     connect(ui->Board,SIGNAL(SetCursor(int)),ui->textEditMoves,SLOT(SetCursor(int)));
     connect(ui->Board,SIGNAL(MovesModifiedFromChessBoard(QStringList)),this,SLOT(GetListMoves(QStringList)));
+    
     connect(ui->Board,SIGNAL(FENFromChessBoard(QString)),this,SLOT(MAJFEN(QString)));
-    connect (ui->pushButtonQuitStacked,SIGNAL(clicked()),this,SLOT(QuitStacked()));
+    connect(ui->pushButtonQuitStacked,SIGNAL(clicked()),this,SLOT(QuitStacked()));
+    connect(mTimerMove,SIGNAL(timeout()),this,SLOT(UpdateTimerCounter()));
     
     
     ui->spinBoxBlackElo->setDigitNumber(4);
@@ -55,6 +61,7 @@ FormPGNEditor::FormPGNEditor(QWidget *parent)
     ui->lineEditFEN->setText("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     mFENSaved=ui->lineEditFEN->text();
     ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
+   
 }
 
 void FormPGNEditor::Clear()
@@ -159,9 +166,10 @@ void FormPGNEditor::GetListMoves( QStringList list)
 {
     ui->textEditMoves->setText(Utils::NumberSanMoves(CharToSign(list)));
     
-    QApplication::processEvents();  
+    //QApplication::processEvents();  
     Hilight(ui->textEditMoves,LAST);
     
+    ResetTimerCounter();
     // MakeListVariantComments(list.join(' '), mVariants,mComments,mNags);
 }
 
@@ -312,14 +320,14 @@ void FormPGNEditor::SelectDateFromCalendar()
 
 void FormPGNEditor::Go(int i)
 {
-    if ( i == FormNavigationButton::First ) {ui->Board->goStart();Hilight(ui->textEditMoves,FIRST);}
-    else if (i == FormNavigationButton::Last ) {ui->Board->goEnd();Hilight(ui->textEditMoves,LAST);}
-    else if (i == FormNavigationButton::Before ) { ui->Board->goBack(); Hilight(ui->textEditMoves,BEFORE);}
-    else if (i == FormNavigationButton::Next ) { ui->Board->goNext();Hilight(ui->textEditMoves,AFTER);}
+    if ( i == FormNavigationButton::First ) {ui->Board->goStart();Hilight(ui->textEditMoves,FIRST);ResetTimerCounter();}
+    else if (i == FormNavigationButton::Last ) {ui->Board->goEnd();Hilight(ui->textEditMoves,LAST);ResetTimerCounter();}
+    else if (i == FormNavigationButton::Before ) { ui->Board->goBack(); Hilight(ui->textEditMoves,BEFORE);ResetTimerCounter();}
+    else if (i == FormNavigationButton::Next ) { ui->Board->goNext();Hilight(ui->textEditMoves,AFTER);ResetTimerCounter();}
     else if (i== FormNavigationButton::Reverse) ui->Board->flipBoard(!ui->Board->flipped());
     else if (i== FormNavigationButton::NumberCase) ui->Board->setNumberCase(!ui->Board->casesNumbered());
     else  if (i== FormNavigationButton::FEN){  showFEN();}
-    else  if (i== FormNavigationButton::Play){  ui->stackedWidgetSubNavigation->setCurrentIndex(PLAYSHOW);  }
+    else  if (i== FormNavigationButton::Play){  ui->stackedWidgetSubNavigation->setCurrentIndex(PLAYSHOW); ResetTimerCounter(); }
 }
 
 FormPGNEditor::~FormPGNEditor()
@@ -536,22 +544,17 @@ QString FormPGNEditor::KeepMovesOnly( QString moves)
 } 
 
 
-bool FormPGNEditor::MimeOK(QString text){
-    if (text.contains("1. e4") || text.contains("1. d4") || text.contains("1. Nf3") || text.contains("1. c4") ||
-        text.contains("1. a4") || text.contains("1. a3") || text.contains("1. b3")  || text.contains("1. b4") ||
-        text.contains("1. c3") || text.contains("1. d3") || text.contains("1. e3")  || text.contains("1. f4") ||
-        text.contains("1. f3") || text.contains("1. g4") || text.contains("1. g3")  || text.contains("1. h4") ||
-        text.contains("1. h3") || text.contains("1. Nh3") || text.contains("1. Na3")  || text.contains("1. Nc3"))
-        return true;
-    return(false);
-}
+
 
 void FormPGNEditor::Paste() 
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
-    
     QString gameCopied=clipboard->mimeData()->text(); 
-    if ( ! MimeOK(gameCopied) ) return;
+//    if (  Utils::MimeNoBlankOK(gameCopied) ) 
+//         gameCopied= Utils::convertMumDotPiece2NumDotBlankPiece(gameCopied);
+    qDebug()<<gameCopied;
+    if ( ! Utils::MimeOK(gameCopied) ) return;
+    
     FormPGNEditor::GameData  game = parsePGN(gameCopied);
     if ( game.whiteFirstname.isEmpty() && !game.whiteName.isEmpty() && game.whiteName.contains(',')) {
          QStringList g=game.whiteName.split(',');
@@ -671,10 +674,24 @@ void FormPGNEditor::setBold( int i) {
  }
 
  void FormPGNEditor::QuitStacked() {
+ 
   ui->stackedWidgetSubNavigation->setCurrentIndex(NOSHOW);
+  PlayModePause();
  }
 
 void FormPGNEditor::ChangeSpeed(int value)
 {
     ui->spinBoxSecPerMove->setValue((250*value+1)/1000);
+}
+
+void FormPGNEditor::UpdateTimerCounter()
+{
+    mTimerCount++;
+    ui->spinBoxCounter->setValue(mTimerCount);
+}
+
+void FormPGNEditor::ResetTimerCounter()
+{
+    mTimerCount=0;
+    ui->spinBoxCounter->setValue(mTimerCount);
 }

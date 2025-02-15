@@ -30,12 +30,13 @@
 #include <QString>
 #include <QSettings>
 #include <QFileInfo>
-#include <QSqlDatabase>
-#include <QSqlQuery>
+//#include <QSqlDatabase>
+//##include <QSqlQuery>
 #include <QMessageBox>
-#include <QSqlError>
+//#include <QSqlError>
 #include <QDir>
 #include <QFontDatabase>
+#include <QRegularExpression>
 
 #include <chess.hpp>
 
@@ -281,6 +282,29 @@ QString Utils::deduceMove(chess::Board &board, QString shortmove)
     return QString("error");
 }
 
+bool Utils::MimeOK(QString text)
+{
+    if (text.contains("1. e4") || text.contains("1. d4") || text.contains("1. Nf3") || text.contains("1. c4") ||
+        text.contains("1. a4") || text.contains("1. a3") || text.contains("1. b3")  || text.contains("1. b4") ||
+        text.contains("1. c3") || text.contains("1. d3") || text.contains("1. e3")  || text.contains("1. f4") ||
+        text.contains("1. f3") || text.contains("1. g4") || text.contains("1. g3")  || text.contains("1. h4") ||
+        text.contains("1. h3") || text.contains("1. Nh3") || text.contains("1. Na3")  || text.contains("1. Nc3"))
+        return true;
+    return(false);
+}
+
+bool Utils::MimeNoBlankOK(QString text)
+{
+     if (text.contains("1.e4") || text.contains("1.d4") || text.contains("1.Nf3") || text.contains("1.c4") ||
+        text.contains("1.a4") || text.contains("1.a3") || text.contains("1.b3")  || text.contains("1.b4") ||
+        text.contains("1.c3") || text.contains("1.d3") || text.contains("1.e3")  || text.contains("1.f4") ||
+        text.contains("1.f3") || text.contains("1.g4") || text.contains("1.g3")  || text.contains("1.h4") ||
+        text.contains("1.h3") || text.contains("1.Nh3") || text.contains("1.Na3")  || text.contains("1.Nc3"))
+        return true;
+    return(false);
+}
+
+
 QString Utils::view2QString(std::string_view vue)
 {
     return QString::fromUtf8(vue.data(), static_cast<int>(vue.size()));
@@ -309,5 +333,15 @@ QString Utils::getFontFamily(QString fontname)
  return QString();
 }
 
+
+QString Utils::convertMumDotPiece2NumDotBlankPiece(QString pgnname)
+{   
+    
+    if ( MimeNoBlankOK(pgnname) ) {
+        QRegularExpression re("(\\d+\\.)(\\S)");   
+        pgnname.replace(re, "\\1 \\2");
+    }
+    return pgnname;
+}
 
 

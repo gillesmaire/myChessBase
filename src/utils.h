@@ -133,6 +133,30 @@ public:
     /// \return  the move if no error or the QString "error" if error
     ///
     static QString deduceMove(chess::Board  &board, QString shortmove);
-
+    
+    
+     ///
+    /// \brief MimeOK test if a file is a PGN 
+    /// \param text
+    /// \return  true if MIME has 1. e4 or 1. d5 etc...
+    ///
+    static bool MimeOK(QString text);
+    
+    ///
+    /// \brief MimeNoBlankOK test if a file is a PGN 
+    /// \param text
+    /// \return true if MIME hase 1.e4 or 1.d5 
+    ///
+    static bool MimeNoBlankOK(QString text);
+    
+    ///
+    /// \brief convertMumDotPiece2NumDotBlankPiece
+    /// \param pngame
+    /// \return 
+    ///
+    
+    static QString convertMumDotPiece2NumDotBlankPiece(QString pngame);
+    
+ 
 };
 #endif // UTILS_H

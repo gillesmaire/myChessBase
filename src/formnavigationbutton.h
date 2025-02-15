@@ -48,6 +48,12 @@ signals:
     void button( int action);
     
     
+    ////
+    /// \brief speed send the speed to PGNEditor window
+    /// \param value
+    ///
+    void speedToDisplay (int value) ;
+    
 public slots:
     ///
     /// \brief SetUnsetPlayButton : the play button is not displayed, but when it receive signal 

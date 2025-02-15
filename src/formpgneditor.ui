@@ -79,7 +79,23 @@
             </widget>
            </item>
            <item>
+            <widget class="QSpinBox" name="spinBoxCounter">
+             <property name="toolTip">
+              <string>Display the seconds spent of the move</string>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QSpinBox" name="spinBoxSecPerMove">
+             <property name="toolTip">
+              <string>Display the second/move</string>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>

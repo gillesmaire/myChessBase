@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTextEdit>
+#include <QTimer>
 
 namespace Ui {
 class FormPGNEditor;
@@ -64,7 +65,7 @@ private slots:
     
     void GetListMoves(QStringList list);
 
-
+    
     void showFEN();
 
     void MAJFEN(QString FEN);
@@ -76,7 +77,7 @@ private slots:
     void LastFen();
     
     ///
-    /// \brief Clear save the value to be able to restaure it and raz the 
+    /// \brief Clear save the value to be able to restore it and raz the 
     ///         linedit FEN to allow to fill
     ///
     void Clear();
@@ -122,10 +123,23 @@ void SpeedSave();
 void PlayModePause();
 
 ///
-/// \brief ChangeSpeed
-/// \param value
+/// \brief ChangeSpeed display the number of moves per minute in a spinbox 
+///         without in read only mode
+/// \param value the value
 ///
 void ChangeSpeed(int value);
+///
+/// \brief UpdateTimerCounter changes TimerCounter  on each second
+/// 
+void UpdateTimerCounter();
+
+///
+/// \brief Reset TimerCounter 
+///
+void ResetTimerCounter();
+
+
+
 private:
 struct GameData {
     QString whiteFirstname;
@@ -254,11 +268,11 @@ QStringList mListNav;
     QString SignToChar(QString);
     
     ///
-    /// \brief MimeOK test if a file is a PGN 
-    /// \param text
-    /// \return  true if MIME has 1. e4 or 1. d5 etc...
+    /// \brief mTimerMove is a timer to count the second per move
     ///
-    bool MimeOK(QString text);
+    QTimer *mTimerMove;
+  
+    int  mTimerCount=0;
 };
 #endif // FORMPGNEDITOR_H
 

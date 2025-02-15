@@ -2,7 +2,10 @@
 
 ## Chessboard 
 
-- The FEN doesn't work
+Game tempo : 
+  - initialize teh number of second per move
+  - set the count in second
+  - kill the count on quit the tempo mode
 
 ## Configuration 
 
