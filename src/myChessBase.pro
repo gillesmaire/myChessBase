@@ -24,10 +24,12 @@ SOURCES += \
     formconfig.cpp \
     formnavigationbutton.cpp \
     formpgneditor.cpp \
+    formresources.cpp \
     limitedtextedit.cpp \
     main.cpp \
     mainwindow.cpp \
     mytableview.cpp \
+    myvisitor.cpp \
     nag.cpp \
     utils.cpp
 
@@ -44,9 +46,11 @@ HEADERS += \
     formconfig.h \
     formnavigationbutton.h \
     formpgneditor.h \
+    formresources.h \
     limitedtextedit.h \
     mainwindow.h \
     mytableview.h \
+    myvisitor.h \
     nag.h \
     utils.h
 
@@ -56,6 +60,7 @@ FORMS += \
     formconfig.ui \
     formnavigationbutton.ui \
     formpgneditor.ui \
+    formresources.ui \
     mainwindow.ui 
 
 

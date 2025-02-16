@@ -24,13 +24,17 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="tabLearningMode">
+      <widget class="QWidget" name="tabResource">
        <attribute name="title">
-        <string>Learning</string>
+        <string>Resources</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4"/>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="FormResources" name="RessourceEditor" native="true"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tabPGNEditor">
        <attribute name="title">
@@ -251,6 +255,12 @@ mquin@sancristobal.podernet.com.mx</string>
    <class>FormPGNEditor</class>
    <extends>QWidget</extends>
    <header>formpgneditor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormResources</class>
+   <extends>QWidget</extends>
+   <header>formresources.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
